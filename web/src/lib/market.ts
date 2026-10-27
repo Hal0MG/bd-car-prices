@@ -31,24 +31,18 @@ export interface CarModel {
   exampleFob: number;
 }
 
-// Example prices are illustrative starting points, not quotes.
-export const CARS: CarModel[] = [
-  { make: "Toyota", model: "Axio Hybrid", year: 2022, cc: 1496, fuel: "hybrid", body: "car", origin: "japan", builtIn: "Japan", exampleFob: 1_450_000 },
-  { make: "Toyota", model: "Aqua", year: 2022, cc: 1490, fuel: "hybrid", body: "car", origin: "japan", builtIn: "Japan", exampleFob: 1_550_000 },
-  { make: "Toyota", model: "Premio", year: 2021, cc: 1496, fuel: "petrol", body: "car", origin: "japan", builtIn: "Japan", exampleFob: 1_900_000 },
-  { make: "Toyota", model: "Allion", year: 2021, cc: 1496, fuel: "petrol", body: "car", origin: "japan", builtIn: "Japan", exampleFob: 1_850_000 },
-  { make: "Toyota", model: "Prius", year: 2022, cc: 1797, fuel: "hybrid", body: "car", origin: "japan", builtIn: "Japan", exampleFob: 2_100_000 },
-  { make: "Toyota", model: "Corolla Cross Hybrid", year: 2022, cc: 1797, fuel: "hybrid", body: "car", origin: "japan", builtIn: "Japan", exampleFob: 2_500_000 },
-  { make: "Toyota", model: "Yaris Cross Hybrid", year: 2022, cc: 1490, fuel: "hybrid", body: "car", origin: "japan", builtIn: "Japan", exampleFob: 2_000_000 },
-  { make: "Toyota", model: "C-HR Hybrid", year: 2022, cc: 1797, fuel: "hybrid", body: "car", origin: "japan", builtIn: "Japan", exampleFob: 2_150_000 },
-  { make: "Toyota", model: "Noah Hybrid", year: 2022, cc: 1797, fuel: "hybrid", body: "microbus", origin: "japan", builtIn: "Japan", exampleFob: 3_100_000 },
-  { make: "Toyota", model: "Harrier Hybrid", year: 2022, cc: 2487, fuel: "hybrid", body: "car", origin: "japan", builtIn: "Japan", exampleFob: 3_800_000 },
-  { make: "Honda", model: "Vezel e:HEV", year: 2022, cc: 1496, fuel: "hybrid", body: "car", origin: "japan", builtIn: "Japan", exampleFob: 2_400_000 },
-  { make: "Honda", model: "Grace Hybrid", year: 2021, cc: 1496, fuel: "hybrid", body: "car", origin: "japan", builtIn: "Japan", exampleFob: 1_300_000 },
-  { make: "Land Rover", model: "Range Rover Evoque", year: 2022, cc: 1997, fuel: "diesel", body: "car", origin: "uk", builtIn: "UK", exampleFob: 24_000 },
-  { make: "Mini", model: "Cooper", year: 2022, cc: 1499, fuel: "petrol", body: "car", origin: "uk", builtIn: "UK", exampleFob: 15_000 },
-];
+export { CARS } from "./cars";
 
 export const carSlug = (c: CarModel) => [c.make, c.model, String(c.year)].map(slugify);
 
 export const carName = (c: CarModel) => `${c.year} ${c.make} ${c.model}`;
+
+/** Group items by make, keeping first-seen order of makes. */
+export function byMake<T>(items: T[], car: (item: T) => CarModel): [string, T[]][] {
+  const groups = new Map<string, T[]>();
+  for (const item of items) {
+    const make = car(item).make;
+    groups.set(make, [...(groups.get(make) ?? []), item]);
+  }
+  return [...groups];
+}

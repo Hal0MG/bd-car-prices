@@ -192,3 +192,5 @@ table.ledger tr.group td { padding-top: 14px; font: 500 11px var(--mono); letter
 .error { color: var(--rust); font: 400 12px var(--mono); margin-top: 4px; }
 .report-form { max-width: 560px; }
 .report-form .input-row { align-items: start; }
+.make-group { margin-top: 22px; }
+.make-group .make { font: 500 11px var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--rust); margin-bottom: 4px; }

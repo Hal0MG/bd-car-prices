@@ -5,7 +5,7 @@ import { Slip } from "./Slip";
 import { plain } from "@/lib/format";
 import { t } from "@/lib/i18n/en";
 import {
-  CARS, CURRENCY, DEFAULT_CLEARING_BDT, FREIGHT, FX, SYMBOL, carName,
+  CARS, CURRENCY, DEFAULT_CLEARING_BDT, FREIGHT, FX, SYMBOL, byMake, carName,
   type CarModel, type Origin,
 } from "@/lib/market";
 import { TABLE, calculate, type Body, type Condition, type Fuel } from "@/lib/tax";
@@ -145,7 +145,11 @@ export function Calculator({ initialCar = 0 }: { initialCar?: number }) {
         <label className="field">
           <span className="eyebrow">{t.calc.car}</span>
           <select className="select" value={s.carIdx} onChange={(e) => pickCar(e.target.value)}>
-            {carsForOrigin.map(([c, i]) => <option key={i} value={i}>{carName(c)}</option>)}
+            {byMake(carsForOrigin, ([c]) => c).map(([make, list]) => (
+              <optgroup key={make} label={make}>
+                {list.map(([c, i]) => <option key={i} value={i}>{c.model} · {c.year}</option>)}
+              </optgroup>
+            ))}
             <option value={CUSTOM}>{t.calc.customCar}</option>
           </select>
         </label>

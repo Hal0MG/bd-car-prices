@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { inWords } from "@/lib/format";
 import { estimateFor } from "@/lib/estimate";
-import { CARS, carSlug, type Origin } from "@/lib/market";
+import { CARS, byMake, carSlug, type Origin } from "@/lib/market";
 import { t } from "@/lib/i18n/en";
 
 export const metadata: Metadata = {
@@ -18,29 +18,38 @@ export default function Cars() {
       <header className="page-head">
         <h1>Import cost by car</h1>
         <p className="lede">
-          Popular reconditioned imports, worked out at an example auction price. Open any car to change the numbers.
+          {CARS.length} popular reconditioned imports, worked out at an example auction price. Open any car to change the numbers.
         </p>
       </header>
       {GROUPS.map((g) => (
         <section key={g} className="section">
           <h2>From {t.calc.sources[g]}</h2>
-          <ul className="index-list">
-            {CARS.filter((c) => c.origin === g).map((c) => {
-              const r = estimateFor(c);
-              return (
-                <li key={carSlug(c).join("/")}>
-                  <Link href={`/cars/${carSlug(c).join("/")}`}>
-                    <span>
-                      <span className="name">{c.make} {c.model}</span>{" "}
-                      <span className="meta">{c.year} · {c.cc}cc · {t.calc.fuels[c.fuel]}</span>
-                    </span>
-                    <span className="meta">{r.tti.toFixed(0)}% tax</span>
-                    <span className="price num">≈ {inWords(r.onRoad).replace(" taka", "")}</span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+          {byMake(CARS.filter((c) => c.origin === g), (c) => c).map(([make, list]) => (
+            <div key={make} className="make-group">
+              <h3 className="make">{make}</h3>
+              <ul className="index-list">
+                {list.map((c) => {
+                  const slug = carSlug(c).join("/");
+                  const r = estimateFor(c);
+                  return (
+                    <li key={slug}>
+                      <Link href={`/cars/${slug}`}>
+                        <span>
+                          <span className="name">{c.model}</span>{" "}
+                          <span className="meta">
+                            {c.year} · {c.cc}cc · {t.calc.fuels[c.fuel]}
+                            {c.body === "microbus" && ` · ${t.calc.bodies.microbus}`}
+                          </span>
+                        </span>
+                        <span className="meta">{r.tti.toFixed(0)}% tax</span>
+                        <span className="price num">≈ {inWords(r.onRoad).replace(" taka", "")}</span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
         </section>
       ))}
     </>
