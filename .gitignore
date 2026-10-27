@@ -1,0 +1,5 @@
+# Source PDFs are large and published by NBR; keep them out of history
+*.pdf
+
+# Local editor/agent config
+.claude/

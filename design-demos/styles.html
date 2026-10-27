@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Style directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Archivo:wght@400;600;800&family=Archivo+Narrow:wght@500;700&family=Space+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400;600&family=Hind+Siliguri:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #e9e7e2; font-family: "IBM Plex Sans", sans-serif; padding: 32px 16px 64px; }
+  .label { max-width: 1040px; margin: 40px auto 10px; font: 500 13px "IBM Plex Mono", monospace; color: #555; letter-spacing: .04em; }
+  .label b { color: #111; font-size: 15px; }
+  .frame { max-width: 1040px; margin: 0 auto; overflow: hidden; border-radius: 6px; }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ---------- A: Customs ledger ---------- */
+  .a { background: #f6f1e7; color: #1d1b16; padding: 28px 36px 36px; font-family: "IBM Plex Sans", sans-serif;
+       background-image: repeating-linear-gradient(#f6f1e7 0 31px, #e6dfcf 31px 32px); }
+  .a header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #1d1b16; padding-bottom: 10px; }
+  .a .brand { font: 600 26px "Fraunces", serif; letter-spacing: -.01em; }
+  .a .brand span { font: 400 15px "Hind Siliguri"; color: #8a3b1e; margin-left: 8px; }
+  .a nav { font: 400 13px "IBM Plex Mono"; display: flex; gap: 20px; }
+  .a h1 { font: 400 40px/1.1 "Fraunces", serif; margin: 28px 0 6px; max-width: 640px; }
+  .a h1 em { color: #8a3b1e; }
+  .a .sub { color: #5c5546; max-width: 560px; }
+  .a .grid { display: grid; grid-template-columns: 1fr 1.25fr; gap: 28px; margin-top: 26px; }
+  .a .form label { display: block; font: 500 11px "IBM Plex Mono"; text-transform: uppercase; letter-spacing: .08em; color: #6d6555; margin: 14px 0 4px; }
+  .a .form .in { border: 0; border-bottom: 1.5px solid #1d1b16; padding: 6px 0; font: 400 18px "IBM Plex Mono"; background: transparent; width: 100%; }
+  .a .seg { display: flex; border: 1.5px solid #1d1b16; width: max-content; }
+  .a .seg span { padding: 6px 14px; font: 500 13px "IBM Plex Mono"; }
+  .a .seg .on { background: #1d1b16; color: #f6f1e7; }
+  .a .receipt { background: #fffdf8; border: 1px solid #cfc6b2; padding: 22px 24px; position: relative; }
+  .a .receipt h3 { font: 500 11px "IBM Plex Mono"; letter-spacing: .1em; color: #6d6555; }
+  .a .total { font: 600 44px "Fraunces", serif; margin: 4px 0 14px; }
+  .a table { width: 100%; border-collapse: collapse; font: 400 14px "IBM Plex Mono"; }
+  .a td { padding: 5px 0; border-bottom: 1px dotted #bfb59f; }
+  .a td:last-child { text-align: right; }
+  .a tr.tax td:first-child { padding-left: 16px; color: #5c5546; }
+  .a tr.sum td { border-bottom: 2px solid #1d1b16; font-weight: 500; }
+  .a .src { font: 400 11px "IBM Plex Mono"; color: #8a3b1e; }
+  .a .stamp { position: absolute; top: 18px; right: 18px; transform: rotate(-8deg); border: 2px solid #8a3b1e; color: #8a3b1e;
+              font: 600 11px "IBM Plex Mono"; padding: 4px 8px; letter-spacing: .1em; text-align: center; line-height: 1.3; opacity: .85; }
+
+  /* ---------- B: Number plate ---------- */
+  .b { background: #fafaf7; color: #0d0d0d; font-family: "Archivo", sans-serif; }
+  .b header { display: flex; justify-content: space-between; align-items: center; padding: 18px 36px; border-bottom: 3px solid #0d0d0d; }
+  .b .brand { display: flex; align-items: center; gap: 10px; font: 800 22px "Archivo"; letter-spacing: -.02em; }
+  .b .plate-mini { border: 2.5px solid #0d0d0d; border-radius: 4px; padding: 1px 7px; font: 700 14px "Archivo Narrow"; }
+  .b nav { font: 600 14px "Archivo"; display: flex; gap: 22px; }
+  .b nav .bn { font-family: "Hind Siliguri"; }
+  .b .hero { padding: 30px 36px 10px; display: flex; justify-content: space-between; align-items: end; gap: 20px; }
+  .b h1 { font: 800 56px/0.95 "Archivo"; letter-spacing: -.035em; text-transform: uppercase; max-width: 620px; }
+  .b h1 span { color: #006a4e; }
+  .b .sub { max-width: 290px; font-size: 15px; color: #444; }
+  .b .grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 0; margin: 24px 36px 36px; border: 3px solid #0d0d0d; }
+  .b .form { padding: 22px; border-right: 3px solid #0d0d0d; }
+  .b .form label { display: block; font: 700 12px "Archivo Narrow"; text-transform: uppercase; letter-spacing: .06em; margin: 12px 0 4px; }
+  .b .plate { border: 3px solid #0d0d0d; border-radius: 6px; padding: 8px 12px; font: 700 22px "Archivo Narrow"; background: #fff; letter-spacing: .02em; }
+  .b .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .b .chips { display: flex; gap: 6px; }
+  .b .chips span { border: 2px solid #0d0d0d; padding: 5px 12px; font: 700 13px "Archivo Narrow"; text-transform: uppercase; }
+  .b .chips .on { background: #0d0d0d; color: #fafaf7; }
+  .b .res { padding: 22px; }
+  .b .res h3 { font: 700 12px "Archivo Narrow"; text-transform: uppercase; letter-spacing: .06em; }
+  .b .total { font: 800 64px/1 "Archivo"; letter-spacing: -.04em; margin: 6px 0 16px; }
+  .b .total small { font-size: 22px; letter-spacing: 0; }
+  .b .bar { display: flex; height: 34px; border: 2.5px solid #0d0d0d; }
+  .b .bar div { border-right: 2px solid #0d0d0d; }
+  .b .bar div:last-child { border-right: 0; }
+  .b .legend { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 18px; margin-top: 12px; font-size: 13px; }
+  .b .legend div { display: flex; justify-content: space-between; border-bottom: 1px solid #ddd; padding-bottom: 3px; }
+  .b .legend i { display: inline-block; width: 10px; height: 10px; border: 1.5px solid #0d0d0d; margin-right: 6px; vertical-align: -1px; }
+  .b .callout { margin-top: 16px; background: #006a4e; color: #fff; padding: 10px 14px; font: 600 14px "Archivo"; }
+
+  /* ---------- C: Telemetry ---------- */
+  .c { background: #121314; color: #d9d6cf; font-family: "Space Grotesk", sans-serif; padding: 0 0 32px; }
+  .c header { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; border-bottom: 1px solid #2a2c2e; }
+  .c .brand { font: 500 18px "Space Grotesk"; color: #f2efe8; }
+  .c .brand b { color: #ffb020; font-weight: 500; }
+  .c nav { font: 400 12px "JetBrains Mono"; color: #8b8f93; display: flex; gap: 18px; }
+  .c .hero { padding: 28px 32px 0; }
+  .c .tag { font: 400 11px "JetBrains Mono"; color: #ffb020; letter-spacing: .12em; }
+  .c h1 { font: 500 38px/1.1 "Space Grotesk"; color: #f2efe8; margin: 8px 0 4px; letter-spacing: -.02em; }
+  .c .sub { color: #8b8f93; }
+  .c .grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 1px; background: #2a2c2e; margin: 24px 32px 0; border: 1px solid #2a2c2e; }
+  .c .cell { background: #17191a; padding: 18px 20px; }
+  .c label { display: block; font: 400 10px "JetBrains Mono"; color: #8b8f93; letter-spacing: .12em; text-transform: uppercase; margin: 12px 0 4px; }
+  .c .in { font: 400 17px "JetBrains Mono"; color: #f2efe8; border: 1px solid #2f3234; padding: 8px 10px; background: #0f1011; }
+  .c .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .c .total { font: 600 46px "JetBrains Mono"; color: #f2efe8; letter-spacing: -.03em; }
+  .c .total span { color: #ffb020; font-size: 20px; }
+  .c .trace { margin: 14px 0 6px; display: flex; height: 10px; gap: 2px; }
+  .c .rows { font: 400 13px "JetBrains Mono"; }
+  .c .rows div { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #222426; }
+  .c .rows .k { color: #8b8f93; }
+  .c .rows .k i { display: inline-block; width: 8px; height: 8px; margin-right: 8px; }
+  .c .delta { margin-top: 14px; font: 400 13px "JetBrains Mono"; color: #7ee0a0; }
+</style>
+</head>
+<body>
+
+<!-- ================= A ================= -->
+<p class="label"><b>A · Customs ledger</b> — paper-and-ink, like an official assessment slip. Serif + typewriter numbers. Trust through "documentation".</p>
+<div class="frame a">
+  <header>
+    <div class="brand">Shotti Dam<span>সত্যি দাম</span></div>
+    <nav><span>Calculator</span><span>Models</span><span>Tax rates</span><span>Changelog</span></nav>
+  </header>
+  <h1>What a car <em>actually</em> costs to bring home.</h1>
+  <p class="sub">Every duty, every fee, every source — itemised the way customs assesses it.</p>
+  <div class="grid">
+    <div class="form">
+      <label>Source</label>
+      <div class="seg"><span class="on">Japan</span><span>UK</span><span>New</span></div>
+      <label>Vehicle</label><div class="in">Toyota Axio Hybrid</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div><label>Year</label><div class="in">2022</div></div>
+        <div><label>Engine</label><div class="in">1,496 cc</div></div>
+      </div>
+      <label>FOB price</label><div class="in">¥ 1,450,000</div>
+    </div>
+    <div class="receipt">
+      <div class="stamp">RATES VERIFIED<br>FY 2026–27</div>
+      <h3>ESTIMATED ON-ROAD PRICE</h3>
+      <div class="total num">৳ 32,04,000</div>
+      <table class="num">
+        <tr><td>Vehicle (FOB)</td><td>11,60,000</td></tr>
+        <tr><td>Freight + insurance</td><td>1,10,000</td></tr>
+        <tr class="sum"><td>Assessable value (CIF)</td><td>12,70,000</td></tr>
+        <tr class="tax"><td>Customs duty <span class="src">SRO 120</span></td><td>2,50,000</td></tr>
+        <tr class="tax"><td>Supplementary duty</td><td>7,90,000</td></tr>
+        <tr class="tax"><td>VAT 15%</td><td>3,90,000</td></tr>
+        <tr class="tax"><td>AIT · RD · ATV</td><td>2,60,000</td></tr>
+        <tr><td>Port, C&amp;F, LC charges</td><td>60,000</td></tr>
+        <tr><td>BRTA registration</td><td>1,80,000</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ================= B ================= -->
+<p class="label"><b>B · Number plate</b> — Bangladeshi registration-plate inputs, heavy grotesk, flag green as the only colour. Bold and local.</p>
+<div class="frame b">
+  <header>
+    <div class="brand"><span class="plate-mini">ঢাকা মেট্রো</span>SHOTTI DAM</div>
+    <nav><span>Calculator</span><span>Models</span><span>Tax rates</span><span class="bn">বাংলা</span></nav>
+  </header>
+  <div class="hero">
+    <h1>The real price. <span>No middlemen maths.</span></h1>
+    <p class="sub">Import from Japan or the UK, or buy local — see every taka of tax before you commit.</p>
+  </div>
+  <div class="grid">
+    <div class="form">
+      <label>Import from</label>
+      <div class="chips"><span class="on">Japan</span><span>UK</span><span>New</span></div>
+      <label>Vehicle</label><div class="plate">TOYOTA AXIO HYBRID</div>
+      <div class="row2">
+        <div><label>Year</label><div class="plate num">2022</div></div>
+        <div><label>CC</label><div class="plate num">1496</div></div>
+      </div>
+      <label>FOB price</label><div class="plate num">¥ 1,450,000</div>
+    </div>
+    <div class="res">
+      <h3>On-road price</h3>
+      <div class="total num">৳32.0<small> lakh</small></div>
+      <div class="bar">
+        <div style="flex:12.7;background:#fff"></div>
+        <div style="flex:16.9;background:#006a4e"></div>
+        <div style="flex:2.4;background:#f42a41"></div>
+      </div>
+      <div class="legend num">
+        <div><span><i style="background:#fff"></i>Car + shipping</span><b>12.7 L</b></div>
+        <div><span><i style="background:#006a4e"></i>Govt. taxes</span><b>16.9 L</b></div>
+        <div><span><i style="background:#f42a41"></i>Fees + BRTA</span><b>2.4 L</b></div>
+        <div><span>Tax as % of car</span><b>133%</b></div>
+      </div>
+      <div class="callout">Dealers list this at ৳34 lakh → import yourself, save ~৳2 lakh</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= C ================= -->
+<p class="label"><b>C · Telemetry</b> — dark, racing-data feel (nod to Forza telemetry). Monospace readouts, tax layers as a segmented trace.</p>
+<div class="frame c">
+  <header>
+    <div class="brand">shotti<b>/</b>dam</div>
+    <nav><span>CALC</span><span>MODELS</span><span>RATES</span><span>LOG</span></nav>
+  </header>
+  <div class="hero">
+    <div class="tag">// LANDED COST · FY26-27</div>
+    <h1>Know the number before the dealer does.</h1>
+    <p class="sub">Duties, fees and market prices — computed, sourced, and shown line by line.</p>
+  </div>
+  <div class="grid">
+    <div class="cell">
+      <label>Source</label><div class="in">JP → CTG</div>
+      <label>Vehicle</label><div class="in">Toyota Axio Hybrid</div>
+      <div class="row2"><div><label>Year</label><div class="in num">2022</div></div><div><label>CC</label><div class="in num">1496</div></div></div>
+      <label>FOB</label><div class="in num">¥1,450,000</div>
+    </div>
+    <div class="cell">
+      <label style="margin-top:0">On-road estimate</label>
+      <div class="total num">32.04<span> lakh BDT</span></div>
+      <div class="trace">
+        <div style="flex:11.6;background:#5b6066"></div><div style="flex:1.1;background:#3d4246"></div>
+        <div style="flex:2.5;background:#ffb020"></div><div style="flex:7.9;background:#ff7a1a"></div>
+        <div style="flex:3.9;background:#e0532b"></div><div style="flex:2.6;background:#b8401f"></div>
+        <div style="flex:2.4;background:#4a90c2"></div>
+      </div>
+      <div class="rows num">
+        <div><span class="k"><i style="background:#5b6066"></i>FOB + freight</span><span>12.70</span></div>
+        <div><span class="k"><i style="background:#ffb020"></i>Customs duty</span><span>2.50</span></div>
+        <div><span class="k"><i style="background:#ff7a1a"></i>Supplementary duty</span><span>7.90</span></div>
+        <div><span class="k"><i style="background:#e0532b"></i>VAT</span><span>3.90</span></div>
+        <div><span class="k"><i style="background:#b8401f"></i>AIT / RD / ATV</span><span>2.60</span></div>
+        <div><span class="k"><i style="background:#4a90c2"></i>Port + BRTA</span><span>2.40</span></div>
+      </div>
+      <div class="delta">▼ 2.0 lakh vs local recon market avg (34.0)</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
