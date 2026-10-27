@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, IBM_Plex_Mono, IBM_Plex_Sans, Hind_Siliguri } from "next/font/google";
 import Link from "next/link";
+import { CarFigureDefs } from "@/components/CarFigure";
 import { Nav } from "@/components/Nav";
 import { t } from "@/lib/i18n/en";
 import { TABLE } from "@/lib/tax";
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" className={`${fraunces.variable} ${plexSans.variable} ${plexMono.variable} ${hind.variable}`}>
       <body>
+        <CarFigureDefs />
         <header className="masthead">
           <div className="wrap">
             <Link href="/" className="brand">

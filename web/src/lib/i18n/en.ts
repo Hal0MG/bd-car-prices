@@ -19,7 +19,7 @@ export const en = {
   },
   calc: {
     source: "Buying from",
-    sources: { japan: "Japan", uk: "UK", other: "New / other" },
+    sources: { japan: "Japan", uk: "UK", germany: "Germany", other: "New / other" },
     car: "Car",
     customCar: "Other car (enter details)",
     fuel: "Fuel",

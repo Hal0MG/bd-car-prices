@@ -1,20 +1,22 @@
 import { slugify } from "./format";
 import type { Body, Fuel } from "./tax";
 
-export type Origin = "japan" | "uk" | "other";
-export type Currency = "JPY" | "GBP" | "USD";
+export type Origin = "japan" | "uk" | "germany" | "other";
+export type Currency = "JPY" | "GBP" | "EUR" | "USD";
 
-export const CURRENCY: Record<Origin, Currency> = { japan: "JPY", uk: "GBP", other: "USD" };
-export const SYMBOL: Record<Currency, string> = { JPY: "¥", GBP: "£", USD: "$" };
+export const CURRENCY: Record<Origin, Currency> = { japan: "JPY", uk: "GBP", germany: "EUR", other: "USD" };
+export const SYMBOL: Record<Currency, string> = { JPY: "¥", GBP: "£", EUR: "€", USD: "$" };
+
+export type Segment = "sedan" | "hatchback" | "wagon" | "suv" | "minivan" | "coupe" | "convertible";
 
 /**
  * Starting exchange rates (taka per unit). Approximate; the calculator lets
  * people overwrite them and links to Bangladesh Bank for the day's rate.
  */
-export const FX = { asOf: "2026-10-27", JPY: 0.81, GBP: 163, USD: 122 } satisfies Record<Currency, number> & { asOf: string };
+export const FX = { asOf: "2026-10-27", JPY: 0.81, GBP: 163, EUR: 140, USD: 122 } satisfies Record<Currency, number> & { asOf: string };
 
 /** Typical ro-ro or container freight to Chattogram, in source currency. */
-export const FREIGHT: Record<Origin, number> = { japan: 180_000, uk: 1_800, other: 1_500 };
+export const FREIGHT: Record<Origin, number> = { japan: 180_000, uk: 1_800, germany: 2_000, other: 1_500 };
 export const DEFAULT_CLEARING_BDT = 60_000;
 
 export interface CarModel {
@@ -24,9 +26,11 @@ export interface CarModel {
   cc: number;
   fuel: Fuel;
   origin: Origin;
+  /** customs category; minivans count as microbuses */
   body: Body;
+  segment: Segment;
   /** country the car was built in; Bangladesh only admits used cars from their country of origin */
-  builtIn: "Japan" | "UK";
+  builtIn: "Japan" | "UK" | "Germany";
   /** example FOB in source currency, to be replaced by live listings */
   exampleFob: number;
 }
@@ -46,3 +50,6 @@ export function byMake<T>(items: T[], car: (item: T) => CarModel): [string, T[]]
   }
   return [...groups];
 }
+
+/** Key into PHOTOS and the photo candidate script: "Make Model". */
+export const carKey = (c: CarModel) => `${c.make} ${c.model}`;

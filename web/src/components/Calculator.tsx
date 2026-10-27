@@ -1,12 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { CarFigure } from "./CarFigure";
 import { Slip } from "./Slip";
 import { plain } from "@/lib/format";
 import { t } from "@/lib/i18n/en";
 import {
   CARS, CURRENCY, DEFAULT_CLEARING_BDT, FREIGHT, FX, SYMBOL, byMake, carName,
-  type CarModel, type Origin,
+  type CarModel, type Origin, type Segment,
 } from "@/lib/market";
 import { TABLE, calculate, type Body, type Condition, type Fuel } from "@/lib/tax";
 
@@ -18,6 +19,7 @@ interface State {
   carIdx: string;
   fuel: Fuel;
   body: Body;
+  segment: Segment;
   condition: Condition;
   year: number;
   cc: number;
@@ -38,6 +40,7 @@ function stateFor(car: CarModel, idx: number): State {
     carIdx: String(idx),
     fuel: car.fuel,
     body: car.body,
+    segment: car.segment,
     condition: "recon",
     year: car.year,
     cc: car.cc,
@@ -76,7 +79,8 @@ function NumInput({ value, onChange, id, grouped = true }: {
   );
 }
 
-export function Calculator({ initialCar = 0 }: { initialCar?: number }) {
+/** `exhibit` shows a drawing of the selected car above the form; car pages turn it off because their header already shows the car. */
+export function Calculator({ initialCar = 0, exhibit = true }: { initialCar?: number; exhibit?: boolean }) {
   const [s, setS] = useState<State>(() => stateFor(CARS[initialCar], initialCar));
   const set = <K extends keyof State>(k: K, v: State[K]) => setS((p) => ({ ...p, [k]: v }));
 
@@ -117,8 +121,8 @@ export function Calculator({ initialCar = 0 }: { initialCar?: number }) {
       if (s.origin === "uk" && car && car.builtIn !== "UK") {
         r.warnings.unshift(`${car.make} cars aren't built in the UK. Bangladesh only admits used cars from their country of origin.`);
       }
-      if (s.origin === "uk" && s.carIdx === CUSTOM && s.condition === "recon") {
-        r.warnings.unshift("Used cars must come from their country of origin, so a UK seller only works for UK-built cars.");
+      if ((s.origin === "uk" || s.origin === "germany") && s.carIdx === CUSTOM && s.condition === "recon") {
+        r.warnings.unshift(`Used cars must come from their country of origin, so this only works for cars built in ${t.calc.sources[s.origin]}.`);
       }
       return r;
     } catch {
@@ -131,6 +135,13 @@ export function Calculator({ initialCar = 0 }: { initialCar?: number }) {
   return (
     <div className="calc-grid">
       <form className="calc-form" onSubmit={(e) => e.preventDefault()} aria-label="Car details">
+        {exhibit && <div className="calc-exhibit" aria-hidden="true">
+          <CarFigure
+            segment={s.segment}
+            caption={s.fuel === "ev" ? "electric" : `${plain(s.cc)} cc · ${t.calc.fuels[s.fuel].toLowerCase()}`}
+            fig={car ? car.make.toUpperCase() : "YOUR CAR"}
+          />
+        </div>}
         <div className="field">
           <span className="eyebrow">{t.calc.source}</span>
           <div className="seg" role="group">
@@ -173,7 +184,7 @@ export function Calculator({ initialCar = 0 }: { initialCar?: number }) {
           <span className="eyebrow">{t.calc.body}</span>
           <div className="seg" role="group">
             {(Object.keys(t.calc.bodies) as Body[]).map((b) => (
-              <button key={b} type="button" aria-pressed={s.body === b} onClick={() => setS((p) => ({ ...p, body: b, carIdx: CUSTOM }))}>
+              <button key={b} type="button" aria-pressed={s.body === b} onClick={() => setS((p) => ({ ...p, body: b, carIdx: CUSTOM, segment: b === "microbus" ? "minivan" : p.segment === "minivan" ? "sedan" : p.segment }))}>
                 {t.calc.bodies[b]}
               </button>
             ))}

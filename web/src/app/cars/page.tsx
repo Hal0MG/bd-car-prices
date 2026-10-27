@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CarFigure } from "@/components/CarFigure";
 import { inWords } from "@/lib/format";
 import { estimateFor } from "@/lib/estimate";
 import { CARS, byMake, carSlug, type Origin } from "@/lib/market";
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   description: "Estimated on-road prices for popular reconditioned cars imported to Bangladesh, with every duty itemised.",
 };
 
-const GROUPS: Origin[] = ["japan", "uk"];
+const GROUPS: Origin[] = ["japan", "uk", "germany"];
 
 export default function Cars() {
   return (
@@ -34,10 +35,11 @@ export default function Cars() {
                   return (
                     <li key={slug}>
                       <Link href={`/cars/${slug}`}>
+                        <span className="thumb"><CarFigure segment={c.segment} compact /></span>
                         <span>
                           <span className="name">{c.model}</span>{" "}
                           <span className="meta">
-                            {c.year} · {c.cc}cc · {t.calc.fuels[c.fuel]}
+                            {c.year} · {c.fuel === "ev" ? t.calc.fuels.ev : `${c.cc}cc · ${t.calc.fuels[c.fuel]}`}
                             {c.body === "microbus" && ` · ${t.calc.bodies.microbus}`}
                           </span>
                         </span>

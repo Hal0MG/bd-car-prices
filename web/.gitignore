@@ -42,3 +42,6 @@ next-env.d.ts
 
 # crowdsourced price reports (local dev store)
 /data/
+
+# script output
+/scripts/out/

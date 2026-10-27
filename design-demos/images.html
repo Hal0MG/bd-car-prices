@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Car image options</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#f6f1e7; --rule:#e6dfcf; --slip:#fffdf8; --ink:#1d1b16; --ink2:#5c5546; --ink3:#6d6555; --hair:#cfc6b2; --dots:#bfb59f; --rust:#8a3b1e; --green:#2f5d3a; }
+  * { box-sizing: border-box; margin: 0; }
+  body { color: var(--ink); font: 400 15px/1.6 "IBM Plex Sans", sans-serif; background: var(--paper) repeating-linear-gradient(var(--paper) 0 31px, var(--rule) 31px 32px); padding: 32px 16px 80px; }
+  .wrap { max-width: 1120px; margin: 0 auto; }
+  h1 { font: 400 40px/1.1 Fraunces, serif; }
+  h2 { font: 400 28px/1.2 Fraunces, serif; margin-top: 56px; }
+  h2 b { font-weight: 600; color: var(--rust); }
+  .lede { color: var(--ink2); max-width: 760px; margin-top: 8px; }
+  .verdict { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 12px 0 18px; font: 400 12.5px/1.55 "IBM Plex Mono", monospace; color: var(--ink2); }
+  .verdict b { display: block; font-weight: 600; color: var(--ink); letter-spacing: .06em; text-transform: uppercase; font-size: 11px; }
+  .verdict .con b { color: var(--rust); }
+  .verdict .pro b { color: var(--green); }
+  .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .verdict { grid-template-columns: 1fr; } }
+  @media (max-width: 520px) { .grid { grid-template-columns: 1fr; } }
+
+  .card { background: var(--slip); border: 1px solid var(--hair); padding: 14px 14px 12px; position: relative; }
+  .pic { height: 170px; display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 12px; }
+  .name { font: 400 20px/1.15 Fraunces, serif; }
+  .meta { font: 400 11px "IBM Plex Mono", monospace; color: var(--ink3); margin-top: 2px; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; margin-top: 8px; padding-top: 8px; border-top: 1px dotted var(--dots); }
+  .price { font: 600 17px "IBM Plex Mono", monospace; }
+  .tax { font: 500 11px "IBM Plex Mono", monospace; color: var(--rust); }
+  .credit { font: 400 9.5px/1.3 "IBM Plex Mono", monospace; color: var(--ink3); margin-top: 6px; min-height: 12px; }
+  .credit a { color: inherit; }
+  .warn { position: absolute; left: 6px; top: 6px; z-index: 2; background: var(--rust); color: var(--slip); font: 600 9.5px "IBM Plex Mono", monospace; letter-spacing: .06em; text-transform: uppercase; padding: 3px 6px; }
+
+  /* A: pasted photograph */
+  .photo { background: #fff; padding: 6px 6px 18px; transform: rotate(-1.6deg); box-shadow: 0 1px 2px rgba(29,27,22,.18), 0 6px 14px -6px rgba(29,27,22,.25); width: 92%; }
+  .card:nth-child(even) .photo { transform: rotate(1.2deg); }
+  .photo img { display: block; width: 100%; height: 130px; object-fit: cover; filter: saturate(.85) contrast(1.02); background: #eee; }
+  .photo::before { content: ""; position: absolute; top: -9px; left: 50%; width: 64px; height: 18px; transform: translateX(-50%) rotate(2deg); background: rgba(232, 220, 190, .85); border: 1px solid rgba(190, 175, 140, .5); }
+
+  /* B: studio render */
+  .render img { max-width: 100%; max-height: 160px; object-fit: contain; position: relative; z-index: 1; }
+  .render::after { content: ""; position: absolute; bottom: 14px; left: 12%; right: 12%; height: 14px; background: radial-gradient(ellipse at center, rgba(29,27,22,.22), transparent 70%); }
+
+  /* C: ink drawing */
+  .ink svg { width: 100%; height: 100%; }
+  .ink .body { fill: url(#hatch); stroke: var(--ink); stroke-width: 1.6; stroke-linejoin: round; }
+  .ink .line { fill: none; stroke: var(--ink); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+  .ink .glass { fill: var(--slip); stroke: var(--ink); stroke-width: 1.2; }
+  .ink .wheel { fill: var(--slip); stroke: var(--ink); stroke-width: 1.6; }
+  .ink .hub { fill: none; stroke: var(--ink); stroke-width: 1; }
+  .ink .dim { stroke: var(--ink3); stroke-width: .8; fill: none; }
+  .ink text { font: 500 8.5px "IBM Plex Mono", monospace; fill: var(--ink3); letter-spacing: .08em; }
+  .ink .tag { fill: var(--rust); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Three ways to show the car</h1>
+  <p class="lede">Same four cars, same card, three image sources. Prices are live from the site. Look at how each one handles a JDM-only car (the Axio) next to a famous one (the 911).</p>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <pattern id="hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="5" height="5" fill="#fffdf8"/><line x1="0" y1="0" x2="0" y2="5" stroke="#cfc6b2" stroke-width="1.1"/>
+      </pattern>
+    </defs>
+  </svg>
+
+  <!-- ================= A ================= -->
+  <h2><b>A.</b> Real photos from Wikimedia Commons</h2>
+  <div class="verdict">
+    <p class="pro"><b>Good</b>Real photos of real cars. Free, legal to reuse with a credit line. Pulled automatically from each model's Wikipedia article.</p>
+    <p class="con"><b>Watch out</b>Often the wrong generation or variant: the Axio search returns a newer Corolla. Backgrounds, angles and quality vary wildly. Each photo needs its own author and licence credit.</p>
+    <p><b>Effort</b>Medium. Automatic lookup, then a hand-picked override list for every car that comes back wrong.</p>
+  </div>
+  <div class="grid" id="photos"></div>
+
+  <!-- ================= B ================= -->
+  <h2><b>B.</b> Studio renders from a car-image API</h2>
+  <div class="verdict">
+    <p class="pro"><b>Good</b>Every car at the same angle on a clean background, so the catalogue looks uniform and polished. Can switch colour and angle by URL.</p>
+    <p class="con"><b>Watch out</b>This demo uses Imagin.studio's public test key; a live site needs a paid commercial licence. Coverage is built around US/EU catalogues, so Japan-only models (Axio, Premio, Noah) may get a generic stand-in.</p>
+    <p><b>Effort</b>Low to build, but a recurring cost and a dependency on someone else's service.</p>
+  </div>
+  <div class="grid" id="renders"></div>
+
+  <!-- ================= C ================= -->
+  <h2><b>C.</b> Ink drawings by body style, drawn for this site</h2>
+  <div class="verdict">
+    <p class="pro"><b>Good</b>Matches the ledger look exactly, like a technical drawing on an assessment form. No licences, no outside service, never shows the wrong car. Unique to the site.</p>
+    <p class="con"><b>Watch out</b>Shows the type of car, not the actual model: every SUV gets the same outline. Less eye-catching than a real photo.</p>
+    <p><b>Effort</b>Low. About eight drawings cover the whole catalogue.</p>
+  </div>
+  <div class="grid" id="ink"></div>
+
+  <h2><b>A + C.</b> A possible mix</h2>
+  <p class="lede">Ink drawings as the default everywhere (lists, cards), and a hand-checked photo only on each car's own page, where it's worth verifying it's the right car.</p>
+</div>
+
+<script>
+const CARS = [
+  { name: "Toyota Axio Hybrid", meta: "2022 · 1,496cc · hybrid sedan", price: "৳ 24.17 lakh", tax: "96% tax",
+    wiki: "Toyota_Corolla_Axio", wrongWiki: "Article photo is a newer Corolla, not an Axio",
+    imagin: { make: "toyota", modelFamily: "corolla" }, shape: "sedan", label: "SEDAN · 1,496 CC" },
+  { name: "Mazda MX-5 Roadster", meta: "2022 · 1,496cc · petrol convertible", price: "৳ 50.21 lakh", tax: "160% tax",
+    wiki: "Mazda_MX-5_(ND)", imagin: { make: "mazda", modelFamily: "mx-5" }, shape: "convertible", label: "CONVERTIBLE · 1,496 CC" },
+  { name: "Porsche 911 Carrera", meta: "2022 · 2,981cc · petrol coupe", price: "৳ 7.09 crore", tax: "462% tax",
+    wiki: "Porsche_911_(992)", imagin: { make: "porsche", modelFamily: "911" }, shape: "coupe", label: "COUPE · 2,981 CC" },
+  { name: "Rolls-Royce Cullinan", meta: "2022 · 6,749cc · petrol SUV", price: "৳ 37.73 crore", tax: "1,008% tax",
+    wiki: "Rolls-Royce_Cullinan", imagin: { make: "rolls-royce", modelFamily: "cullinan" }, shape: "suv", label: "SUV · 6,749 CC" },
+];
+
+// Side-profile outlines, 320×150, wheels sit on y=112.
+const SHAPES = {
+  sedan: `
+    <path class="body" d="M22 112 L24 96 Q26 86 44 84 L96 78 L132 54 Q142 48 160 47 L206 47 Q222 48 234 56 L262 78 L290 82 Q300 84 302 94 L302 112 Z"/>
+    <path class="glass" d="M104 78 L136 57 Q144 52 158 52 L178 52 L178 78 Z M184 78 L184 52 L204 52 Q218 53 228 60 L250 78 Z"/>
+    <path class="line" d="M60 96 L280 96 M150 84 L150 108"/>`,
+  suv: `
+    <path class="body" d="M20 112 L20 86 Q22 74 38 72 L78 68 L106 36 Q112 30 124 30 L254 30 Q268 30 276 42 L292 66 Q304 70 304 84 L304 112 Z"/>
+    <path class="glass" d="M88 68 L112 38 Q116 35 124 35 L172 35 L172 68 Z M178 68 L178 35 L236 35 L236 68 Z M242 68 L242 35 L254 35 Q264 35 270 44 L285 68 Z"/>
+    <path class="line" d="M48 92 L290 92 M174 72 L174 108 M238 72 L238 108"/>`,
+  coupe: `
+    <path class="body" d="M18 112 L20 100 Q24 90 50 86 L118 78 L156 56 Q170 50 190 50 L214 51 Q236 54 256 72 L294 82 Q304 86 304 98 L304 112 Z"/>
+    <path class="glass" d="M128 78 L160 59 Q170 55 186 55 L196 55 L196 78 Z M202 78 L202 56 L212 56 Q230 58 244 72 L246 78 Z"/>
+    <path class="line" d="M56 100 L286 100 M199 82 L199 108"/>`,
+  convertible: `
+    <path class="body" d="M20 112 L22 100 Q26 90 50 86 L126 80 L150 80 L238 80 L292 84 Q304 88 304 100 L304 112 Z"/>
+    <path class="line" d="M126 80 L146 56 L152 57 L138 80"/>
+    <path class="line" d="M178 80 Q180 66 192 64 Q200 64 202 72 M208 80 Q210 66 222 64 Q230 64 232 72"/>
+    <path class="line" d="M56 100 L286 100 M170 84 L170 108"/>`,
+};
+
+function ink(car) {
+  const wheels = [70, 254].map((x) => `<circle class="wheel" cx="${x}" cy="112" r="19"/><circle class="hub" cx="${x}" cy="112" r="9"/><circle class="hub" cx="${x}" cy="112" r="2.5"/>`).join("");
+  return `<svg viewBox="0 0 320 160" role="img" aria-label="${car.label} outline">
+    ${SHAPES[car.shape]}${wheels}
+    <path class="dim" d="M20 140 L304 140 M20 135 L20 145 M304 135 L304 145"/>
+    <text x="162" y="155" text-anchor="middle">${car.label}</text>
+    <text class="tag" x="22" y="16">FIG. ${CARS.indexOf(car) + 1}</text>
+  </svg>`;
+}
+
+const card = (car, pic, cls, credit = "") => `
+  <article class="card">
+    <div class="pic ${cls}">${pic}</div>
+    <p class="name">${car.name}</p>
+    <p class="meta">${car.meta}</p>
+    <div class="row"><span class="price">${car.price}</span><span class="tax">${car.tax}</span></div>
+    <p class="credit">${credit}</p>
+  </article>`;
+
+const imaginUrl = ({ make, modelFamily }) =>
+  `https://cdn.imagin.studio/getImage?customer=img&make=${make}&modelFamily=${modelFamily}&zoomType=fullscreen&angle=23&modelYear=2022`;
+
+document.getElementById("ink").innerHTML = CARS.map((c) => card(c, ink(c), "ink", "Original drawing · no licence needed")).join("");
+document.getElementById("renders").innerHTML = CARS.map((c) =>
+  card(c, `<img alt="${c.name} studio render" src="${imaginUrl(c.imagin)}">`, "render", "Render: Imagin.studio test key")).join("");
+
+// Photos: look each article up live, the way the site would.
+document.getElementById("photos").innerHTML = CARS.map((c, i) => card(c, `<div class="photo" id="ph${i}"><img alt=""></div>`, "", `<span id="cr${i}">Loading…</span>`)).join("");
+CARS.forEach(async (c, i) => {
+  const box = document.getElementById("ph" + i), credit = document.getElementById("cr" + i);
+  try {
+    const sum = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${c.wiki}`).then((r) => r.json());
+    const img = box.querySelector("img");
+    img.src = sum.thumbnail.source.replace(/\/\d+px-/, "/500px-");
+    img.alt = `${c.name}, photo from Wikipedia`;
+    const file = decodeURIComponent(sum.originalimage.source.split("/").slice(-2, -1)[0] || "").replace(/_/g, " ");
+    credit.innerHTML = `Photo: <a href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(file.replace(/ /g, "_"))}" target="_blank" rel="noreferrer">Wikimedia Commons</a> · CC BY-SA`;
+    if (c.wrongWiki) box.parentElement.insertAdjacentHTML("afterbegin", `<span class="warn">Wrong car</span>`), credit.innerHTML += ` · ${c.wrongWiki}`;
+  } catch {
+    credit.textContent = "Couldn't load a photo";
+  }
+});
+</script>
+</body>
+</html>

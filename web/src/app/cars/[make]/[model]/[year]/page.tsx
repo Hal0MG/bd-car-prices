@@ -2,9 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Calculator } from "@/components/Calculator";
+import { CarFigure } from "@/components/CarFigure";
+import { CarPhoto } from "@/components/CarPhoto";
 import { inWords } from "@/lib/format";
 import { estimateFor } from "@/lib/estimate";
-import { CARS, carName, carSlug } from "@/lib/market";
+import { CARS, carKey, carName, carSlug } from "@/lib/market";
+import { PHOTOS } from "@/lib/photos";
 import { t } from "@/lib/i18n/en";
 
 type Params = { make: string; model: string; year: string };
@@ -36,21 +39,29 @@ export default async function CarPage({ params }: { params: Promise<Params> }) {
   if (!hit) notFound();
   const { car, index } = hit;
   const r = estimateFor(car);
+  const photo = PHOTOS[carKey(car)];
 
   return (
     <>
-      <header className="page-head">
+      <header className="page-head car-head">
+        <div>
         <p className="eyebrow"><Link href="/cars">{t.nav.cars}</Link> / {car.make}</p>
         <h1>
           {carName(car)}: <em>{inWords(r.onRoad).replace(" taka", "")}</em> on the road
         </h1>
         <p className="lede">
-          A reconditioned {car.year} {car.model} ({car.cc}cc {t.calc.fuels[car.fuel].toLowerCase()}) from{" "}
+          A reconditioned {car.year} {car.model} ({car.fuel === "ev" ? "electric" : `${car.cc}cc ${t.calc.fuels[car.fuel].toLowerCase()}`}) from{" "}
           {t.calc.sources[car.origin]} falls in the “{r.slab.label}” slab. Duties come to{" "}
           {r.tti.toFixed(1)}% of its assessable value. Change any number below to match your quote.
         </p>
+        </div>
+        <div className="exhibit">
+          {photo
+            ? <CarPhoto photo={photo} alt={`${carName(car)}`} />
+            : <CarFigure segment={car.segment} caption={car.fuel === "ev" ? "electric" : `${car.cc.toLocaleString("en-IN")} cc`} fig={car.make.toUpperCase()} />}
+        </div>
       </header>
-      <Calculator initialCar={index} />
+      <Calculator initialCar={index} exhibit={false} />
     </>
   );
 }

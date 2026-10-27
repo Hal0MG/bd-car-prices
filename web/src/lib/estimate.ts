@@ -4,13 +4,15 @@ import { TABLE, calculate } from "./tax";
 /** Server-side estimate for a catalogue car at its example price, as a reconditioned import. */
 export function estimateFor(car: CarModel) {
   const fx = FX[CURRENCY[car.origin]];
+  const fobBdt = car.exampleFob * fx;
   return calculate(TABLE, {
     fuel: car.fuel,
     condition: "recon",
     body: car.body,
     cc: car.cc,
     year: car.year,
-    fobBdt: car.exampleFob * fx,
+    fobBdt,
+    valueUsd: car.fuel === "ev" ? fobBdt / FX.USD : undefined,
     freightBdt: FREIGHT[car.origin] * fx,
     clearingBdt: DEFAULT_CLEARING_BDT,
   });
