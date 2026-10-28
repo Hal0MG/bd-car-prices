@@ -1,26 +1,61 @@
 import { TABLE, type CalcResult, type Condition, type Verification } from "@/lib/tax";
-import { inWords, pctStr, plain, taka } from "@/lib/format";
+import { inWords, pctStr, plain, taka, takaShort } from "@/lib/format";
 import { t } from "@/lib/i18n/en";
+import type { Currency } from "@/lib/market";
+import { totalAlternates, type Rates } from "@/lib/money";
+import { splitOnRoad } from "@/lib/summary";
 
 export function Flag({ v }: { v?: Verification }) {
   if (!v || v === "verified") return null;
   return <span className={`flag ${v}`}>{t.flags[v]}</span>;
 }
 
+/** Where the money goes, at a glance: the car, the taxes, and everything else. */
+function ShareBar({ r }: { r: CalcResult }) {
+  const split = splitOnRoad(r);
+  const parts = [
+    { key: "car", label: t.slip.shareCar, amount: split.car, pct: split.carPct },
+    { key: "tax", label: t.slip.shareTax, amount: split.taxes, pct: split.taxPct },
+    { key: "fees", label: t.slip.shareFees, amount: split.fees, pct: split.feesPct },
+  ];
+  const summary = parts.map((p) => `${p.label} ${p.pct}%`).join(", ");
+  return (
+    <div className="share">
+      <p className="share-lead"><b>{split.taxPct}%</b> {t.slip.shareLead}</p>
+      <div className="share-bar" role="img" aria-label={summary}>
+        {parts.map((p) => <span key={p.key} className={`share-${p.key}`} style={{ flexGrow: p.amount }} />)}
+      </div>
+      <ul className="share-legend">
+        {parts.map((p) => (
+          <li key={p.key}>
+            <i className={`swatch share-${p.key}`} aria-hidden="true" />
+            {p.label} <b className="num">{takaShort(p.amount)}</b> · {p.pct}%
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 interface Props {
   result: CalcResult;
   fobBdt: number;
   freightBdt: number;
-  /** e.g. "¥1,450,000 × 0.81" */
+  /** e.g. "¥1,300,000 × 0.81 · ≈ $8,631" */
   fobNote?: string;
+  freightNote?: string;
   /** short reference printed at the top of the slip */
   refLabel: string;
   condition: Condition;
+  /** the currency the car is bought in, shown beside the total */
+  source: Currency;
+  rates: Rates;
 }
 
-export function Slip({ result: r, fobBdt, freightBdt, fobNote, refLabel, condition }: Props) {
+export function Slip({ result: r, fobBdt, freightBdt, fobNote, freightNote, refLabel, condition, source, rates }: Props) {
   const verified = r.slab.verification === "verified";
   const hs = r.slab.hs?.[condition];
+  const alternates = totalAlternates(r.onRoad, source, rates);
   return (
     <section className="slip" aria-label={t.slip.heading}>
       <div className="slip-head">
@@ -28,6 +63,7 @@ export function Slip({ result: r, fobBdt, freightBdt, fobNote, refLabel, conditi
           <p className="eyebrow">{t.slip.heading}</p>
           <p className="total num">{taka(r.onRoad)}</p>
           <p className="total-words">{inWords(r.onRoad)}</p>
+          {alternates.length > 0 && <p className="alt">≈ {alternates.join(" · ")}</p>}
         </div>
         <div className={`stamp ${verified ? "ok" : "warn"}`}>
           {verified ? t.slip.stampOk : t.slip.stampDraft}
@@ -35,6 +71,9 @@ export function Slip({ result: r, fobBdt, freightBdt, fobNote, refLabel, conditi
           FY {TABLE.fiscalYear}
         </div>
       </div>
+
+      <ShareBar r={r} />
+
       <div className="ref">
         <span>{t.slip.ref} · {refLabel}</span>
         <span>
@@ -52,7 +91,13 @@ export function Slip({ result: r, fobBdt, freightBdt, fobNote, refLabel, conditi
             </td>
             <td className="r">{plain(fobBdt)}</td>
           </tr>
-          <tr><td>{t.slip.freight}</td><td className="r">{plain(freightBdt)}</td></tr>
+          <tr>
+            <td>
+              {t.slip.freight}
+              {freightNote && <span className="calc">{freightNote}</span>}
+            </td>
+            <td className="r">{plain(freightBdt)}</td>
+          </tr>
           <tr><td>{t.slip.insurance}</td><td className="r">{plain(r.insurance)}</td></tr>
           <tr className="sum"><td>{t.slip.cif}</td><td className="r">{plain(r.cif)}</td></tr>
           {!r.usedReference && (

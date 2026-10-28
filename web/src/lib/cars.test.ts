@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { estimateFor } from "./estimate";
-import { CARS, carKey, carName, carSlug, originCaution } from "./market";
+import { CARS, POPULAR, carKey, carName, carSlug, originCaution } from "./market";
 import { PHOTOS } from "./photos";
 import { TABLE, exactAgeYears } from "./tax";
 
@@ -14,6 +14,13 @@ describe("car catalogue", () => {
     const r = estimateFor(car);
     expect(r.onRoad).toBeGreaterThan(0);
     expect(r.slab.body ?? "car").toBe(car.body);
+  });
+
+  it("offers popular picks that exist, each bought in its own market", () => {
+    const keys = new Map(CARS.map((c) => [carKey(c), c.origin]));
+    for (const [origin, list] of Object.entries(POPULAR)) {
+      for (const key of list) expect(keys.get(key), key).toBe(origin);
+    }
   });
 
   it("only sources cars from right-hand-drive markets", () => {

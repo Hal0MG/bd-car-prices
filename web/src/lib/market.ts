@@ -48,7 +48,7 @@ export const carSlug = (c: CarModel) => [c.make, c.model, String(c.year)].map(sl
 export const carName = (c: CarModel) => `${c.year} ${c.make} ${c.model}`;
 
 /** Group items by make, keeping first-seen order of makes. */
-export function byMake<T>(items: T[], car: (item: T) => CarModel): [string, T[]][] {
+export function byMake<T>(items: T[], car: (item: T) => Pick<CarModel, "make">): [string, T[]][] {
   const groups = new Map<string, T[]>();
   for (const item of items) {
     const make = car(item).make;
@@ -73,6 +73,13 @@ export function originCaution(origin: Origin, builtIn?: Country): string | undef
     ? `${rule} This one was built in ${builtIn} and would be bought in ${place}. We couldn't confirm the rule against the import order, so ask your C&F agent whether customs accepts it.`
     : `${rule} If your car was built somewhere other than ${place}, ask your C&F agent whether customs accepts it.`;
 }
+
+/** Cars most people start from, by "Make Model" key, shown as one-tap picks in the calculator. */
+export const POPULAR: Record<Origin, string[]> = {
+  japan: ["Toyota Axio Hybrid", "Toyota Aqua", "Toyota Premio", "Toyota Noah Hybrid", "Toyota Harrier Hybrid", "Honda Vezel e:HEV"],
+  uk: ["BMW 320i", "Mercedes-Benz C 200", "Land Rover Range Rover Evoque", "Mini Cooper", "Audi A4"],
+  other: [],
+};
 
 /** Key into PHOTOS and the photo candidate script: "Make Model". */
 export const carKey = (c: CarModel) => `${c.make} ${c.model}`;

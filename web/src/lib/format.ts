@@ -11,6 +11,13 @@ export function inWords(n: number): string {
   return `${plain(n)} taka`;
 }
 
+/** "৳10.53 lakh", "৳1.27 crore", "৳85,000" */
+export function takaShort(n: number): string {
+  if (n >= 1e7) return `৳${(n / 1e7).toFixed(2)} crore`;
+  if (n >= 1e5) return `৳${(n / 1e5).toFixed(2)} lakh`;
+  return `৳${plain(n)}`;
+}
+
 export const pctStr = (n: number) => `${Number.isInteger(n) ? n : n.toFixed(2)}%`;
 
 export function slugify(s: string): string {
