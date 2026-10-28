@@ -11,6 +11,8 @@ addresses in it, and this project has no use for them.
 
 from __future__ import annotations
 
+from urllib.parse import urlencode
+
 import html as htmllib
 import re
 from dataclasses import asdict, dataclass
@@ -178,5 +180,9 @@ def total_pages(page: str) -> int | None:
     return -(-count // CARDS_PER_PAGE) if count else None
 
 
-def page_url(page_number: int) -> str:
-    return f"{BASE}{LISTING_PATH}" + (f"?page={page_number}" if page_number > 1 else "")
+def page_url(page_number: int, filters: dict[str, str | int] | None = None) -> str:
+    """A listing page, optionally narrowed with the site's own search filters (min_price, max_price, condition)."""
+    query = {f"listing[{name}]": value for name, value in (filters or {}).items()}
+    if page_number > 1:
+        query["page"] = page_number
+    return f"{BASE}{LISTING_PATH}" + (f"?{urlencode(query)}" if query else "")

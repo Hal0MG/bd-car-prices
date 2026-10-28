@@ -70,7 +70,8 @@ def main() -> int:
         title="Results on current listings",
         intro=(
             f"Asking-price models on {report.rows_clean:,} current GarirBazar listings, "
-            f"collected on {snapshots} day(s) up to {raw['observed_at'].max()[:10]}. Cards omit engine size on "
+            f"collected on {snapshots} day(s) up to {raw['observed_at'].max()[:10]}, including {int(raw['filtered'].sum()):,} "
+            "found with the site's own filter for ads asking 50 lakh or more (so dear cars are over-represented). Cards omit engine size on "
             f"{report.engine_imputed / report.rows_clean:.0%} of listings and mileage on "
             f"{report.mileage_imputed / report.rows_clean:.0%}, and never show body style or whether the car is "
             "used or reconditioned. Missing engine sizes and mileages are filled in from similar cars, and "
@@ -80,7 +81,9 @@ def main() -> int:
         extra={"reference_year": year},
     )
 
-    cmp = compare_with_2021(df, year, old, REFERENCE_YEAR)
+    # Price-filtered snapshots over-sample dear cars, which would drag up medians; compare on the random ones.
+    random_df, _, _ = clean_current(raw[~raw["filtered"]], sorted(old["car_model"].unique()))
+    cmp = compare_with_2021(random_df, year, old, REFERENCE_YEAR)
     section = f"\n## Prices since 2021\n\nMedian asking price of cars five to ten years old, same model, then and now.\n\n{comparison_table(cmp)}\n"
     path = base.REPORTS / "baseline_report.md"
     path.write_text(path.read_text(encoding="utf-8") + section, encoding="utf-8")

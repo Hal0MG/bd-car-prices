@@ -1,6 +1,6 @@
 # Results on current listings
 
-Asking-price models on 8,039 current GarirBazar listings, collected on 1 day(s) up to 2026-10-28. Cards omit engine size on 17% of listings and mileage on 63%, and never show body style or whether the car is used or reconditioned. Missing engine sizes and mileages are filled in from similar cars, and body style is left out.
+Asking-price models on 12,394 current GarirBazar listings, collected on 1 day(s) up to 2026-10-28, including 5,991 found with the site's own filter for ads asking 50 lakh or more (so dear cars are over-represented). Cards omit engine size on 18% of listings and mileage on 66%, and never show body style or whether the car is used or reconditioned. Missing engine sizes and mileages are filled in from similar cars, and body style is left out.
 Errors are mean ± standard deviation over 15 folds (5-fold, repeated 3 times). "Median error" is the
 median of |predicted − actual| / actual.
 
@@ -8,17 +8,17 @@ median of |predicted − actual| / actual.
 
 | Model | Median error | Mean error | MAE (lakh BDT) | R² (log) | RMSLE |
 |---|---|---|---|---|---|
-| Median by model | 12.9 ± 0.5% | 38.3 ± 1.4% | 10.1 ± 0.5 | 0.449 ± 0.045 | 0.468 ± 0.021 |
-| Ridge | 9.0 ± 0.2% | 14.4 ± 1.1% | 5.5 ± 0.3 | 0.878 ± 0.016 | 0.220 ± 0.015 |
-| LightGBM | 7.1 ± 0.2% | 12.3 ± 0.8% | 4.7 ± 0.3 | 0.897 ± 0.016 | 0.202 ± 0.016 |
+| Median by model | 11.9 ± 0.3% | 34.3 ± 1.4% | 12.7 ± 0.5 | 0.651 ± 0.014 | 0.428 ± 0.012 |
+| Ridge | 8.5 ± 0.2% | 14.2 ± 2.7% | 7.4 ± 0.5 | 0.906 ± 0.014 | 0.221 ± 0.018 |
+| LightGBM | 6.5 ± 0.2% | 11.7 ± 1.5% | 6.1 ± 0.4 | 0.922 ± 0.013 | 0.202 ± 0.018 |
 
 ## Whole models held out: pricing a model the data has never listed
 
 | Model | Median error | Mean error | MAE (lakh BDT) | R² (log) | RMSLE |
 |---|---|---|---|---|---|
-| Median by model | 33.1 ± 10.8% | 62.1 ± 15.9% | 18.3 ± 6.6 | -0.108 ± 0.206 | 0.663 ± 0.116 |
-| Ridge | 21.2 ± 11.2% | 29.0 ± 10.0% | 12.2 ± 5.7 | 0.627 ± 0.131 | 0.385 ± 0.114 |
-| LightGBM | 25.6 ± 10.1% | 33.8 ± 7.6% | 12.6 ± 3.4 | 0.616 ± 0.126 | 0.381 ± 0.061 |
+| Median by model | 44.0 ± 12.6% | 76.0 ± 25.0% | 30.9 ± 9.5 | -0.089 ± 0.244 | 0.752 ± 0.125 |
+| Ridge | 34.9 ± 6.4% | 44.1 ± 8.7% | 26.4 ± 4.9 | 0.496 ± 0.116 | 0.507 ± 0.070 |
+| LightGBM | 26.4 ± 5.4% | 33.6 ± 6.9% | 19.3 ± 5.7 | 0.661 ± 0.084 | 0.417 ± 0.076 |
 
 ## Prediction intervals (split conformal, LightGBM)
 
@@ -27,32 +27,32 @@ Target coverage 80%. Three ways of setting the width, scored on the same held-ou
 
 | Method | Coverage | Spread across folds | Median ratio |
 |---|---|---|---|
-| Constant width | 79.9% | ± 1.2% | 1.17 |
-| Quantile (CQR) | 79.9% | ± 1.0% | 1.16 |
-| Scaled by difficulty | 79.8% | ± 1.8% | 1.14 |
+| Constant width | 80.1% | ± 1.3% | 1.15 |
+| Quantile (CQR) | 80.3% | ± 1.2% | 1.16 |
+| Scaled by difficulty | 80.1% | ± 1.4% | 1.13 |
 
 Coverage by predicted-price band (lakh BDT):
 
 | Band | Constant width | Quantile (CQR) | Scaled by difficulty |
 |---|---|---|---|
-| 3–23 | 71% (×1.17) | 81% (×1.29) | 80% (×1.17) |
-| 23–32 | 83% (×1.17) | 79% (×1.14) | 78% (×1.14) |
-| 32–37 | 80% (×1.17) | 78% (×1.16) | 81% (×1.14) |
-| 37–46 | 85% (×1.17) | 79% (×1.14) | 81% (×1.13) |
-| 46–672 | 81% (×1.17) | 83% (×1.18) | 79% (×1.13) |
+| 3–25 | 73% (×1.15) | 84% (×1.33) | 79% (×1.15) |
+| 25–38 | 74% (×1.15) | 79% (×1.20) | 79% (×1.15) |
+| 38–52 | 82% (×1.15) | 79% (×1.12) | 79% (×1.12) |
+| 52–75 | 89% (×1.15) | 77% (×1.10) | 82% (×1.10) |
+| 75–967 | 82% (×1.15) | 83% (×1.22) | 81% (×1.13) |
 
 ## Cleaning
 
-- rows raw: 9,000
-- seen in several snapshots: 534
-- no price: 305
-- electric dropped: 4
-- implausible year: 51
+- rows raw: 14,991
+- seen in several snapshots: 1,640
+- no price: 682
+- electric dropped: 11
+- implausible year: 56
 - implausible price: 3
-- price outliers: 63
-- engine imputed: 1,405
-- mileage imputed: 5,038
-- rows clean: 8,039
+- price outliers: 204
+- engine imputed: 2,192
+- mileage imputed: 8,221
+- rows clean: 12,394
 
 ## Prices since 2021
 

@@ -256,3 +256,12 @@ def test_a_success_resets_the_failure_count():
     assert f.get(f"{BASE}/ok") == "fine"
     with pytest.raises(FetchError):
         f.get(f"{BASE}/p3")  # would have halted without the reset
+
+
+def test_page_url_applies_the_sites_own_filters():
+    from shotti_ml.collect.garirbazar import page_url
+
+    assert page_url(1) == "https://www.garirbazar.com/buy-cars"
+    assert page_url(3) == "https://www.garirbazar.com/buy-cars?page=3"
+    url = page_url(2, {"minprice": 5_000_000, "maxprice": 900_000_000})
+    assert "listing%5Bminprice%5D=5000000" in url and "listing%5Bmaxprice%5D=900000000" in url and "page=2" in url

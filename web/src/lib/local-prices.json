@@ -1,6 +1,6 @@
 {
  "asOf": "2026-10-28",
- "listings": 8039,
+ "listings": 12394,
  "coverage": 0.8,
  "note": "Asking prices on GarirBazar for cars of this model and age, not sale prices.",
  "prices": [
@@ -9,22 +9,22 @@
    "model": "Axio",
    "year": 2021,
    "local_model": "Axio",
-   "listings_near": 412,
-   "listings_model": 802,
-   "expected": 2653000.0,
-   "low": 2306000.0,
-   "high": 3052000.0
+   "listings_near": 413,
+   "listings_model": 804,
+   "expected": 2682000.0,
+   "low": 2336000.0,
+   "high": 3079000.0
   },
   {
    "make": "Toyota",
    "model": "Axio Hybrid",
    "year": 2022,
    "local_model": "Axio",
-   "listings_near": 80,
-   "listings_model": 802,
-   "expected": 2785000.0,
-   "low": 2481000.0,
-   "high": 3126000.0
+   "listings_near": 81,
+   "listings_model": 804,
+   "expected": 3014000.0,
+   "low": 2690000.0,
+   "high": 3376000.0
   },
   {
    "make": "Toyota",
@@ -32,10 +32,10 @@
    "year": 2021,
    "local_model": "Fielder",
    "listings_near": 226,
-   "listings_model": 411,
-   "expected": 2622000.0,
-   "low": 2324000.0,
-   "high": 2958000.0
+   "listings_model": 412,
+   "expected": 2661000.0,
+   "low": 2339000.0,
+   "high": 3028000.0
   },
   {
    "make": "Toyota",
@@ -43,32 +43,32 @@
    "year": 2021,
    "local_model": "Fielder",
    "listings_near": 226,
-   "listings_model": 411,
-   "expected": 2559000.0,
-   "low": 2298000.0,
-   "high": 2850000.0
+   "listings_model": 412,
+   "expected": 2573000.0,
+   "low": 2306000.0,
+   "high": 2871000.0
   },
   {
    "make": "Toyota",
    "model": "Premio",
    "year": 2021,
    "local_model": "Premio",
-   "listings_near": 235,
-   "listings_model": 508,
-   "expected": 4614000.0,
-   "low": 4218000.0,
-   "high": 5047000.0
+   "listings_near": 248,
+   "listings_model": 522,
+   "expected": 4602000.0,
+   "low": 4170000.0,
+   "high": 5080000.0
   },
   {
    "make": "Toyota",
    "model": "Allion",
    "year": 2021,
    "local_model": "Allion",
-   "listings_near": 60,
-   "listings_model": 297,
-   "expected": 4197000.0,
-   "low": 3735000.0,
-   "high": 4717000.0
+   "listings_near": 61,
+   "listings_model": 299,
+   "expected": 4190000.0,
+   "low": 3809000.0,
+   "high": 4610000.0
   },
   {
    "make": "Toyota",
@@ -77,9 +77,9 @@
    "local_model": "Aqua",
    "listings_near": 16,
    "listings_model": 125,
-   "expected": 2278000.0,
-   "low": 2101000.0,
-   "high": 2469000.0
+   "expected": 2533000.0,
+   "low": 2319000.0,
+   "high": 2768000.0
   },
   {
    "make": "Toyota",
@@ -88,20 +88,20 @@
    "local_model": "Yaris",
    "listings_near": 128,
    "listings_model": 181,
-   "expected": 3654000.0,
-   "low": 3214000.0,
-   "high": 4154000.0
+   "expected": 3667000.0,
+   "low": 3251000.0,
+   "high": 4135000.0
   },
   {
    "make": "Toyota",
    "model": "Prius",
    "year": 2022,
    "local_model": "Prius",
-   "listings_near": 61,
-   "listings_model": 281,
-   "expected": 3902000.0,
-   "low": 3538000.0,
-   "high": 4304000.0
+   "listings_near": 63,
+   "listings_model": 284,
+   "expected": 3724000.0,
+   "low": 3366000.0,
+   "high": 4121000.0
   },
   {
    "make": "Toyota",
@@ -110,9 +110,9 @@
    "local_model": "Raize",
    "listings_near": 6,
    "listings_model": 6,
-   "expected": 4610000.0,
-   "low": 3541000.0,
-   "high": 6001000.0
+   "expected": 4960000.0,
+   "low": 3766000.0,
+   "high": 6532000.0
   },
   {
    "make": "Toyota",
@@ -121,9 +121,9 @@
    "local_model": "C-HR",
    "listings_near": 27,
    "listings_model": 236,
-   "expected": 4356000.0,
-   "low": 4021000.0,
-   "high": 4718000.0
+   "expected": 4239000.0,
+   "low": 3866000.0,
+   "high": 4649000.0
   },
   {
    "make": "Toyota",
@@ -132,130 +132,141 @@
    "local_model": "C-HR",
    "listings_near": 27,
    "listings_model": 236,
-   "expected": 4372000.0,
-   "low": 4056000.0,
-   "high": 4712000.0
+   "expected": 4198000.0,
+   "low": 3884000.0,
+   "high": 4537000.0
   },
   {
    "make": "Toyota",
    "model": "Harrier",
    "year": 2022,
    "local_model": "Harrier",
-   "listings_near": 98,
-   "listings_model": 288,
-   "expected": 8275000.0,
-   "low": 7420000.0,
-   "high": 9227000.0
+   "listings_near": 499,
+   "listings_model": 1457,
+   "expected": 8754000.0,
+   "low": 7778000.0,
+   "high": 9853000.0
   },
   {
    "make": "Toyota",
    "model": "Harrier Hybrid",
    "year": 2022,
    "local_model": "Harrier",
-   "listings_near": 98,
-   "listings_model": 288,
-   "expected": 8333000.0,
-   "low": 7478000.0,
-   "high": 9285000.0
+   "listings_near": 499,
+   "listings_model": 1457,
+   "expected": 8416000.0,
+   "low": 7648000.0,
+   "high": 9262000.0
   },
   {
    "make": "Toyota",
    "model": "RAV4",
    "year": 2022,
    "local_model": "RAV4",
-   "listings_near": 28,
-   "listings_model": 85,
-   "expected": 6849000.0,
-   "low": 5860000.0,
-   "high": 8005000.0
+   "listings_near": 112,
+   "listings_model": 295,
+   "expected": 7225000.0,
+   "low": 6447000.0,
+   "high": 8098000.0
   },
   {
    "make": "Toyota",
    "model": "RAV4 Hybrid",
    "year": 2022,
    "local_model": "RAV4",
-   "listings_near": 28,
-   "listings_model": 85,
-   "expected": 6791000.0,
-   "low": 5824000.0,
-   "high": 7920000.0
+   "listings_near": 112,
+   "listings_model": 295,
+   "expected": 6943000.0,
+   "low": 6320000.0,
+   "high": 7628000.0
+  },
+  {
+   "make": "Toyota",
+   "model": "Camry Hybrid",
+   "year": 2022,
+   "local_model": "Camry",
+   "listings_near": 4,
+   "listings_model": 13,
+   "expected": 6333000.0,
+   "low": 4899000.0,
+   "high": 8186000.0
   },
   {
    "make": "Toyota",
    "model": "Crown Crossover",
    "year": 2023,
    "local_model": "Crown",
-   "listings_near": 19,
-   "listings_model": 49,
-   "expected": 12659000.0,
-   "low": 10655000.0,
-   "high": 15039000.0
+   "listings_near": 100,
+   "listings_model": 267,
+   "expected": 11827000.0,
+   "low": 10428000.0,
+   "high": 13415000.0
   },
   {
    "make": "Toyota",
    "model": "Land Cruiser Prado TX",
    "year": 2022,
    "local_model": "Prado",
-   "listings_near": 47,
-   "listings_model": 103,
-   "expected": 17351000.0,
-   "low": 15887000.0,
-   "high": 18949000.0
+   "listings_near": 196,
+   "listings_model": 374,
+   "expected": 17791000.0,
+   "low": 16182000.0,
+   "high": 19560000.0
   },
   {
    "make": "Toyota",
    "model": "Noah",
    "year": 2022,
    "local_model": "Noah",
-   "listings_near": 291,
-   "listings_model": 823,
-   "expected": 4312000.0,
-   "low": 3786000.0,
-   "high": 4911000.0
+   "listings_near": 436,
+   "listings_model": 1015,
+   "expected": 4489000.0,
+   "low": 3854000.0,
+   "high": 5228000.0
   },
   {
    "make": "Toyota",
    "model": "Noah Hybrid",
    "year": 2022,
    "local_model": "Noah",
-   "listings_near": 291,
-   "listings_model": 823,
-   "expected": 4329000.0,
-   "low": 3819000.0,
-   "high": 4907000.0
+   "listings_near": 436,
+   "listings_model": 1015,
+   "expected": 4477000.0,
+   "low": 3908000.0,
+   "high": 5128000.0
   },
   {
    "make": "Toyota",
    "model": "Voxy Hybrid",
    "year": 2022,
    "local_model": "Voxy",
-   "listings_near": 95,
-   "listings_model": 223,
-   "expected": 4524000.0,
-   "low": 4134000.0,
-   "high": 4952000.0
+   "listings_near": 232,
+   "listings_model": 390,
+   "expected": 5088000.0,
+   "low": 4736000.0,
+   "high": 5465000.0
   },
   {
    "make": "Toyota",
    "model": "Esquire Hybrid",
    "year": 2021,
    "local_model": "Esquire",
-   "listings_near": 325,
-   "listings_model": 409,
-   "expected": 4083000.0,
-   "low": 3699000.0,
-   "high": 4506000.0
+   "listings_near": 344,
+   "listings_model": 431,
+   "expected": 4018000.0,
+   "low": 3672000.0,
+   "high": 4397000.0
   },
   {
    "make": "Toyota",
    "model": "HiAce",
    "year": 2022,
    "local_model": "Hiace",
-   "listings_near": 198,
-   "listings_model": 612,
-   "expected": 3701000.0,
-   "low": 3108000.0,
-   "high": 4406000.0
+   "listings_near": 214,
+   "listings_model": 648,
+   "expected": 4753000.0,
+   "low": 3724000.0,
+   "high": 6067000.0
   },
   {
    "make": "Honda",
@@ -264,9 +275,9 @@
    "local_model": "Grace",
    "listings_near": 28,
    "listings_model": 57,
-   "expected": 2704000.0,
-   "low": 2346000.0,
-   "high": 3116000.0
+   "expected": 2718000.0,
+   "low": 2376000.0,
+   "high": 3108000.0
   },
   {
    "make": "Honda",
@@ -275,64 +286,75 @@
    "local_model": "Insight",
    "listings_near": 75,
    "listings_model": 117,
-   "expected": 3989000.0,
-   "low": 3642000.0,
-   "high": 4368000.0
+   "expected": 3934000.0,
+   "low": 3647000.0,
+   "high": 4243000.0
   },
   {
    "make": "Honda",
    "model": "Vezel e:HEV",
    "year": 2022,
    "local_model": "Vezel",
-   "listings_near": 43,
-   "listings_model": 95,
-   "expected": 4360000.0,
-   "low": 3890000.0,
-   "high": 4886000.0
+   "listings_near": 47,
+   "listings_model": 101,
+   "expected": 4551000.0,
+   "low": 4008000.0,
+   "high": 5168000.0
   },
   {
    "make": "Honda",
    "model": "Civic",
    "year": 2022,
    "local_model": "Civic",
-   "listings_near": 9,
-   "listings_model": 52,
-   "expected": 4715000.0,
-   "low": 4219000.0,
-   "high": 5270000.0
+   "listings_near": 27,
+   "listings_model": 72,
+   "expected": 5783000.0,
+   "low": 4986000.0,
+   "high": 6707000.0
   },
   {
    "make": "Honda",
    "model": "CR-V e:HEV",
    "year": 2022,
    "local_model": "CR-V",
-   "listings_near": 42,
-   "listings_model": 133,
-   "expected": 6680000.0,
-   "low": 5891000.0,
-   "high": 7575000.0
+   "listings_near": 216,
+   "listings_model": 554,
+   "expected": 6391000.0,
+   "low": 5772000.0,
+   "high": 7077000.0
   },
   {
    "make": "Nissan",
    "model": "X-Trail e-Power",
    "year": 2023,
    "local_model": "X-Trail",
-   "listings_near": 18,
-   "listings_model": 131,
-   "expected": 6956000.0,
-   "low": 5872000.0,
-   "high": 8240000.0
+   "listings_near": 62,
+   "listings_model": 209,
+   "expected": 7036000.0,
+   "low": 6023000.0,
+   "high": 8218000.0
   },
   {
    "make": "Lexus",
    "model": "RX 350h",
    "year": 2023,
    "local_model": "RX",
-   "listings_near": 28,
-   "listings_model": 53,
-   "expected": 17822000.0,
-   "low": 15618000.0,
-   "high": 20338000.0
+   "listings_near": 135,
+   "listings_model": 222,
+   "expected": 17225000.0,
+   "low": 15075000.0,
+   "high": 19682000.0
+  },
+  {
+   "make": "Audi",
+   "model": "A6",
+   "year": 2022,
+   "local_model": "A6",
+   "listings_near": 4,
+   "listings_model": 11,
+   "expected": 13685000.0,
+   "low": 9956000.0,
+   "high": 18811000.0
   }
  ]
 }

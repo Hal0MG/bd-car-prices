@@ -46,7 +46,7 @@ class CurrentCleaningReport:
 
 def load_snapshots(directory: Path = SNAPSHOT_DIR) -> pd.DataFrame:
     rows = [
-        json.loads(line)
+        {**json.loads(line), "filtered": path.stem.endswith("-filtered")}
         for path in sorted(directory.glob("*.jsonl"))
         for line in path.read_text(encoding="utf-8").splitlines()
         if line.strip()

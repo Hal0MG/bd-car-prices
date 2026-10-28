@@ -35,6 +35,7 @@ def collect(
     n_pages: int,
     seed: int,
     *,
+    filters: dict[str, str | int] | None = None,
     now: datetime | None = None,
     log: Callable[[str], None] = print,
 ) -> tuple[list[dict], dict]:
@@ -42,7 +43,7 @@ def collect(
     observed_at = (now or datetime.now(timezone.utc)).replace(microsecond=0)
     started = time.monotonic()
 
-    first = fetcher.get(page_url(1))
+    first = fetcher.get(page_url(1, filters))
     listings = {l.id: l for l in parse_listing_page(first, observed_at)}
     pages = total_pages(first) or 1
     log(f"{pages:,} listing pages in total; sampling {min(n_pages, pages)}")
@@ -51,7 +52,7 @@ def collect(
     failed = halted = 0
     for number in chosen:
         try:
-            for listing in parse_listing_page(fetcher.get(page_url(number)), observed_at):
+            for listing in parse_listing_page(fetcher.get(page_url(number, filters)), observed_at):
                 listings[listing.id] = listing
         except FetchError as error:
             failed += 1
@@ -69,6 +70,7 @@ def collect(
         "pages_requested": fetcher.requests,
         "pages_failed": failed,
         "halted_early": bool(halted),
+        "filters": filters or {},
         "listings": len(listings),
         "seconds": round(time.monotonic() - started),
     }
@@ -81,6 +83,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--pages", type=int, default=40, help=f"listing pages to fetch (max {MAX_PAGES_PER_RUN})")
     parser.add_argument("--delay", type=float, default=3.0, help=f"seconds between requests (min {MIN_DELAY_SECONDS})")
     parser.add_argument("--seed", type=int, default=0, help="seed for choosing which pages to sample")
+    parser.add_argument("--min-price", type=int, help="only ads asking at least this many taka (uses the site's own price filter)")
+    parser.add_argument("--max-price", type=int, help="only ads asking at most this many taka")
+    parser.add_argument("--condition", type=int, choices=(1, 2, 3), help="the site's filter: 1 new, 2 used, 3 imported (reconditioned)")
     args = parser.parse_args(argv)
 
     if not 1 <= args.pages <= MAX_PAGES_PER_RUN:
@@ -88,16 +93,24 @@ def main(argv: list[str] | None = None) -> int:
     if args.delay < MIN_DELAY_SECONDS:
         parser.error(f"--delay must be at least {MIN_DELAY_SECONDS} seconds")
 
+    filters: dict[str, str | int] = {}
+    if args.min_price is not None or args.max_price is not None:
+        # The site returns nothing for a lone minimum, so a missing bound gets a harmless extreme.
+        filters["minprice"] = args.min_price if args.min_price is not None else 0
+        filters["maxprice"] = args.max_price if args.max_price is not None else 900_000_000
+    if args.condition:
+        filters["condition"] = args.condition
+
     fetcher = PoliteFetcher(delay=args.delay)
     try:
-        rows, summary = collect(fetcher, args.pages, args.seed)
+        rows, summary = collect(fetcher, args.pages, args.seed, filters=filters)
     except Halt as error:
         print(f"Nothing collected: {error}")
         return 1
 
     SNAPSHOTS.mkdir(parents=True, exist_ok=True)
     stamp = datetime.fromisoformat(summary["observed_at"]).strftime("%Y-%m-%dT%H%M")
-    path = SNAPSHOTS / f"{stamp}.jsonl"
+    path = SNAPSHOTS / f"{stamp}{'-filtered' if filters else ''}.jsonl"
     path.write_text("".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows), encoding="utf-8")
     print(json.dumps(summary, indent=2))
     print(f"Wrote {len(rows)} listings to {path}")
