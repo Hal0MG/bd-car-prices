@@ -1,62 +1,99 @@
-# Used-car price model: baseline
+# Used-car price model
 
-Can an asking price for a used car in Bangladesh be predicted from its age, engine, mileage and model, and how far can the prediction be trusted?
+Can the asking price of a used car in Bangladesh be predicted from its age, model and engine, and how far can the prediction be trusted?
 
-This baseline answers that on 1,200 Bikroy listings. It compares three models, tests them two ways, and puts an honest interval around each prediction.
+This project answers that on **2,777 current listings** (collected October 2026) and checks the method against an older **2021 file of 1,200 listings**. It compares three models, tests them two ways, and puts an honest interval around every prediction.
 
-## Results
+## Results on current listings
 
 Errors are the median of |predicted − actual| / actual, mean ± standard deviation over 15 folds (5-fold, repeated 3 times). Lower is better.
 
 | Model | Cars like ones already seen | A model never listed before |
 |---|---|---|
-| Median price of that model | 24.0 ± 1.7% | 49.9 ± 16.2% |
-| Ridge regression | 9.4 ± 0.5% | 20.1 ± 6.1% |
-| **LightGBM** | **8.4 ± 0.7%** | **18.2 ± 4.9%** |
+| Median price of that model | 12.6 ± 1.0% | 34.1 ± 10.7% |
+| Ridge regression | 9.6 ± 0.6% | **21.3 ± 7.3%** |
+| LightGBM | **8.0 ± 0.3%** | 23.7 ± 7.4% |
 
-![Model comparison](reports/figures/model_comparison.png)
+![Model comparison](reports/current/figures/model_comparison.png)
 
-- **The model beats the dealer's rule of thumb by a wide margin.** Quoting the median price for a model is wrong by about a quarter. LightGBM cuts that to about 8%, with mean absolute error 2.7 lakh BDT.
-- **The held-out column is the conservative number.** Random folds let the model see other listings of the same model, as it would for a Premio or an Axio. Holding out whole models tests a car it has never met, and the error roughly doubles.
-- **Age dominates.** Age moves the predicted price by about 55% on average, engine size by 21%, car model by 11%, CNG conversion by 5%. Mileage matters little (3%), probably because seller-entered mileage is unreliable.
+- **LightGBM prices familiar cars to within about 8%** (an average miss of ৳5.6 lakh), against 12.6% for quoting the model's median price.
+- **For a model it has never seen, the simpler ridge model is a little better** (21.3% against 23.7%). Gradient boosting leans on the model name, which tells it nothing about a new one. A site built on this should fall back to ridge for models with no listings.
+- **Age dominates.** Age moves the predicted price by about 34% on average, car model by 18%, engine size by 14%, mileage by 5%. Everything else, including fuel and gearbox, is under 1%.
 
-![Feature contributions](reports/figures/feature_contributions.png)
+![What moves the price](reports/current/figures/feature_contributions.png)
 
-### Prediction intervals
+### How far to trust a price
 
-Split conformal prediction gives an interval of the prediction ÷ and × 1.25. Aiming for 80% coverage, it covered **80.7% ± 4.0%** of cars it had not seen.
+Each prediction comes with an 80% interval, built by split conformal prediction. Three ways of setting its width were scored on the same held-out cars:
 
-![Predicted vs actual](reports/figures/predicted_vs_actual.png)
+| Method | Coverage | Median width (× and ÷) |
+|---|---|---|
+| Constant width | 79.8 ± 2.2% | 1.21 |
+| Quantile regression (CQR) | 80.2 ± 2.0% | 1.19 |
+| **Scaled by difficulty** | **81.2 ± 1.6%** | **1.17** |
 
-The coverage is right on average but not everywhere. The band has the same relative width at every price, while the scatter shows cheap cars (under 5 lakh) are predicted worse than mid-range ones, so the interval is too narrow there.
+All three hit 80% overall, but a constant width does it by being too narrow for cheap cars and the dearest ones: it covers only **68%** of cars under ৳24 lakh and **74%** of those over ৳46 lakh. Scaling the width by how hard the car is to price holds about 80% in every price band, with the narrowest intervals overall. It is the method to use.
+
+![Coverage by price band](reports/current/figures/interval_coverage.png)
+
+### More data still helps
+
+LightGBM overtakes ridge at about 800 training listings and is still improving at 2,200 (7.9%), while ridge has flattened near 9.3%. Weekly snapshots would keep paying off.
+
+![Learning curve](reports/current/figures/learning_curve.png)
+
+## Prices since 2021
+
+Median asking price of cars five to ten years old, same model, in the 2021 file and now. Comparing cars of equal age keeps it fair: a car that was five years old in 2021 is ten now.
+
+| Model | Cars (2021 / now) | Median 2021 | Median now | Change |
+|---|---|---|---|---|
+| Axio | 79 / 222 | ৳15.2 lakh | ৳24.5 lakh | +61% |
+| Noah | 31 / 174 | ৳25.0 lakh | ৳35.0 lakh | +40% |
+| Premio | 64 / 130 | ৳21.5 lakh | ৳44.8 lakh | +108% |
+| Prius | 14 / 99 | ৳26.1 lakh | ৳31.8 lakh | +22% |
+| Harrier | 14 / 91 | ৳54.5 lakh | ৳73.5 lakh | +35% |
+
+The full table is in [reports/current/baseline_report.md](reports/current/baseline_report.md). Read it as a rough size of the move, not a measurement: the two files come from different websites, with different mixes of dealers and private sellers.
+
+## The 2021 file, as a check
+
+The method was first built and validated on [Bikroy listings from 2021](reports/baseline_report.md) (1,200 cars, median build year 2011). It gives the same picture: LightGBM at 8.4% on familiar cars and 18.2% on unseen models, and a constant-width interval that covers only 65% of the cheapest cars. That the results hold on two sites, five years apart, is the best evidence that they reflect the method and not an accident of one dataset.
+
+## How the listings were collected
+
+The collector (`src/shotti_ml/collect/`) is gentle by construction, not by promise:
+
+- It reads `robots.txt` first and refuses any path the site disallows.
+- It waits at least three seconds between requests (the code refuses less than two), backs off when told to slow down, and stops after three failures in a row.
+- It fetches a listing page, which holds about 20 cars, rather than opening every ad, and samples random pages so the snapshot spans old and new ads.
+- It keeps car attributes only: make, model, year, price, mileage, engine, fuel, gearbox, city and when the ad was posted. It reads the description for the registration year and throws the rest away, because sellers put phone numbers and emails in it. A test checks that none survives.
+- Raw snapshots stay in `data/raw/`, which git ignores. Only code, tests and aggregate results are published, never the listings.
+
+Two runs gathered 3,000 listings in 154 requests, with no failures. GarirBazar's terms grant "personal, non-commercial viewing" and don't mention automated access. The collection was made with an informal go-ahead from someone at the company, and written confirmation is still to be obtained: [docs/garirbazar-permission.md](docs/garirbazar-permission.md) has a short message for that.
 
 ## What was done
 
-1. **Cleaning** (`src/shotti_ml/data.py`). Every change is counted in the report:
-   - 9 re-posts dropped: the same car, year, mileage and price under a different title, which would leak across folds.
-   - Build year taken from the listing title. `model_year` differs for 65 listings and looks like a later registration year.
-   - 2 engine-size typos (150cc for 1500cc) replaced with the median for that model.
-   - 5 mileages above 400,000 km capped (a 2016 Prius at 900,000 km).
-   - 24 messy fuel strings such as "CNG, Octane" split into yes/no flags.
-2. **Features** (`features.py`). Age, log mileage, engine size, transmission, fuel flags, plus brand, model and body type, with rare brands and models pooled. Counts use features only, never the price.
-3. **Target.** The log of the price, so errors are relative and one very expensive Land Cruiser doesn't dominate.
-4. **Models** (`models.py`). The median by model (a baseline any model must beat), ridge regression, and LightGBM with modest capacity because there are only about 1,200 rows.
-5. **Evaluation** (`evaluate.py`). Repeated 5-fold cross-validation, run two ways: random folds, and folds that hold out whole car models together.
+1. **Cleaning** (`current.py`), every change counted: 40 ads seen twice kept once (latest sighting), 137 with no price ("NEGOTIABLE") dropped, 22 impossible years and prices dropped, 23 price outliers dropped (below a quarter or above four times comparable cars), engine size filled in from the model's median for 18% of cars and mileage for 63%.
+2. **Features** (`features.py`). Age, log mileage, engine size, gearbox, fuel flags, brand and model, with rare ones pooled using counts of features only.
+3. **Target.** The log of the price, so errors are relative.
+4. **Models** (`models.py`). The median by model, ridge regression, and LightGBM with modest capacity.
+5. **Evaluation** (`evaluate.py`, `intervals.py`). Repeated 5-fold cross-validation, run two ways: random folds, and folds holding out whole car models. Intervals use the same folds for every method.
 
 ## Limits
 
-- **The prices are from November 2021.** The file's date and its newest model year (2021) say so. They are five years and one currency devaluation old, so this model shows the method works, but it cannot price a car today.
-- **Most cars here are older than the site's.** The median build year is 2011, and nothing is newer than 2021. The site's catalogue (2021–2023 recon imports) lies mostly outside what this model has seen.
-- **These are asking prices.** Sellers ask more than buyers pay, and the gap is unknown.
-- **The data is narrow.** 81% of listings are Toyotas, and 83 of 123 models have fewer than five listings.
-- **Random-fold results are optimistic.** Near-identical listings can sit on both sides of a split, which is why the held-out figures matter more.
+- **One day of data.** Both snapshots were taken on 28 October 2026. Prices drift, so weekly snapshots are needed to see that, and to tell a slow-selling overpriced car from a fair one.
+- **Asking prices, not sale prices.** Sellers ask more than buyers pay, and the gap is unknown. The site's report-a-price form is meant to measure it.
+- **Cards leave out useful facts.** They never show body style or whether a car is used or reconditioned, and omit mileage on 63% of ads, so mileage barely helps the model.
+- **Narrow market.** 89% of listings are Toyotas and 41 of 139 models have five or more listings. The model is best for the common ones.
+- **Random-fold results are optimistic.** Near-identical listings can sit on both sides of a split, which is why the held-out column matters more.
+- **The 2021 comparison crosses two websites.** See above.
 
 ## Next
 
-1. Collect current listings (CarDekho BD and GarirBazar both allow listing pages in robots.txt; their terms need checking first), saving car attributes and prices only, weekly.
-2. Make intervals adaptive so cheap cars get wider ranges (conformalized quantile regression).
+1. Run the collector weekly, then study how long ads stay up and how asking prices fall.
+2. Export the model (ridge for unseen models, LightGBM otherwise) and its intervals so the site's car pages can show an expected local price beside the import cost.
 3. Compare local prices with import cost once there is a source of Japan auction prices.
-4. Export the model so car pages on the site can show an expected local price.
 
 ## Run it
 
@@ -64,13 +101,20 @@ The coverage is right on average but not everywhere. The band has the same relat
 cd ml
 py -m venv .venv
 .venv/Scripts/python.exe -m pip install -e ".[dev]"
-.venv/Scripts/python.exe scripts/download_data.py        # downloads and checks the dataset's hash
-.venv/Scripts/python.exe -I -m shotti_ml.run_baseline    # about 20 seconds
 .venv/Scripts/python.exe -m pytest
+
+# the 2021 file
+.venv/Scripts/python.exe scripts/download_data.py        # downloads and checks the dataset's hash
+.venv/Scripts/python.exe -I -m shotti_ml.run_baseline    # about 2 minutes
+
+# current listings
+.venv/Scripts/python.exe -I -m shotti_ml.collect.run --pages 40   # about 4 minutes, one page every 3 seconds
+.venv/Scripts/python.exe -I -m shotti_ml.run_current              # about 3 minutes
 ```
 
-On macOS or Linux, use `.venv/bin/python` instead. Results are written to `reports/`.
+On macOS or Linux, use `.venv/bin/python` instead. Results go to `reports/` and `reports/current/`.
 
 ## Data
 
-Amik, F. R., Momen, S. and Lanard, A. (2024). *Car Dataset: Used cars data from Bikroy.com*, version 2. Mendeley Data, [doi:10.17632/fmb4xmp4k5.2](https://data.mendeley.com/datasets/fmb4xmp4k5). Licensed CC BY 4.0. The listings are scraped from Bikroy.com.
+- Current listings: GarirBazar's public listing pages, collected as above. Not redistributed.
+- 2021 file: Amik, F. R., Momen, S. and Lanard, A. (2024). *Car Dataset: Used cars data from Bikroy.com*, version 2. Mendeley Data, [doi:10.17632/fmb4xmp4k5.2](https://data.mendeley.com/datasets/fmb4xmp4k5). Licensed CC BY 4.0.

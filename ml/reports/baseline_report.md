@@ -22,8 +22,24 @@ median of |predicted − actual| / actual.
 
 ## Prediction intervals (split conformal, LightGBM)
 
-Target coverage 80%. Measured coverage on unseen cars: 80.7% ± 4.0%.
-An interval is the prediction divided and multiplied by 1.25.
+Target coverage 80%. Three ways of setting the width, scored on the same held-out cars.
+"Ratio" means the interval runs from the prediction divided by it to the prediction multiplied by it.
+
+| Method | Coverage | Spread across folds | Median ratio |
+|---|---|---|---|
+| Constant width | 80.7% | ± 4.0% | 1.25 |
+| Quantile (CQR) | 78.9% | ± 4.7% | 1.25 |
+| Scaled by difficulty | 78.6% | ± 2.6% | 1.21 |
+
+Coverage by predicted-price band (lakh BDT):
+
+| Band | Constant width | Quantile (CQR) | Scaled by difficulty |
+|---|---|---|---|
+| 1–9 | 65% (×1.25) | 78% (×1.47) | 75% (×1.33) |
+| 9–13 | 83% (×1.25) | 79% (×1.21) | 79% (×1.20) |
+| 13–18 | 89% (×1.25) | 77% (×1.14) | 82% (×1.15) |
+| 18–27 | 84% (×1.25) | 80% (×1.22) | 80% (×1.19) |
+| 27–97 | 82% (×1.25) | 80% (×1.29) | 78% (×1.18) |
 
 ## Cleaning
 

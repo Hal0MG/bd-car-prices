@@ -21,11 +21,14 @@ def _pool_rare(values: pd.Series, min_count: int, label: str) -> pd.Series:
     return values.where(counts >= min_count, label)
 
 
-def build_features(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
-    """Return the feature table and the target, the log of the asking price."""
+def build_features(df: pd.DataFrame, reference_year: int = REFERENCE_YEAR) -> tuple[pd.DataFrame, pd.Series]:
+    """Return the feature table and the target, the log of the asking price.
+
+    Age is measured to `reference_year`: 2021 for the Bikroy file, the year of collection for fresh listings.
+    """
     X = pd.DataFrame(
         {
-            "age": (REFERENCE_YEAR - df["build_year"]).clip(lower=0),
+            "age": (reference_year - df["build_year"]).clip(lower=0),
             "log_km": np.log1p(df["km"]),
             "engine_cc": df["engine_cc"],
             "reg_gap": df["reg_gap"],

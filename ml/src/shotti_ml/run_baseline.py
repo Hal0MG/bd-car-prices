@@ -19,8 +19,9 @@ import pandas as pd
 from matplotlib.ticker import FuncFormatter
 
 from .data import REFERENCE_YEAR, clean, load_raw
-from .evaluate import conformal_intervals, cross_validate, summarise
+from .evaluate import cross_validate, learning_curve, summarise
 from .features import build_features
+from .intervals import by_band, evaluate_intervals, summarise_intervals
 from .models import MODELS, make_lgbm
 
 REPORTS = Path(__file__).resolve().parents[2] / "reports"
@@ -30,6 +31,12 @@ ALPHA = 0.2  # intervals aim to cover 80% of cars
 # The site's ledger palette.
 INK, RUST, SLIP, HAIR, GREEN = "#1d1b16", "#8a3b1e", "#fffdf8", "#cfc6b2", "#2f5d3a"
 MODEL_COLORS = {"Median by model": HAIR, "Ridge": RUST, "LightGBM": INK}
+
+
+def set_output(reports: Path) -> None:
+    """Write reports and figures somewhere else, so one dataset's results don't overwrite another's."""
+    global REPORTS, FIGURES
+    REPORTS, FIGURES = reports, reports / "figures"
 
 
 def apply_style() -> None:
@@ -126,6 +133,41 @@ def fig_model_comparison(random_cv: dict, grouped_cv: dict) -> None:
     save(fig, "model_comparison.png")
 
 
+def fig_interval_coverage(bands: pd.DataFrame, labels: list[str]) -> None:
+    """Coverage and width by predicted-price band: does the interval stay honest for cheap cars?"""
+    colors = {"Constant width": HAIR, "Scaled by difficulty": RUST, "Quantile (CQR)": INK}
+    fig, (left, right) = plt.subplots(1, 2, figsize=(10, 3.8))
+    x = np.arange(len(labels))
+    for method, color in colors.items():
+        part = bands.loc[method].reindex(labels)
+        marker = "o" if method != "Constant width" else "s"
+        left.plot(x, 100 * part["coverage"], marker=marker, color=color, lw=2, label=method,
+                  markeredgecolor=INK if method == "Constant width" else color)
+        right.plot(x, part["median_ratio"], marker=marker, color=color, lw=2, label=method,
+                   markeredgecolor=INK if method == "Constant width" else color)
+    left.axhline(100 * (1 - ALPHA), color=INK, lw=1, ls="--")
+    left.text(len(labels) - 1, 100 * (1 - ALPHA) + 0.8, "target", ha="right", fontsize=8)
+    left.set(ylabel="Cars inside their interval (%)", title="Coverage by price band")
+    right.set(ylabel="Interval ratio (× and ÷)", title="Width by price band")
+    for ax in (left, right):
+        ax.set_xticks(x, labels)
+        ax.set_xlabel("Predicted price band (lakh BDT), cheapest to dearest")
+    left.legend(frameon=False, fontsize=8, loc="lower right")
+    save(fig, "interval_coverage.png")
+
+
+def fig_learning_curve(curves: dict[str, pd.DataFrame]) -> None:
+    fig, ax = plt.subplots(figsize=(7, 4))
+    for name, curve in curves.items():
+        grouped = curve.groupby("n_train")["median_ape"]
+        mean, std = 100 * grouped.mean(), 100 * grouped.std()
+        ax.errorbar(mean.index, mean.values, yerr=std.values, marker="o", capsize=3, lw=2, color=MODEL_COLORS[name], label=name)
+    ax.set(xlabel="Listings used for training", ylabel="Median error (% of price)", title="Is more data still helping?")
+    ax.set_ylim(bottom=0)
+    ax.legend(frameon=False)
+    save(fig, "learning_curve.png")
+
+
 def swing_by_feature(X: pd.DataFrame, y: pd.Series) -> pd.Series:
     """Mean absolute TreeSHAP contribution per feature, as an approximate % price swing."""
     model = make_lgbm().fit(X, y)
@@ -148,14 +190,24 @@ def results_table(cv: dict) -> str:
     return "\n".join(rows)
 
 
-def main() -> None:
-    sys.stdout.reconfigure(encoding="utf-8")
-    apply_style()
+def interval_table(summary: pd.DataFrame) -> str:
+    rows = ["| Method | Coverage | Spread across folds | Median ratio |", "|---|---|---|---|"]
+    for name, r in summary.iterrows():
+        rows.append(f"| {name} | {r['coverage']:.1%} | ± {r['coverage_std']:.1%} | {r['median_ratio']:.2f} |")
+    return "\n".join(rows)
 
-    df, report = clean(load_raw())
-    X, y = build_features(df)
-    print("Cleaning:", json.dumps(report.as_dict()))
 
+def band_table(bands: pd.DataFrame, labels: list[str]) -> str:
+    methods = list(bands.index.get_level_values(0).unique())
+    rows = ["| Band | " + " | ".join(methods) + " |", "|---|" + "---|" * len(methods)]
+    for label in labels:
+        cells = [f"{bands.loc[(m, label), 'coverage']:.0%} (×{bands.loc[(m, label), 'median_ratio']:.2f})" for m in methods]
+        rows.append(f"| {label} | " + " | ".join(cells) + " |")
+    return "\n".join(rows)
+
+
+def run(df: pd.DataFrame, X: pd.DataFrame, y: pd.Series, *, title: str, intro: str, cleaning: dict, extra: dict | None = None) -> dict:
+    """Cross-validate the models, build intervals and the learning curve, and write figures and a report."""
     random_cv, grouped_cv, oof = {}, {}, {}
     for name, make in MODELS.items():
         folds, oof[name] = cross_validate(make, X, y)
@@ -164,11 +216,20 @@ def main() -> None:
         grouped_cv[name] = summarise(grouped_folds)
         print(f"{name:16s} random {random_cv[name]['median_ape']['mean']:.1%}   held-out models {grouped_cv[name]['median_ape']['mean']:.1%}")
 
-    conformal = conformal_intervals(make_lgbm, X, y, alpha=ALPHA)
-    q = float(conformal["q"].median())
-    coverage = {"mean": float(conformal["coverage"].mean()), "std": float(conformal["coverage"].std())}
-    print(f"Intervals: target {1 - ALPHA:.0%}, coverage {coverage['mean']:.1%} ± {coverage['std']:.1%}, median q {q:.3f} (x/÷ {np.exp(q):.2f})")
+    # Three ways to build 80% intervals, scored on the same held-out cars.
+    iv = evaluate_intervals(X, y, alpha=ALPHA)
+    iv_summary = summarise_intervals(iv)
+    print(iv_summary.round(3).to_string())
 
+    # Bands are cut on the model's own out-of-fold prediction, so they never peek at the answer.
+    predicted_lakh = pd.Series(np.exp(oof["LightGBM"]) / 1e5, index=X.index)
+    band, edges = pd.qcut(predicted_lakh, 5, retbins=True)
+    labels = [f"{lo:.0f}–{hi:.0f}" for lo, hi in zip(edges[:-1], edges[1:])]
+    band = band.cat.rename_categories(labels)
+    iv_bands = by_band(iv, band)
+    q = float(np.log(iv_summary.loc["Constant width", "median_ratio"]))
+
+    curves = {name: learning_curve(MODELS[name], X, y) for name in ("Ridge", "LightGBM")}
     swing = swing_by_feature(X, y)
 
     fig_price_distribution(df)
@@ -176,21 +237,26 @@ def main() -> None:
     fig_predicted_vs_actual(y, oof["LightGBM"], q)
     fig_feature_contributions(swing)
     fig_model_comparison(random_cv, grouped_cv)
+    fig_interval_coverage(iv_bands, labels)
+    fig_learning_curve(curves)
 
-    REPORTS.mkdir(exist_ok=True)
+    REPORTS.mkdir(parents=True, exist_ok=True)
     metrics = {
-        "reference_year": REFERENCE_YEAR,
-        "cleaning": report.as_dict(),
+        **(extra or {}),
+        "rows": len(df),
+        "cleaning": cleaning,
         "cv_random_5x3": random_cv,
         "cv_held_out_models_5x3": grouped_cv,
-        "conformal": {"target_coverage": 1 - ALPHA, "coverage": coverage, "q_median": q, "upper_to_lower": float(np.exp(2 * q))},
+        "intervals": {"target_coverage": 1 - ALPHA, "overall": iv_summary.round(4).to_dict(orient="index")},
+        "intervals_by_price_band": {m: g.droplevel(0).round(4).to_dict(orient="index") for m, g in iv_bands.groupby(level=0)},
+        "learning_curve": {name: c.groupby("n_train")["median_ape"].mean().round(4).to_dict() for name, c in curves.items()},
         "feature_swing_pct": swing.sort_values(ascending=False).round(2).to_dict(),
     }
     (REPORTS / "baseline_metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
 
-    md = f"""# Baseline results
+    md = f"""# {title}
 
-Asking-price models on {report.rows_clean:,} Bikroy listings (collected about November 2021).
+{intro}
 Errors are mean ± standard deviation over 15 folds (5-fold, repeated 3 times). "Median error" is the
 median of |predicted − actual| / actual.
 
@@ -204,15 +270,38 @@ median of |predicted − actual| / actual.
 
 ## Prediction intervals (split conformal, LightGBM)
 
-Target coverage {1 - ALPHA:.0%}. Measured coverage on unseen cars: {coverage['mean']:.1%} ± {coverage['std']:.1%}.
-An interval is the prediction divided and multiplied by {np.exp(q):.2f}.
+Target coverage {1 - ALPHA:.0%}. Three ways of setting the width, scored on the same held-out cars.
+"Ratio" means the interval runs from the prediction divided by it to the prediction multiplied by it.
+
+{interval_table(iv_summary)}
+
+Coverage by predicted-price band (lakh BDT):
+
+{band_table(iv_bands, labels)}
 
 ## Cleaning
 
-{chr(10).join(f"- {k.replace('_', ' ')}: {v:,}" for k, v in report.as_dict().items())}
+{chr(10).join(f"- {k.replace('_', ' ')}: {v:,}" for k, v in cleaning.items())}
 """
     (REPORTS / "baseline_report.md").write_text(md, encoding="utf-8")
     print(f"Wrote {REPORTS}")
+    return metrics
+
+
+def main() -> None:
+    sys.stdout.reconfigure(encoding="utf-8")
+    apply_style()
+
+    df, report = clean(load_raw())
+    X, y = build_features(df)
+    print("Cleaning:", json.dumps(report.as_dict()))
+    run(
+        df, X, y,
+        title="Baseline results",
+        intro=f"Asking-price models on {report.rows_clean:,} Bikroy listings (collected about November 2021).",
+        cleaning=report.as_dict(),
+        extra={"reference_year": REFERENCE_YEAR},
+    )
 
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
 {
   "reference_year": 2021,
+  "rows": 1200,
   "cleaning": {
     "rows_raw": 1209,
     "reposts_dropped": 9,
@@ -145,14 +146,126 @@
       }
     }
   },
-  "conformal": {
+  "intervals": {
     "target_coverage": 0.8,
-    "coverage": {
-      "mean": 0.8069444444444444,
-      "std": 0.03961204055099606
+    "overall": {
+      "Constant width": {
+        "coverage": 0.8069,
+        "coverage_std": 0.0396,
+        "median_ratio": 1.2535
+      },
+      "Quantile (CQR)": {
+        "coverage": 0.7889,
+        "coverage_std": 0.0472,
+        "median_ratio": 1.2514
+      },
+      "Scaled by difficulty": {
+        "coverage": 0.7856,
+        "coverage_std": 0.0256,
+        "median_ratio": 1.211
+      }
+    }
+  },
+  "intervals_by_price_band": {
+    "Constant width": {
+      "13\u201318": {
+        "coverage": 0.8903,
+        "median_ratio": 1.2535,
+        "n": 720
+      },
+      "18\u201327": {
+        "coverage": 0.8444,
+        "median_ratio": 1.2535,
+        "n": 720
+      },
+      "1\u20139": {
+        "coverage": 0.6486,
+        "median_ratio": 1.2535,
+        "n": 720
+      },
+      "27\u201397": {
+        "coverage": 0.8194,
+        "median_ratio": 1.2535,
+        "n": 720
+      },
+      "9\u201313": {
+        "coverage": 0.8319,
+        "median_ratio": 1.2535,
+        "n": 720
+      }
     },
-    "q_median": 0.22596566386236638,
-    "upper_to_lower": 1.5713440371021727
+    "Quantile (CQR)": {
+      "13\u201318": {
+        "coverage": 0.7708,
+        "median_ratio": 1.143,
+        "n": 720
+      },
+      "18\u201327": {
+        "coverage": 0.8028,
+        "median_ratio": 1.2161,
+        "n": 720
+      },
+      "1\u20139": {
+        "coverage": 0.7833,
+        "median_ratio": 1.4736,
+        "n": 720
+      },
+      "27\u201397": {
+        "coverage": 0.7958,
+        "median_ratio": 1.2892,
+        "n": 720
+      },
+      "9\u201313": {
+        "coverage": 0.7917,
+        "median_ratio": 1.2062,
+        "n": 720
+      }
+    },
+    "Scaled by difficulty": {
+      "13\u201318": {
+        "coverage": 0.8167,
+        "median_ratio": 1.1487,
+        "n": 720
+      },
+      "18\u201327": {
+        "coverage": 0.7986,
+        "median_ratio": 1.1929,
+        "n": 720
+      },
+      "1\u20139": {
+        "coverage": 0.7472,
+        "median_ratio": 1.3348,
+        "n": 720
+      },
+      "27\u201397": {
+        "coverage": 0.7778,
+        "median_ratio": 1.1835,
+        "n": 720
+      },
+      "9\u201313": {
+        "coverage": 0.7875,
+        "median_ratio": 1.1955,
+        "n": 720
+      }
+    }
+  },
+  "learning_curve": {
+    "Ridge": {
+      "96": 0.136,
+      "192": 0.1108,
+      "336": 0.1013,
+      "480": 0.0965,
+      "720": 0.0937,
+      "960": 0.0942
+    },
+    "LightGBM": {
+      "96": 0.2068,
+      "192": 0.1587,
+      "336": 0.1162,
+      "480": 0.1026,
+      "720": 0.0887,
+      "960": 0.0854
+    }
   },
   "feature_swing_pct": {
     "age": 54.67,

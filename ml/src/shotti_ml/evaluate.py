@@ -1,4 +1,4 @@
-"""Cross-validation, error metrics and prediction intervals."""
+"""Cross-validation and error metrics."""
 
 from __future__ import annotations
 
@@ -61,36 +61,27 @@ def summarise(folds: pd.DataFrame) -> dict[str, dict[str, float]]:
     return {col: {"mean": float(folds[col].mean()), "std": float(folds[col].std())} for col in folds}
 
 
-def conformal_intervals(
+def learning_curve(
     make_model: Callable,
     X: pd.DataFrame,
     y: pd.Series,
     *,
-    alpha: float = 0.2,
+    fractions=(0.1, 0.2, 0.35, 0.5, 0.75, 1.0),
     n_splits: int = 5,
     n_repeats: int = 3,
-    cal_fraction: float = 0.25,
     seed: int = 0,
 ) -> pd.DataFrame:
-    """Split conformal prediction: how wide an interval must be to hit its coverage target.
+    """Median error as the training set grows, always scored on the same untouched test folds.
 
-    Each training fold is split again: the model fits on most of it and the rest sets the
-    interval half-width q (the (1 - alpha) quantile of its absolute log errors). Intervals on
-    the held-out fold are prediction * exp(-q) to prediction * exp(+q). Coverage is then
-    measured on rows that played no part in fitting or calibration.
+    A curve that is still falling at 100% says more data would help; a flat one says it would not.
     """
     rng = np.random.default_rng(seed)
-    out = []
-    for train, test in RepeatedKFold(n_splits=n_splits, n_repeats=n_repeats, random_state=seed).split(X):
-        train = rng.permutation(train)
-        n_cal = int(len(train) * cal_fraction)
-        cal, fit = train[:n_cal], train[n_cal:]
-
-        model = make_model().fit(X.iloc[fit], y.iloc[fit])
-        resid = np.sort(np.abs(y.iloc[cal].to_numpy() - model.predict(X.iloc[cal])))
-        rank = min(int(np.ceil((n_cal + 1) * (1 - alpha))), n_cal)
-        q = float(resid[rank - 1])
-
-        err = np.abs(y.iloc[test].to_numpy() - model.predict(X.iloc[test]))
-        out.append({"q": q, "coverage": float(np.mean(err <= q)), "upper_to_lower": float(np.exp(2 * q))})
-    return pd.DataFrame(out)
+    rows = []
+    for fold, (train, test) in enumerate(RepeatedKFold(n_splits=n_splits, n_repeats=n_repeats, random_state=seed).split(X)):
+        shuffled = rng.permutation(train)
+        for fraction in fractions:
+            used = shuffled[: max(30, int(len(shuffled) * fraction))]
+            model = make_model().fit(X.iloc[used], y.iloc[used])
+            error = score(y.iloc[test].to_numpy(), np.asarray(model.predict(X.iloc[test])))["median_ape"]
+            rows.append({"fold": fold, "fraction": fraction, "n_train": len(used), "median_ape": error})
+    return pd.DataFrame(rows)
