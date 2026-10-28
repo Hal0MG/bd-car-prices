@@ -1,0 +1,144 @@
+{
+ "car": {
+  "make": "Toyota",
+  "model": "Land Cruiser Prado TX",
+  "year": 2022,
+  "cc": 2693,
+  "fuel": "petrol",
+  "segment": "suv",
+  "origin": "japan",
+  "builtIn": "Japan",
+  "exampleFob": 4800000,
+  "body": "car"
+ },
+ "fx": 0.81,
+ "fxAsOf": "2026-10-27",
+ "fobBdt": 3888000.0000000005,
+ "freightBdt": 145800,
+ "reconVerification": "reported",
+ "fiscalYear": "2026-27",
+ "local": {
+  "make": "Toyota",
+  "model": "Land Cruiser Prado TX",
+  "year": 2022,
+  "localModel": "Prado",
+  "listingsNear": 305,
+  "listingsModel": 665,
+  "expected": 16821000,
+  "low": 14868000,
+  "high": 19030000
+ },
+ "slab": {
+  "id": "ice-3000",
+  "label": "Petrol/diesel car 2,001–3,000cc",
+  "fuels": [
+   "petrol",
+   "diesel"
+  ],
+  "ccMin": 2001,
+  "ccMax": 3000,
+  "hs": {
+   "recon": "87032351 · 87033251",
+   "new": "87032361 · 87033261"
+  },
+  "rates": {
+   "cd": 25,
+   "rd": 5,
+   "sd": 250,
+   "vat": 15,
+   "at": 7.5,
+   "ait": 5
+  },
+  "verification": "verified",
+  "sources": [
+   {
+    "label": "NBR Customs Tariff 2026-27, chapter 87 (11 Jun 2026)"
+   }
+  ]
+ },
+ "rates": {
+  "cd": 25,
+  "rd": 5,
+  "sd": 250,
+  "vat": 15,
+  "at": 7.5,
+  "ait": 5
+ },
+ "insurance": 38880.00000000001,
+ "cif": 4072680.0000000005,
+ "landingCharge": 40726.8,
+ "usedReference": false,
+ "depreciationPct": 30,
+ "depreciation": 1234022.04,
+ "assessableValue": 2879384.7600000002,
+ "duties": [
+  {
+   "key": "cd",
+   "label": "Customs duty",
+   "base": 2879384.7600000002,
+   "rate": 25,
+   "amount": 719846.19
+  },
+  {
+   "key": "rd",
+   "label": "Regulatory duty",
+   "base": 2879384.7600000002,
+   "rate": 5,
+   "amount": 143969.238
+  },
+  {
+   "key": "sd",
+   "label": "Supplementary duty",
+   "base": 3743200.188,
+   "rate": 250,
+   "amount": 9358000.47
+  },
+  {
+   "key": "vat",
+   "label": "VAT",
+   "base": 13101200.658,
+   "rate": 15,
+   "amount": 1965180.0987
+  },
+  {
+   "key": "at",
+   "label": "Advance tax",
+   "base": 13101200.658,
+   "rate": 7.5,
+   "amount": 982590.04935
+  },
+  {
+   "key": "ait",
+   "label": "Advance income tax",
+   "base": 2879384.7600000002,
+   "rate": 5,
+   "amount": 143969.238
+  }
+ ],
+ "totalDuty": 13313555.28405,
+ "tti": 462.375,
+ "other": [
+  {
+   "key": "clearing",
+   "label": "Port, C&F agent and LC charges",
+   "amount": 60000
+  },
+  {
+   "key": "brta-ait",
+   "label": "BRTA advance income tax",
+   "amount": 125000,
+   "verification": "reported"
+  },
+  {
+   "key": "brta-fees",
+   "label": "BRTA registration, plate and fitness (estimate)",
+   "amount": 15000,
+   "verification": "unverified"
+  }
+ ],
+ "onRoad": 17586235.284050003,
+ "warnings": [
+  "The 30% recon depreciation follows the year-by-year schedule reported in the press (maximum 35%). The official order wasn't checked.",
+  "For reconditioned cars, customs may assess duty on a reference price (for Japanese cars, the JAAI Yellow Book) instead of your invoice. If that price is higher, so are your duties. Ask your C&F agent for it and use the customs reference value option."
+ ]
+}

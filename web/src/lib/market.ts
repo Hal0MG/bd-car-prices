@@ -15,6 +15,11 @@ export const SYMBOL: Record<Currency, string> = { JPY: "¥", GBP: "£", USD: "$"
 
 export type Segment = "sedan" | "hatchback" | "wagon" | "suv" | "minivan" | "coupe" | "convertible";
 
+export const SEGMENT_LABEL: Record<Segment, string> = {
+  sedan: "Sedan", hatchback: "Hatchback", wagon: "Wagon", suv: "SUV",
+  minivan: "Microbus", coupe: "Coupe", convertible: "Convertible",
+};
+
 /**
  * Starting exchange rates (taka per unit). Approximate; the calculator lets
  * people overwrite them and links to Bangladesh Bank for the day's rate.

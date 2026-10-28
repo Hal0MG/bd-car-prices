@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Calculator } from "@/components/Calculator";
-import { CarFigure } from "@/components/CarFigure";
 import { CarPhoto } from "@/components/CarPhoto";
 import { LocalPrice } from "@/components/LocalPrice";
 import { LOCAL_META, localPriceFor } from "@/lib/local";
@@ -45,7 +44,7 @@ export default async function CarPage({ params }: { params: Promise<Params> }) {
 
   return (
     <>
-      <header className="page-head car-head">
+      <header className={`page-head car-head${photo ? "" : " solo"}`}>
         <div>
         <p className="eyebrow"><Link href="/cars">{t.nav.cars}</Link> / {car.make}</p>
         <h1>
@@ -57,11 +56,7 @@ export default async function CarPage({ params }: { params: Promise<Params> }) {
           {r.tti.toFixed(1)}% of its assessable value. Change any number below to match your quote.
         </p>
         </div>
-        <div className="exhibit">
-          {photo
-            ? <CarPhoto photo={photo} alt={`${carName(car)}`} />
-            : <CarFigure segment={car.segment} caption={car.fuel === "ev" ? "electric" : `${car.cc.toLocaleString("en-IN")} cc`} fig={car.make.toUpperCase()} />}
-        </div>
+        {photo && <div className="exhibit"><CarPhoto photo={photo} alt={carName(car)} /></div>}
       </header>
       <LocalPrice local={localPriceFor(car)} importOnRoad={r.onRoad} age={Number(LOCAL_META.asOf.slice(0, 4)) - car.year} />
       <Calculator initialCar={index} exhibit={false} />

@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Two plates · Shotti Dam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500&text=%E6%A8%AA%E6%B5%9C%E3%81%95-0123456789&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@600&display=swap" rel="stylesheet">
+<style>
+  /* tokens and pieces copied from web/src/app/globals.css, so the intro is the site */
+  :root {
+    --paper:#f6f1e7; --paper-rule:#e6dfcf; --slip:#fffdf8; --ink:#1d1b16; --ink-2:#5c5546; --ink-3:#6d6555;
+    --hair:#cfc6b2; --dots:#bfb59f; --rust:#8a3b1e; --rust-soft:#f3e3d6; --amber:#8a6a12; --green:#2f5d3a;
+    --serif:"Fraunces", Georgia, serif; --sans:"IBM Plex Sans", system-ui, sans-serif; --mono:"IBM Plex Mono", ui-monospace, monospace;
+    --gutter:clamp(16px, 4vw, 40px);
+  }
+  * { box-sizing:border-box; }
+  html, body { height:100%; }
+  body { margin:0; overflow:hidden; color:var(--ink); font:400 16px/1.6 var(--sans); background-color:var(--paper);
+    background-image:repeating-linear-gradient(var(--paper) 0 31px, var(--paper-rule) 31px 32px); }
+  h1 { font-family:var(--serif); font-weight:400; letter-spacing:-0.01em; margin:0; }
+  p { margin:0; }
+  .num { font-variant-numeric:tabular-nums; }
+  .eyebrow { font:500 11px/1.4 var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); }
+  .slip { background:var(--slip); border:1px solid var(--hair); padding:20px 26px 18px; position:relative; }
+  .slip::after { content:""; position:absolute; left:0; right:0; bottom:-7px; height:7px;
+    background:radial-gradient(circle at 6px 0, transparent 4px, var(--slip) 4.5px) 0 0 / 12px 7px repeat-x; }
+  .slip .total { font:600 clamp(30px, 4.4vw, 44px)/1.05 var(--serif); margin:6px 0 2px; letter-spacing:-0.02em; white-space:nowrap; }
+  .slip .total-words { font:400 13px var(--mono); color:var(--ink-2); margin-bottom:12px; }
+  .share-lead { font:400 15px/1.3 var(--serif); margin-bottom:8px; height:30px; }
+  .share-lead b { font:600 24px var(--serif); color:var(--rust); letter-spacing:-0.01em; margin-right:2px; }
+  .share-bar { display:flex; height:16px; border:1.5px solid var(--ink); background:var(--slip); }
+  .share-bar > span { min-width:0; transition:flex-grow .5s; }
+  .share-bar > span + span { border-left:1.5px solid var(--ink); }
+  .share-car { background:repeating-linear-gradient(135deg, var(--hair) 0 1.5px, var(--slip) 1.5px 5px); }
+  .share-tax { background:var(--rust); }
+  .share-fees { background:var(--ink); }
+  .btn { display:inline-block; font:500 13px var(--mono); letter-spacing:.04em; text-transform:uppercase; padding:10px 18px; border:1.5px solid var(--ink);
+    background:var(--ink); color:var(--paper); text-decoration:none; cursor:pointer; }
+  .btn:hover { background:var(--rust); border-color:var(--rust); color:var(--slip); }
+  .btn.ghost { background:transparent; color:var(--ink); }
+  .btn.ghost:hover { color:var(--slip); }
+  .btn[disabled] { opacity:.35; pointer-events:none; }
+  [hidden] { display:none !important; }
+  :focus-visible { outline:2px solid var(--rust); outline-offset:2px; }
+  em { color:var(--rust); }
+
+  /* ---- the intro is the whole screen ---- */
+  .stage { position:fixed; inset:0; overflow:hidden; }
+  .skip { position:absolute; top:16px; right:var(--gutter); z-index:10; font:400 13px var(--mono); color:var(--ink);
+    text-decoration:underline; text-decoration-color:var(--rust); text-decoration-thickness:2px; text-underline-offset:3px; }
+
+  /* opening: the same Prado twice, wearing different plates */
+  .opening { position:absolute; inset:0; display:grid; place-content:center; justify-items:center; text-align:center; padding:0 var(--gutter); }
+  .opening h1 { font-size:clamp(44px, 7vw, 76px); line-height:1; }
+  .opening .sub { font:400 clamp(17px, 2vw, 21px)/1.4 var(--serif); color:var(--ink-2); margin-top:12px; }
+  .opening .btn { margin-top:28px; }
+  .pair { display:flex; align-items:flex-start; justify-content:center; gap:clamp(14px, 3vw, 44px); margin-top:30px; }
+  .pair figure { margin:0; display:grid; justify-items:center; gap:12px; }
+  .pair figcaption { display:grid; gap:2px; }
+  .pair figcaption b { font:600 clamp(24px, 3.2vw, 36px)/1.1 var(--serif); letter-spacing:-.02em; }
+  .pair #bdPrice { color:var(--rust); }
+  /* a print, as the site shows photos, without the tape */
+  .print { background:#fff; padding:8px; width:var(--sw); box-shadow:0 1px 2px rgba(29,27,22,.18), 0 10px 18px -10px rgba(29,27,22,.35); }
+  .shot:first-child .print { transform:rotate(-1deg); } .shot:last-child .print { transform:rotate(.8deg); }
+  .frame { position:relative; overflow:hidden; aspect-ratio:4 / 3; }
+  .frame img { display:block; width:100%; height:100%; object-fit:cover; filter:saturate(.88); }
+  /* the plate sits in the car's plate frame, warped to its perspective */
+  .frame .plate { position:absolute; left:0; top:0; --pw:200px; transform-origin:0 0; box-shadow:none; filter:brightness(.93) contrast(1.03); }
+
+  /* the two number plates, built in HTML so they stay sharp at any size */
+  .plate { position:relative; width:var(--pw, 320px); aspect-ratio:2 / 1; border-radius:calc(var(--pw, 320px) * .03); container-type:inline-size;
+    background:linear-gradient(160deg, #ffffff 0%, #f2f2ee 55%, #e6e6e0 100%);
+    box-shadow:0 1px 1px rgba(0,0,0,.25), 0 6px 14px rgba(29,27,22,.18), inset 0 0 0 1px rgba(0,0,0,.12); }
+  .plate .t { position:absolute; left:0; right:0; text-align:center; white-space:nowrap; line-height:1;
+    text-shadow:0 .6cqw 0 rgba(255,255,255,.9), 0 -.4cqw .4cqw rgba(0,0,0,.18); }
+  .plate .bolt { position:absolute; top:9%; width:4%; aspect-ratio:1; border-radius:50%; background:radial-gradient(circle at 35% 35%, #fff, #a9a9a2 60%, #6d6d66); }
+  .plate.jp { color:#2d7a52; }
+  .plate.jp .bolt { top:13%; left:13%; } .plate.jp .bolt + .bolt { left:auto; right:13%; }
+  .plate.jp .top { top:7%; font:500 13cqw/1 "Noto Sans JP", sans-serif; letter-spacing:.04em; }
+  .plate.jp .top span { font-size:12cqw; margin-left:3cqw; }
+  .plate.jp .kana { position:absolute; left:7%; bottom:14%; font:500 13cqw/1 "Noto Sans JP", sans-serif; }
+  .plate.jp .big { bottom:4%; left:12%; font:500 34cqw/1 "Noto Sans JP", sans-serif; letter-spacing:-.02em; transform:scaleX(.8); }
+  .plate.bd { color:#111; box-shadow:0 1px 1px rgba(0,0,0,.25), 0 6px 14px rgba(29,27,22,.18), inset 0 0 0 calc(var(--pw) * .024) #111, inset 0 0 0 calc(var(--pw) * .03) #fff, inset 0 0 0 calc(var(--pw) * .034) rgba(0,0,0,.12); }
+  .plate.bd .bolt { top:7%; width:3.6%; left:14%; } .plate.bd .bolt + .bolt { left:auto; right:12%; top:5%; }
+  .plate.bd .top { top:16%; font:600 13cqw/1 "Hind Siliguri", sans-serif; }
+  .plate.bd .big { bottom:14%; font:600 19cqw/1 "Hind Siliguri", sans-serif; letter-spacing:.03em; }
+  .plate.bd .holo { position:absolute; left:34.5%; top:58%; width:7%; aspect-ratio:1; border-radius:50%; background:conic-gradient(#d9d9d9, #f7f7f7, #b9c4c9, #f0e9dc, #d9d9d9); box-shadow:inset 0 0 0 1px rgba(0,0,0,.2); }
+  .plate.bd .serial { position:absolute; left:10%; bottom:5.5%; font:500 2.6cqw/1 var(--mono); color:#8a8a84; letter-spacing:.05em; }
+
+  /* the globe, sitting on the paper */
+  .globe-box { position:absolute; left:0; top:0; bottom:0; right:calc(min(460px, 40vw) + var(--gutter) + 24px); opacity:0; }
+  .globe-box canvas { display:block; width:100%; height:100%; }
+  .globe-box { -webkit-mask-image:linear-gradient(90deg, #000 85%, transparent); mask-image:linear-gradient(90deg, #000 85%, transparent); }
+  .pin { position:absolute; left:0; top:0; font:500 10.5px/1 var(--mono); letter-spacing:.1em; color:var(--ink); text-transform:uppercase; white-space:nowrap;
+    padding:4px 6px; background:var(--slip); border:1px solid var(--hair); transform:translate(10px,-50%); transition:opacity .25s; pointer-events:none; }
+
+  /* the assessment slip; its size is fixed, so nothing on it moves as it fills in */
+  .panel { position:absolute; right:var(--gutter); top:50%; width:min(460px, 40vw); transform:translateY(-50%); opacity:0; visibility:hidden; z-index:3; }
+  .carslot { position:relative; width:132px; aspect-ratio:2 / 1; margin:0 0 10px; }
+  .carslot .plate { --pw:132px; position:absolute; inset:0; transition:opacity .5s; }
+  .caption { font:400 18px/1.35 var(--serif); margin:14px 0 0; height:2.7em; transition:opacity .25s; }
+  .caption.out { opacity:0; }
+  .lwin { margin-top:10px; overflow:hidden; border-top:1.5px solid var(--ink); }
+  .lwin.scrolled { -webkit-mask-image:linear-gradient(transparent, #000 28px); mask-image:linear-gradient(transparent, #000 28px); }
+  .lines { transition:transform .5s cubic-bezier(.3,.7,.3,1); }
+  .line { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px; align-items:baseline; padding:4px 6px; margin:0 -6px;
+    border-bottom:1px dotted var(--dots); font:400 13px/1.45 var(--mono); transition:background-color .8s; }
+  .line > span { opacity:0; transform:translateY(3px); transition:opacity .4s, transform .4s; }
+  .line > .r { text-align:right; white-space:nowrap; }
+  .line.on > span { opacity:1; transform:none; }
+  .line.now { background:var(--rust-soft); }
+  .line.sub > span:first-child { padding-left:14px; color:var(--ink-2); }
+  .line.big.on > span { color:var(--rust); font-weight:500; }
+  .line.grand { border-bottom:3px double var(--ink); font-weight:500; }
+  .steps { display:flex; align-items:center; gap:10px; margin-top:16px; }
+  .steps .count { margin-left:auto; }
+
+  @media (max-width:860px) {
+    .globe-box { right:0; bottom:auto; height:40%; -webkit-mask-image:linear-gradient(#000 85%, transparent); mask-image:linear-gradient(#000 85%, transparent); }
+    .panel { left:12px; right:12px; width:auto; top:auto; bottom:14px; transform:none; }
+    .slip { padding:14px 16px 12px; }
+    .carslot { width:96px; margin-bottom:6px; } .carslot .plate { --pw:96px; }
+    .slip .total { font-size:28px; }
+    .slip .total-words { margin-bottom:8px; }
+    .share-lead { font-size:13px; height:24px; margin-bottom:6px; }
+    .share-lead b { font-size:19px; }
+    .caption { font-size:15px; margin-top:10px; }
+    .pair { gap:10px; }
+    .pair figcaption b { font-size:22px; }
+    .steps { margin-top:12px; }
+  }
+</style>
+</head>
+<body>
+<main class="stage" id="stage">
+  <a class="skip" href="#">Skip intro</a>
+  <div class="globe-box" id="globeBox"><canvas id="c" aria-hidden="true"></canvas><div id="pins" aria-hidden="true"></div></div>
+
+  <section class="opening" id="opening">
+    <h1>Two plates</h1>
+    <p class="sub" id="sub"></p>
+    <div class="pair">
+      <figure class="shot"><div class="print"><div class="frame" data-plate="jp"><img alt="A black Toyota Land Cruiser Prado TX with a Japanese number plate"></div></div>
+        <figcaption><span class="eyebrow">Japanese plate</span><b id="jpPrice"></b></figcaption></figure>
+      <figure class="shot"><div class="print"><div class="frame" data-plate="bd"><img alt="The same Prado with a Dhaka Metro number plate"></div></div>
+        <figcaption><span class="eyebrow">Dhaka plate</span><b id="bdPrice"></b></figcaption></figure>
+    </div>
+    <button class="btn" id="start">See where it goes →</button>
+  </section>
+
+  <aside class="panel" id="panel">
+    <section class="slip" aria-label="Estimated on-road price">
+      <div class="carslot"><div id="jpSlip"></div><div id="bdSlip" style="opacity:0"></div></div>
+      <p class="eyebrow">Estimated on-road price</p>
+      <p class="total num" id="total"></p>
+      <p class="total-words" id="words"></p>
+      <p class="share-lead" id="lead"></p>
+      <div class="share-bar" aria-hidden="true"><span class="share-car" id="barCar"></span><span class="share-tax" id="barTax"></span><span class="share-fees" id="barFees"></span></div>
+      <p class="caption" id="caption" aria-live="polite"></p>
+      <div class="lwin" id="lwin"><div class="lines num" id="rows"></div></div>
+      <div class="steps">
+        <button class="btn ghost" id="back" aria-label="Back">←</button>
+        <button class="btn" id="next">Next →</button>
+        <a class="btn" id="done" href="#" hidden>Price your own car →</a>
+        <span class="eyebrow count" id="count"></span>
+      </div>
+    </section>
+  </aside>
+</main>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.min.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+// Output of estimateFor(Toyota Land Cruiser Prado TX 2022) plus its inputs, pasted from a vitest
+// run on 2026-10-28. In the real build this is computed at render time.
+const D = __DATA__;
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// ---- formatting, as in web/src/lib/format.ts ----
+const grouped = new Intl.NumberFormat("en-IN", { maximumFractionDigits: 0 });
+const plain = (n) => grouped.format(Math.round(n));
+const taka = (n) => `৳ ${plain(n)}`;
+function inWords(n) {
+  if (n >= 1e7) return `${(n / 1e7).toFixed(2)} crore taka`;
+  if (n >= 1e5) return `${(n / 1e5).toFixed(2)} lakh taka`;
+  return `${plain(n)} taka`;
+}
+function takaShort(n) {
+  if (n >= 1e7) return `৳${(n / 1e7).toFixed(2)} crore`;
+  if (n >= 1e5) return `৳${(n / 1e5).toFixed(2)} lakh`;
+  return `৳${plain(n)}`;
+}
+const pct = (n) => `${Number.isInteger(n) ? n : n.toFixed(2)}%`;
+
+const duty = Object.fromEntries(D.duties.map((d) => [d.key, d]));
+const other = Object.fromEntries(D.other.map((o) => [o.key, o]));
+
+// ---- the two plates ----
+const JP_PLATE = `<div class="plate jp" role="img" aria-label="Japanese number plate, Yokohama"><i class="bolt"></i><i class="bolt"></i>
+  <div class="t top">横浜<span>330</span></div><div class="kana">さ</div><div class="t big">38-88</div></div>`;
+// ঘ is the BRTA series for jeeps and SUVs, which is how a Prado is registered
+const BD_PLATE = `<div class="plate bd" role="img" aria-label="Dhaka Metro number plate"><i class="bolt"></i><i class="bolt"></i>
+  <div class="t top">ঢাকা মেট্রো-ঘ</div><div class="t big">১৭-৫৮৬২</div><i class="holo"></i><span class="serial">BRTA</span></div>`;
+const jpSlip = document.getElementById("jpSlip"), bdSlip = document.getElementById("bdSlip");
+jpSlip.innerHTML = JP_PLATE; bdSlip.innerHTML = BD_PLATE;
+document.getElementById("sub").textContent = `Same Prado, ${takaShort(D.onRoad - D.fobBdt)} apart.`;
+document.getElementById("jpPrice").textContent = takaShort(D.fobBdt);
+document.getElementById("bdPrice").textContent = takaShort(D.onRoad);
+
+// Corners of the plate frame in the photo, as fractions of its width and height:
+// top left, top right, bottom right, bottom left. Measured from the source photo.
+const PLATE_CORNERS = [[0.1858, 0.5671], [0.3326, 0.6167], [0.3333, 0.7431], [0.1875, 0.6898]];
+// Prado TX L Package by Tokumeigakarinoaoshima, Wikimedia Commons, CC BY-SA 4.0, cropped, plate added.
+// The site footer carries this credit.
+const PHOTO = "__PHOTO__";
+const frames = [...document.querySelectorAll(".frame")];
+for (const fr of frames) {
+  fr.querySelector("img").src = PHOTO;
+  fr.insertAdjacentHTML("beforeend", fr.dataset.plate === "jp" ? JP_PLATE : BD_PLATE);
+}
+// the projective transform that takes a w×h rectangle onto four points, as a CSS matrix3d
+function warp(w, h, pts) {
+  const src = [[0, 0], [w, 0], [w, h], [0, h]], A = [], b = [];
+  src.forEach(([x, y], i) => { const [u, v] = pts[i]; A.push([x, y, 1, 0, 0, 0, -u * x, -u * y]); b.push(u); A.push([0, 0, 0, x, y, 1, -v * x, -v * y]); b.push(v); });
+  for (let c = 0; c < 8; c++) {                       // Gaussian elimination with partial pivoting
+    let p = c; for (let r = c + 1; r < 8; r++) if (Math.abs(A[r][c]) > Math.abs(A[p][c])) p = r;
+    [A[c], A[p]] = [A[p], A[c]]; [b[c], b[p]] = [b[p], b[c]];
+    for (let r = 0; r < 8; r++) if (r !== c) { const k = A[r][c] / A[c][c]; for (let j = c; j < 8; j++) A[r][j] -= k * A[c][j]; b[r] -= k * b[c]; }
+  }
+  const [a, bb, c, d, e, f, g, hh] = b.map((v, i) => v / A[i][i]);
+  return `matrix3d(${a},${d},0,${g},${bb},${e},0,${hh},0,0,1,0,${c},${f},0,1)`;
+}
+function fitPlates() {
+  for (const fr of frames) fr.querySelector(".plate").style.transform = warp(200, 100, PLATE_CORNERS.map(([x, y]) => [x * fr.clientWidth, y * fr.clientHeight]));
+}
+
+// ---- the ledger: a line for every charge, filled in at the stop where it's paid ----
+// k: the stop; `split` puts each amount in the site's three-way bar (car and shipping / taxes / fees)
+const ROWS = [
+  { k: 1, label: `Car, bought in Japan`, amt: D.fobBdt, split: "car" },
+  { k: 2, label: `Shipping and insurance`, amt: D.freightBdt + D.insurance, split: "car" },
+  { k: 3, label: `Taxed value, after ${D.depreciationPct}% off for age`, amt: D.assessableValue, cls: "sub" },
+  { k: 4, label: `Customs duty ${pct(duty.cd.rate)}`, amt: duty.cd.amount, split: "tax" },
+  { k: 4, label: `Regulatory duty ${pct(duty.rd.rate)}`, amt: duty.rd.amount, split: "tax" },
+  { k: 4, label: `Supplementary duty ${pct(duty.sd.rate)}`, amt: duty.sd.amount, split: "tax", cls: "big" },
+  { k: 5, label: `VAT ${pct(duty.vat.rate)}`, amt: duty.vat.amount, split: "tax" },
+  { k: 5, label: `Advance tax ${pct(duty.at.rate)}`, amt: duty.at.amount, split: "tax" },
+  { k: 5, label: `Advance income tax ${pct(duty.ait.rate)}`, amt: duty.ait.amount, split: "tax" },
+  { k: 6, label: `BRTA income tax`, amt: other["brta-ait"].amount, split: "tax" },
+  { k: 6, label: `Port, agent and registration`, amt: other.clearing.amount + other["brta-fees"].amount, split: "fees" },
+  { k: 7, label: "On the road", amt: D.onRoad, cls: "grand" },
+];
+const CAPTIONS = [
+  "",
+  `Bought at auction near Yokohama.`,
+  `Shipped about 8,500 km to Chattogram.`,
+  `Customs taxes it as worth <em>${takaShort(D.assessableValue)}</em>, not what you paid.`,
+  `Supplementary duty alone is <em>${(duty.sd.amount / D.fobBdt).toFixed(1)}×</em> the car.`,
+  `VAT and advance tax are charged on top of the duties.`,
+  `Registered at BRTA. The Japanese plate comes off.`,
+  `On the road in Dhaka: <em>${takaShort(D.onRoad)}</em>.`,
+];
+const LAST = 7;
+const rowsEl = document.getElementById("rows"), lwin = document.getElementById("lwin");
+for (const r of ROWS) {
+  r.el = document.createElement("div");
+  r.el.className = `line ${r.cls ?? ""}`;
+  r.el.innerHTML = `<span>${r.label}</span><span class="r">${plain(r.amt)}</span>`;
+  rowsEl.appendChild(r.el);
+}
+
+// ---- the slip at a point in the story ----
+const totalEl = document.getElementById("total"), wordsEl = document.getElementById("words"), leadEl = document.getElementById("lead"), captionEl = document.getElementById("caption");
+const bar = { car: document.getElementById("barCar"), tax: document.getElementById("barTax"), fees: document.getElementById("barFees") };
+let lastStop = -1, lastTotal = -1;
+function updateSlip(s) {
+  const stop = Math.min(LAST, Math.floor(s));
+  const sum = { car: 0, tax: 0, fees: 0 };
+  let lastOn = null;
+  for (const r of ROWS) {
+    const on = s >= r.k + 0.12;
+    r.el.classList.toggle("on", on);
+    r.el.classList.toggle("now", on && r.k === stop && stop < LAST);
+    if (on) lastOn = r.el;
+    if (on && r.split) sum[r.split] += r.amt;
+  }
+  // keep the newest line in view: only moves when the window is shorter than the list
+  const winH = lwin.clientHeight, bottom = lastOn ? lastOn.offsetTop + lastOn.offsetHeight : 0;
+  rowsEl.style.transform = `translateY(${-Math.max(0, bottom - winH)}px)`;
+  lwin.classList.toggle("scrolled", bottom > winH);
+  const total = sum.car + sum.tax + sum.fees;
+  if (total !== lastTotal) {
+    lastTotal = total;
+    totalEl.textContent = taka(total);
+    wordsEl.textContent = inWords(total);
+    for (const k of ["car", "tax", "fees"]) bar[k].style.flexGrow = String(sum[k]);
+    leadEl.innerHTML = sum.tax ? `<b>${Math.round(sum.tax / total * 100)}%</b> of what you pay is tax` : "";
+  }
+  if (stop !== lastStop) {
+    lastStop = stop;
+    captionEl.classList.add("out");
+    setTimeout(() => { captionEl.innerHTML = CAPTIONS[lastStop]; captionEl.classList.remove("out"); }, REDUCED ? 0 : 200);
+  }
+}
+
+// ---- stage: opening, then the globe and the slip ----
+const stage = document.getElementById("stage"), opening = document.getElementById("opening"), panel = document.getElementById("panel"), globeBox = document.getElementById("globeBox");
+const clamp01 = (x) => Math.max(0, Math.min(1, x));
+const ease = (x) => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+// the opening hands over to the globe and slip between 0.45 and 0.95
+const handoff = (s) => ease(clamp01((s - 0.45) / 0.5));
+function updateStage(s) {
+  const h = handoff(s);
+  opening.style.opacity = String(1 - Math.min(1, h * 2.2));
+  opening.style.visibility = h >= 0.5 ? "hidden" : "visible";
+  panel.style.opacity = String(clamp01((h - 0.55) / 0.4));
+  panel.style.visibility = h > 0.55 ? "visible" : "hidden";
+  globeBox.style.opacity = String(clamp01((h - 0.4) / 0.5));
+  // registered at BRTA: the Japanese plate comes off, the Dhaka one goes on
+  const dhaka = s >= 6.15;
+  bdSlip.style.opacity = dhaka ? "1" : "0"; jpSlip.style.opacity = dhaka ? "0" : "1";
+  updateSlip(s);
+}
+function sizeLedger() {
+  const slip = panel.firstElementChild, room = stage.clientHeight - 32 - (stage.clientWidth <= 860 ? stage.clientHeight * 0.4 : 0);
+  lwin.style.height = "auto";
+  const others = slip.offsetHeight - lwin.offsetHeight;
+  lwin.style.height = `${Math.max(80, Math.min(rowsEl.scrollHeight, room - others))}px`;
+}
+function sizePlates() { const W = stage.clientWidth; stage.style.setProperty("--sw", `${Math.min(420, W < 860 ? (W - 46) / 2 : W * 0.3)}px`); fitPlates(); }
+
+// ---- buttons drive the story: each press plays one stop ----
+// Story position s: 0 is the opening; stop k is shown at k + 0.62, by which time its camera move,
+// route and ledger lines have all played out.
+const at = (k) => (k === 0 ? 0 : k + 0.62);
+let step = 0, sCur = 0, from = 0, to = 0, t0 = 0, dur = 1;
+const nextBtn = document.getElementById("next"), backBtn = document.getElementById("back"), doneBtn = document.getElementById("done"), countEl = document.getElementById("count");
+function go(k) {
+  step = Math.max(0, Math.min(LAST, k));
+  from = sCur; to = at(step); t0 = performance.now();
+  dur = REDUCED ? 0 : Math.min(2600, 1400 * Math.abs(to - from));
+  nextBtn.hidden = step === LAST; doneBtn.hidden = step !== LAST;
+  backBtn.disabled = step <= 1;
+  countEl.textContent = step ? `${step} / ${LAST}` : "";
+  if (step === 1) setTimeout(() => (step === LAST ? doneBtn : nextBtn).focus({ preventScroll: true }), dur);
+}
+document.getElementById("start").addEventListener("click", () => go(1));
+nextBtn.addEventListener("click", () => go(step + 1));
+backBtn.addEventListener("click", () => go(step - 1));
+addEventListener("keydown", (e) => {
+  if (e.key === "ArrowRight") go(step + 1);
+  else if (e.key === "ArrowLeft") go(step > 1 ? step - 1 : step);
+});
+const pos = () => sCur;
+let globeFrame = null;
+let last = performance.now(), sDrawn = -1;
+function frame(now) {
+  requestAnimationFrame(frame);
+  const dt = Math.min(0.1, (now - last) / 1000); last = now;
+  sCur = dur ? from + (to - from) * Math.min(1, (now - t0) / dur) : to;
+  if (sCur !== sDrawn) { sDrawn = sCur; updateStage(sCur); }
+  if (globeFrame) globeFrame(sCur, dt);
+}
+function resizeAll() { sizePlates(); sizeLedger(); updateStage(sCur); }
+addEventListener("resize", resizeAll);
+document.fonts.ready.then(resizeAll);
+resizeAll(); go(0);
+requestAnimationFrame(frame);
+
+let webgl = false;
+try { webgl = !!document.createElement("canvas").getContext("webgl2"); } catch {}
+if (webgl) startGlobe().catch((e) => console.error(e));
+
+async function startGlobe() {
+  const THREE = await import("three");
+  const topojson = await import("https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/+esm");
+  const [land, countries] = await Promise.all([
+    fetch("https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/land-50m.json").then((r) => r.json()),
+    fetch("https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json").then((r) => r.json()),
+  ]);
+  const css = getComputedStyle(document.documentElement), tok = (n) => css.getPropertyValue(n).trim();
+
+  // ---- the globe's surface: an old brown map in the site's own inks ----
+  // paint() draws the map for a lon/lat window onto a canvas. It runs twice: once for the whole
+  // globe, and once over Asia at about four times the detail, so Bangladesh stays crisp up close.
+  const landGeo = topojson.feature(land, land.objects.land), countryGeo = topojson.feature(countries, countries.objects.countries);
+  function paint(W, H, lon0, lon1, lat0, lat1) {
+    const cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+    const g = cv.getContext("2d");
+    const X = (lon) => (lon - lon0) / (lon1 - lon0) * W, Y = (lat) => (lat0 - lat) / (lat0 - lat1) * H;
+    const k = W / (lon1 - lon0) / (4096 / 360);          // line widths scale with detail, so both layers match
+    const trace = (geom) => {
+      g.beginPath();
+      const polys = geom.type === "Polygon" ? [geom.coordinates] : geom.type === "MultiPolygon" ? geom.coordinates : [];
+      for (const poly of polys) for (const ring of poly) ring.forEach(([lo, la], i) => (i ? g.lineTo(X(lo), Y(la)) : g.moveTo(X(lo), Y(la))));
+    };
+    // sea: the same gradient by latitude in both layers
+    const sea = g.createLinearGradient(0, Y(90), 0, Y(-90));
+    sea.addColorStop(0, "#6e5536"); sea.addColorStop(0.3, "#9a7b52"); sea.addColorStop(0.5, "#a6875c"); sea.addColorStop(0.7, "#9a7b52"); sea.addColorStop(1, "#6e5536");
+    g.fillStyle = sea; g.fillRect(0, 0, W, H);
+    g.lineJoin = "round";
+    for (const [w, a] of [[30, 0.05], [18, 0.07], [9, 0.1]]) { g.strokeStyle = `rgba(29,27,22,${a})`; g.lineWidth = w * k; for (const f of landGeo.features) { trace(f.geometry); g.stroke(); } }
+    g.fillStyle = tok("--paper");
+    for (const f of landGeo.features) { trace(f.geometry); g.fill("evenodd"); }
+    for (const f of countryGeo.features) if (f.properties.name === "Bangladesh") { g.fillStyle = tok("--rust-soft"); trace(f.geometry); g.fill("evenodd"); g.strokeStyle = tok("--rust"); g.lineWidth = 3 * k; g.stroke(); }
+    g.strokeStyle = "rgba(29,27,22,.28)"; g.lineWidth = 1.1 * k;
+    for (const f of countryGeo.features) { trace(f.geometry); g.stroke(); }
+    g.strokeStyle = tok("--ink"); g.lineWidth = 2 * k;
+    for (const f of landGeo.features) { trace(f.geometry); g.stroke(); }
+    g.strokeStyle = "rgba(29,27,22,.22)"; g.lineWidth = 1.2 * k;
+    for (let lo = -180; lo <= 180; lo += 15) { g.beginPath(); g.moveTo(X(lo), 0); g.lineTo(X(lo), H); g.stroke(); }
+    for (let la = -75; la <= 75; la += 15) { g.beginPath(); g.moveTo(0, Y(la)); g.lineTo(W, Y(la)); g.stroke(); }
+    return cv;
+  }
+  const ASIA = { lon0: 60, lon1: 150, lat0: 50, lat1: -10 };
+
+  // ---- scene: one soft light from the top left, like the paper around it ----
+  const canvas = document.getElementById("c");
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(30, 1, 0.05, 50);
+  scene.add(camera);
+  const key = new THREE.DirectionalLight(0xfff3e0, 2.1); key.position.set(-2.2, 1.8, 1.8); camera.add(key);
+  scene.add(new THREE.HemisphereLight(0xfffaf0, 0x6b5a44, 0.75));
+  const texture = (cv) => { const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = renderer.capabilities.getMaxAnisotropy(); return t; };
+  const globe = new THREE.Group(); scene.add(globe);
+  globe.add(new THREE.Mesh(new THREE.SphereGeometry(1, 128, 96), new THREE.MeshStandardMaterial({ map: texture(paint(4096, 2048, -180, 180, 90, -90)), roughness: 0.85 })));
+  // the sharp layer over Asia: a patch of sphere a hair above the globe, covering exactly that window
+  const rad = Math.PI / 180, a = ASIA;
+  const patch = new THREE.SphereGeometry(1.0006, 96, 64, (a.lon0 + 180) * rad, (a.lon1 - a.lon0) * rad, (90 - a.lat0) * rad, (a.lat0 - a.lat1) * rad);
+  const aw = stage.clientWidth <= 860 ? 2048 : 4096;
+  globe.add(new THREE.Mesh(patch, new THREE.MeshStandardMaterial({ map: texture(paint(aw, Math.round(aw * (a.lat0 - a.lat1) / (a.lon1 - a.lon0)), a.lon0, a.lon1, a.lat0, a.lat1)), roughness: 0.85 })));
+
+  const P = (lat, lon, r = 1) => {
+    const phi = (90 - lat) * Math.PI / 180, th = (lon + 180) * Math.PI / 180;
+    return new THREE.Vector3(-r * Math.sin(phi) * Math.cos(th), r * Math.cos(phi), r * Math.sin(phi) * Math.sin(th));
+  };
+  function arc(pts, r, per = 24) {
+    const out = [];
+    for (let i = 0; i < pts.length - 1; i++) {
+      const a = P(...pts[i]).normalize(), b = P(...pts[i + 1]).normalize(), ang = a.angleTo(b), s = Math.sin(ang) || 1;
+      for (let j = 0; j < per; j++) { const t = j / per; out.push(a.clone().multiplyScalar(Math.sin((1 - t) * ang) / s).add(b.clone().multiplyScalar(Math.sin(t * ang) / s)).multiplyScalar(r)); }
+    }
+    out.push(P(...pts.at(-1), r));
+    return new THREE.CatmullRomCurve3(out);
+  }
+  // Yokohama, round Singapore, into Chattogram; then the road to Dhaka
+  const SEA = [[35.44, 139.64], [34.6, 139.9], [33.0, 136.0], [31.0, 131.5], [28.0, 127.0], [24.5, 122.6], [20.6, 120.4], [14.0, 114.0], [8.0, 108.5],
+    [3.0, 105.5], [1.25, 104.0], [2.6, 101.2], [5.6, 98.0], [6.6, 94.0], [13.0, 91.2], [19.5, 91.0], [22.27, 91.8]];
+  const ROAD = [[22.33, 91.83], [23.0, 91.4], [23.46, 91.18], [23.81, 90.41]];
+  const rust = new THREE.Color(tok("--rust"));
+  function routeLine(curve, segs) {
+    const geo = new THREE.TubeGeometry(curve, segs, 0.0015, 6, false);
+    globe.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: rust })));
+    return (p) => geo.setDrawRange(0, Math.floor(segs * p) * 36);
+  }
+  const seaCurve = arc(SEA, 1.003), roadCurve = arc(ROAD, 1.003, 10);
+  const drawSea = routeLine(seaCurve, 900), drawRoad = routeLine(roadCurve, 120);
+  const ship = new THREE.Mesh(new THREE.SphereGeometry(0.01, 20, 16), new THREE.MeshBasicMaterial({ color: new THREE.Color(tok("--ink")) }));
+  globe.add(ship);
+  const pins = [["Yokohama", 35.44, 139.64, 0], ["Chattogram", 22.33, 91.83, 16], ["Dhaka", 23.81, 90.41, -16]].map(([name, lat, lon, dy]) => {
+    const el = document.createElement("div"); el.className = "pin"; el.textContent = name; document.getElementById("pins").appendChild(el);
+    return { el, p: P(lat, lon, 1.002), dy };
+  });
+
+  // camera stops, one per stop on the slip; the globe turns about its axis, the camera rises to the latitude
+  const STOPS = [
+    { lat: 30, lon: 125, d: 3.2 }, { lat: 34, lon: 136, d: 2.2 }, null,
+    { lat: 22.6, lon: 91.4, d: 1.75 }, { lat: 23.6, lon: 90.4, d: 1.7 }, { lat: 23.6, lon: 90.4, d: 1.7 }, { lat: 23.4, lon: 90.8, d: 1.6 },
+    { lat: 22, lon: 112, d: 3.2 },
+  ];
+  // the sea route draws once the camera has reached Japan's coast, finishing before stop 2 settles
+  const seaP = (s) => clamp01((s - 2.05) / 0.5);
+  const roadP = (s) => clamp01((s - 6.05) / 0.5);
+  const toLatLon = (v) => { const n = v.clone().normalize(); return { lat: 90 - Math.acos(n.y) * 180 / Math.PI, lon: Math.atan2(n.z, -n.x) * 180 / Math.PI - 180 }; };
+  const stopView = (i, s) => STOPS[i] ?? { ...toLatLon(seaCurve.getPointAt(seaP(s))), d: 2.8 };
+  const lerp = (a, b, t) => a + (b - a) * t, wrap = (a) => ((a + 540) % 360) - 180;
+  function view(s) {
+    const i = Math.floor(s), a = stopView(i, s);
+    if (i >= LAST) return a;
+    const b = stopView(i + 1, s), t = ease(clamp01((s - i - 0.72) / 0.28));
+    return { lat: lerp(a.lat, b.lat, t), lon: a.lon + wrap(b.lon - a.lon) * t, d: lerp(a.d, b.d, t) };
+  }
+  let W = 1, H = 1, phone = false;
+  function place(v) {
+    const p = P(0, v.lon); globe.rotation.y = Math.atan2(-p.x, p.z);
+    const la = v.lat * Math.PI / 180, d = 1 + (v.d - 1) * (phone ? 1.25 : 1);
+    camera.position.set(0, Math.sin(la) * d, Math.cos(la) * d); camera.lookAt(0, 0, 0);
+  }
+  let dirty = true;
+  function resize() {
+    W = canvas.clientWidth; H = canvas.clientHeight; phone = stage.clientWidth <= 860;
+    renderer.setSize(W, H, false); camera.aspect = W / H; camera.updateProjectionMatrix();
+    dirty = true;
+  }
+  addEventListener("resize", resize);
+  resize();
+  const cur = view(pos());
+  let sPrev = -1;
+  const v3 = new THREE.Vector3(), camDir = new THREE.Vector3();
+  globeFrame = (s, dt) => {
+    const want = view(s);
+    let moving = false;
+    if (REDUCED) Object.assign(cur, want);
+    else {
+      const k = 1 - Math.exp(-dt * 6), dl = wrap(want.lon - cur.lon);
+      moving = Math.abs(dl) + Math.abs(want.lat - cur.lat) + Math.abs(want.d - cur.d) > 0.002;
+      cur.lon += dl * k; cur.lat += (want.lat - cur.lat) * k; cur.d += (want.d - cur.d) * k;
+    }
+    if (!dirty && !moving && s === sPrev) return;
+    dirty = false; sPrev = s;
+    place(cur);
+    const sp = seaP(s);
+    drawSea(sp); drawRoad(roadP(s));
+    ship.position.copy(seaCurve.getPointAt(sp)); ship.visible = s >= 1.8 && s < 3.4;
+    renderer.render(scene, camera);
+    camera.getWorldDirection(camDir).negate();
+    for (const pin of pins) {
+      v3.copy(pin.p).applyMatrix4(globe.matrixWorld);
+      const facing = v3.clone().normalize().dot(camDir);
+      v3.project(camera);
+      pin.el.style.opacity = facing > 0.25 ? 1 : 0;
+      pin.el.style.transform = `translate(${((v3.x + 1) / 2 * W + 10).toFixed(1)}px, ${((1 - v3.y) / 2 * H + pin.dy).toFixed(1)}px) translateY(-50%)`;
+    }
+  };
+}
+</script>
+</body>
+</html>

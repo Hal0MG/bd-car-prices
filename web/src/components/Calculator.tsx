@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CarFigure } from "./CarFigure";
+import { CarPhoto } from "./CarPhoto";
 import { Slip } from "./Slip";
 import { plain, takaShort } from "@/lib/format";
 import { t } from "@/lib/i18n/en";
@@ -9,6 +9,7 @@ import {
   CARS, CURRENCY, DEFAULT_CLEARING_BDT, FREIGHT, FX, POPULAR, SYMBOL, byMake, carKey, carName, originCaution,
   type CarModel, type Origin, type Segment,
 } from "@/lib/market";
+import { PHOTOS } from "@/lib/photos";
 import { DEFAULT_RATES, foreign, priceAlternates, western, type Rates } from "@/lib/money";
 import { TABLE, calculate, type Body, type Condition, type Fuel } from "@/lib/tax";
 
@@ -84,7 +85,7 @@ function NumInput({ value, onChange, id, grouping = "bdt", className = "" }: {
   );
 }
 
-/** `exhibit` shows a drawing of the selected car above the form; car pages turn it off because their header already shows the car. */
+/** `exhibit` shows a photo of the selected car above the form, when there is one; car pages turn it off because their header already shows the car. */
 export function Calculator({ initialCar = 0, exhibit = true }: { initialCar?: number; exhibit?: boolean }) {
   const [s, setS] = useState<State>(() => stateFor(CARS[initialCar], initialCar));
   const set = <K extends keyof State>(k: K, v: State[K]) => setS((p) => ({ ...p, [k]: v }));
@@ -93,6 +94,7 @@ export function Calculator({ initialCar = 0, exhibit = true }: { initialCar?: nu
   const rates: Rates = { ...DEFAULT_RATES, [cur]: s.fx };
   const isCustom = s.carIdx === CUSTOM;
   const car = isCustom ? undefined : CARS[Number(s.carIdx)];
+  const photo = car && PHOTOS[carKey(car)];
 
   const carsForOrigin = CARS.map((c, i) => [c, i] as const).filter(([c]) => c.origin === s.origin);
   const makes = byMake(carsForOrigin, ([c]) => c);
@@ -169,13 +171,7 @@ export function Calculator({ initialCar = 0, exhibit = true }: { initialCar?: nu
   return (
     <div className="calc-grid">
       <form className="calc-form" onSubmit={(e) => e.preventDefault()} aria-label="Car details">
-        {exhibit && <div className="calc-exhibit" aria-hidden="true">
-          <CarFigure
-            segment={s.segment}
-            caption={s.fuel === "ev" ? "electric" : `${plain(s.cc)} cc · ${t.calc.fuels[s.fuel].toLowerCase()}`}
-            fig={car ? car.make.toUpperCase() : "YOUR CAR"}
-          />
-        </div>}
+        {exhibit && photo && <div className="calc-exhibit"><CarPhoto photo={photo} alt={carName(car!)} /></div>}
 
         <div className="field">
           <span className="eyebrow">{t.calc.source}</span>

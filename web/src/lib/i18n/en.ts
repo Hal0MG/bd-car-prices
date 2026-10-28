@@ -83,10 +83,26 @@ export const en = {
     breakdown: "Breakdown",
   },
   flags: { verified: "verified", derived: "derived", reported: "reported", unverified: "unverified" },
+  intro: {
+    title: "Two plates",
+    sub: (gap: string) => `Same Prado, ${gap} apart.`,
+    japanPlate: "Japanese plate",
+    dhakaPlate: "Dhaka plate",
+    altJapan: "A black Toyota Land Cruiser Prado TX with a Japanese number plate",
+    altDhaka: "The same Prado with a Dhaka Metro number plate",
+    start: "See where it goes →",
+    next: "Next →",
+    back: "Back",
+    done: "Price your own car →",
+    skip: "Skip intro",
+  },
+  theme: { dark: "Dark", light: "Light", label: "Colour theme" },
   footer: {
     disclaimer:
       "Estimates only. Customs may assess a different value than your invoice, and rates change with each budget. Check with a licensed C&F agent before you commit money.",
     rates: "Rates: Finance Act",
+    replay: "Replay the intro",
+    introPhoto: "Intro photo",
   },
 } as const;
 

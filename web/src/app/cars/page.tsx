@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { CarList, type CarRow } from "@/components/CarList";
 import { estimateFor } from "@/lib/estimate";
-import { CARS, carSlug } from "@/lib/market";
+import { CARS, carKey, carSlug } from "@/lib/market";
+import { PHOTOS } from "@/lib/photos";
 
 export const metadata: Metadata = {
   title: "Import cost by car",
@@ -23,6 +24,8 @@ export default function Cars() {
       origin: c.origin,
       tti: r.tti,
       onRoad: r.onRoad,
+      // Wikimedia serves fixed thumbnail widths; 120px covers the 64px slot at 2x
+      thumb: PHOTOS[carKey(c)]?.src.replace(/\/\d+px-/, "/120px-"),
     };
   });
 

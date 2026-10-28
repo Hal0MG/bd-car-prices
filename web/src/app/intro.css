@@ -1,0 +1,110 @@
+/* ---------- "Two plates": the first-visit intro ---------- */
+/* Hidden unless the head script marked this visit; then it covers the page until closed. */
+.intro-layer { display: none; }
+html[data-intro="show"] body { overflow: hidden; }
+html[data-intro="show"] .intro-layer {
+  display: block; position: fixed; inset: 0; z-index: 100; overflow: hidden; color: var(--ink);
+  background-color: var(--paper); background-image: repeating-linear-gradient(var(--paper) 0 31px, var(--paper-rule) 31px 32px);
+}
+.intro-layer .intro-skip { position: absolute; top: 16px; right: var(--gutter); z-index: 10; font: 400 13px var(--mono); color: var(--ink);
+  background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-decoration-color: var(--rust); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.intro-layer .btn[disabled] { opacity: 0.35; pointer-events: none; }
+.intro-layer em { color: var(--rust); }
+
+/* opening: the same Prado twice, wearing different plates */
+.intro-layer .opening { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; text-align: center; padding: 0 var(--gutter); }
+.intro-layer .opening h1 { font-size: clamp(44px, 7vw, 76px); line-height: 1; }
+.intro-layer .opening .sub { font: 400 clamp(17px, 2vw, 21px)/1.4 var(--serif); color: var(--ink-2); margin-top: 12px; }
+.intro-layer .opening .btn { margin-top: 28px; }
+.intro-layer .pair { display: flex; align-items: flex-start; justify-content: center; gap: clamp(14px, 3vw, 44px); margin-top: 30px; }
+.intro-layer .pair figure { margin: 0; display: grid; justify-items: center; gap: 12px; }
+.intro-layer .pair figcaption { display: grid; gap: 2px; }
+.intro-layer .pair figcaption b { font: 600 clamp(24px, 3.2vw, 36px)/1.1 var(--serif); letter-spacing: -0.02em; }
+.intro-layer .pair .dhaka { color: var(--rust); }
+.intro-layer .print { background: var(--print); padding: 8px; width: min(420px, 30vw);
+  box-shadow: 0 1px 2px rgba(29, 27, 22, 0.18), 0 10px 18px -10px rgba(29, 27, 22, 0.35); }
+.intro-layer .shot:first-child .print { transform: rotate(-1deg); }
+.intro-layer .shot:last-child .print { transform: rotate(0.8deg); }
+.intro-layer .frame { position: relative; overflow: hidden; aspect-ratio: 4 / 3; }
+.intro-layer .frame img { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(0.88); }
+/* the plate sits in the car's plate frame, warped to its perspective by TwoPlates */
+.intro-layer .frame .plate { position: absolute; left: 0; top: 0; --pw: 200px; transform-origin: 0 0; box-shadow: none; filter: brightness(0.93) contrast(1.03); }
+
+/* number plates, modelled on real ones; they're physical objects, so they keep their colours in dark mode */
+.plate { position: relative; width: var(--pw, 320px); aspect-ratio: 2 / 1; border-radius: calc(var(--pw, 320px) * 0.03); container-type: inline-size;
+  background: linear-gradient(160deg, #ffffff 0%, #f2f2ee 55%, #e6e6e0 100%);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), 0 6px 14px rgba(29, 27, 22, 0.18), inset 0 0 0 1px rgba(0, 0, 0, 0.12); }
+.plate .t { position: absolute; left: 0; right: 0; text-align: center; white-space: nowrap; line-height: 1;
+  text-shadow: 0 0.6cqw 0 rgba(255, 255, 255, 0.9), 0 -0.4cqw 0.4cqw rgba(0, 0, 0, 0.18); }
+.plate .bolt { position: absolute; top: 9%; width: 4%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff, #a9a9a2 60%, #6d6d66); }
+.plate.jp { color: #2d7a52; }
+.plate.jp .bolt { top: 13%; left: 13%; }
+.plate.jp .bolt + .bolt { left: auto; right: 13%; }
+.plate.jp .top { top: 7%; font: 500 13cqw/1 var(--font-jp), sans-serif; letter-spacing: 0.04em; }
+.plate.jp .top span { font-size: 12cqw; margin-left: 3cqw; }
+.plate.jp .kana { position: absolute; left: 7%; bottom: 14%; font: 500 13cqw/1 var(--font-jp), sans-serif; }
+.plate.jp .big { bottom: 4%; left: 12%; font: 500 34cqw/1 var(--font-jp), sans-serif; letter-spacing: -0.02em; transform: scaleX(0.8); }
+.plate.bd { color: #111;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), 0 6px 14px rgba(29, 27, 22, 0.18), inset 0 0 0 calc(var(--pw) * 0.024) #111,
+    inset 0 0 0 calc(var(--pw) * 0.03) #fff, inset 0 0 0 calc(var(--pw) * 0.034) rgba(0, 0, 0, 0.12); }
+.plate.bd .bolt { top: 7%; width: 3.6%; left: 14%; }
+.plate.bd .bolt + .bolt { left: auto; right: 12%; top: 5%; }
+.plate.bd .top { top: 16%; font: 600 13cqw/1 var(--font-hind), sans-serif; }
+.plate.bd .big { bottom: 14%; font: 600 19cqw/1 var(--font-hind), sans-serif; letter-spacing: 0.03em; }
+.plate.bd .holo { position: absolute; left: 34.5%; top: 58%; width: 7%; aspect-ratio: 1; border-radius: 50%;
+  background: conic-gradient(#d9d9d9, #f7f7f7, #b9c4c9, #f0e9dc, #d9d9d9); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2); }
+.plate.bd .serial { position: absolute; left: 10%; bottom: 5.5%; font: 500 2.6cqw/1 var(--mono); color: #8a8a84; letter-spacing: 0.05em; }
+
+/* the globe, sitting on the paper */
+.intro-layer .globe-box { position: absolute; left: 0; top: 0; bottom: 0; right: calc(min(460px, 40vw) + var(--gutter) + 24px); opacity: 0;
+  -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
+.intro-layer .globe-box canvas { display: block; width: 100%; height: 100%; }
+.intro-layer .pin { position: absolute; left: 0; top: 0; font: 500 10.5px/1 var(--mono); letter-spacing: 0.1em; color: #1d1b16; text-transform: uppercase; white-space: nowrap;
+  padding: 4px 6px; background: #fffdf8; border: 1px solid #cfc6b2; transform: translate(10px, -50%); transition: opacity 0.25s; pointer-events: none; }
+
+/* the slip: a fixed size from the start, so nothing on it moves as it fills in */
+.intro-layer .panel { position: absolute; right: var(--gutter); top: 50%; width: min(460px, 40vw); transform: translateY(-50%); opacity: 0; visibility: hidden; z-index: 3; }
+.intro-layer .slip { padding: 20px 26px 18px; }
+.intro-layer .slip .total-words { margin-bottom: 12px; }
+.intro-layer .share-lead { height: 30px; }
+.intro-layer .share-bar > span { min-width: 0; transition: flex-grow 0.5s; }
+.intro-layer .carslot { position: relative; width: 132px; aspect-ratio: 2 / 1; margin: 0 0 10px; }
+.intro-layer .carslot > div { position: absolute; inset: 0; transition: opacity 0.5s; }
+.intro-layer .carslot .plate { --pw: 132px; }
+.intro-layer .caption { font: 400 18px/1.35 var(--serif); margin: 14px 0 0; height: 2.7em; transition: opacity 0.25s; }
+.intro-layer .caption.out { opacity: 0; }
+.intro-layer .lwin { margin-top: 10px; overflow: hidden; border-top: 1.5px solid var(--ink); }
+.intro-layer .lwin.scrolled { -webkit-mask-image: linear-gradient(transparent, #000 28px); mask-image: linear-gradient(transparent, #000 28px); }
+.intro-layer .lines { transition: transform 0.5s cubic-bezier(0.3, 0.7, 0.3, 1); }
+.intro-layer .line { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: baseline; padding: 4px 6px; margin: 0 -6px;
+  border-bottom: 1px dotted var(--dots); font: 400 13px/1.45 var(--mono); transition: background-color 0.8s; }
+.intro-layer .line > span { opacity: 0; transform: translateY(3px); transition: opacity 0.4s, transform 0.4s; }
+.intro-layer .line > .r { text-align: right; white-space: nowrap; }
+.intro-layer .line.on > span { opacity: 1; transform: none; }
+.intro-layer .line.now { background: var(--rust-soft); }
+.intro-layer .line.sub > span:first-child { padding-left: 14px; color: var(--ink-2); }
+.intro-layer .line.big.on > span { color: var(--rust); font-weight: 500; }
+.intro-layer .line.grand { border-bottom: 3px double var(--ink); font-weight: 500; }
+.intro-layer .intro-steps { display: flex; align-items: center; gap: 10px; margin-top: 16px; }
+.intro-layer .intro-steps .count { margin-left: auto; }
+
+@media (max-width: 860px) {
+  .intro-layer .globe-box { right: 0; bottom: auto; height: 40%;
+    -webkit-mask-image: linear-gradient(#000 85%, transparent); mask-image: linear-gradient(#000 85%, transparent); }
+  .intro-layer .panel { left: 12px; right: 12px; width: auto; top: auto; bottom: 14px; transform: none; }
+  .intro-layer .slip { padding: 14px 16px 12px; }
+  .intro-layer .carslot { width: 96px; margin-bottom: 6px; }
+  .intro-layer .carslot .plate { --pw: 96px; }
+  .intro-layer .slip .total { font-size: 28px; }
+  .intro-layer .slip .total-words { margin-bottom: 8px; }
+  .intro-layer .share-lead { font-size: 13px; height: 24px; margin-bottom: 6px; }
+  .intro-layer .share-lead b { font-size: 19px; }
+  .intro-layer .caption { font-size: 15px; margin-top: 10px; }
+  .intro-layer .pair { gap: 10px; }
+  .intro-layer .print { width: calc((100vw - 46px) / 2); }
+  .intro-layer .pair figcaption b { font-size: 22px; }
+  .intro-layer .intro-steps { margin-top: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-layer .line > span, .intro-layer .lines, .intro-layer .caption, .intro-layer .carslot > div, .intro-layer .share-bar > span { transition: none; }
+}

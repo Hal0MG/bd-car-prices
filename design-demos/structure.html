@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Structure demo: Shotti Dam</title>
+<style>
+  :root { --paper:#f6f1e7; --rule:#e6dfcf; --slip:#fffdf8; --ink:#1d1b16; --ink2:#5c5546; --ink3:#6d6555; --hair:#cfc6b2; --dots:#bfb59f; --rust:#8a3b1e; --green:#2f5d3a; --amber:#8a6a12;
+    --serif: Georgia, "Times New Roman", serif; --mono: ui-monospace, Consolas, monospace; --sans: system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+  body { margin:0; color:var(--ink); font:400 15px/1.55 var(--sans); background:var(--paper) repeating-linear-gradient(var(--paper) 0 31px, var(--rule) 31px 32px); }
+  h1,h2,h3 { font-family:var(--serif); font-weight:400; margin:0; letter-spacing:-.01em; }
+  .wrap { max-width:1040px; margin:0 auto; padding:0 20px; }
+  .eyebrow { font:500 11px/1.4 var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--ink3); }
+  .intro { padding:26px 0 8px; }
+  .intro h1 { font-size:28px; }
+  .intro p { color:var(--ink2); max-width:70ch; margin-top:6px; }
+  .screen { margin:26px 0 40px; border:1px solid var(--hair); background:var(--paper); box-shadow:0 1px 0 var(--hair); }
+  .label { font:500 11px var(--mono); letter-spacing:.08em; text-transform:uppercase; padding:6px 12px; background:var(--ink); color:var(--slip); }
+  .mast { border-bottom:2px solid var(--ink); padding:14px 20px 8px; display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:10px; }
+  .brand { font:600 22px var(--serif); } .brand i { font:400 13px var(--sans); color:var(--rust); margin-left:6px; font-style:normal; }
+  .nav { display:flex; gap:4px; flex-wrap:wrap; font:400 13px var(--mono); }
+  .nav span { padding:4px 10px; border-bottom:2px solid transparent; }
+  .nav .on { border-color:var(--rust); color:var(--rust); }
+  .nav .grp { color:var(--ink3); padding-right:2px; font-size:10px; letter-spacing:.1em; text-transform:uppercase; align-self:center; }
+  .nav .sep { border-left:1px solid var(--hair); margin:0 6px; padding:0; }
+  .body { padding:22px 20px 26px; }
+  .doors { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .door { background:var(--slip); border:1px solid var(--hair); border-top:2px solid var(--ink); padding:16px 18px; }
+  .door h2 { font-size:22px; margin:4px 0 6px; }
+  .door p { color:var(--ink2); font-size:14px; }
+  .door .go { display:inline-block; margin-top:10px; font:500 12px var(--mono); border-bottom:1px solid var(--rust); color:var(--rust); }
+  .strip { display:grid; grid-template-columns:repeat(4,1fr); gap:0; margin-top:16px; border:1px solid var(--hair); background:var(--slip); }
+  .strip div { padding:12px 14px; border-right:1px dotted var(--dots); } .strip div:last-child { border:0; }
+  .strip b { display:block; font:500 24px var(--serif); } .strip span { font:400 11px/1.4 var(--mono); color:var(--ink3); }
+  .two { display:grid; grid-template-columns:240px 1fr; gap:20px; }
+  .panel { background:var(--slip); border:1px solid var(--hair); padding:14px 16px; }
+  .panel h3 { font-size:18px; margin-bottom:8px; }
+  .field { margin:8px 0; } .field small { display:block; font:400 11px var(--mono); color:var(--ink3); }
+  .fake { border:1px solid var(--hair); background:var(--paper); padding:6px 8px; font:13px var(--mono); }
+  .big { font:500 30px var(--serif); } .muted { color:var(--ink2); font-size:13px; }
+  svg text { font:10px var(--mono); fill:var(--ink3); }
+  .tabs { display:flex; gap:0; border-bottom:1px solid var(--hair); margin-bottom:14px; font:13px var(--mono); flex-wrap:wrap; }
+  .tabs span { padding:7px 14px; border:1px solid transparent; border-bottom:0; margin-bottom:-1px; } .tabs .on { background:var(--slip); border-color:var(--hair); }
+  .steps { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin:6px 0 4px; }
+  .steps div { background:var(--slip); border:1px solid var(--hair); padding:8px 10px; font:12px/1.4 var(--mono); }
+  .steps b { display:block; font:500 20px var(--serif); } .steps .drop { color:var(--rust); }
+  .bars { font:12px var(--mono); } .bars div { display:grid; grid-template-columns:130px 1fr 60px; gap:8px; align-items:center; margin:4px 0; }
+  .bars i { display:block; height:12px; background:var(--ink); } .bars .best i { background:var(--rust); }
+  .note { font:400 12px/1.5 var(--mono); color:var(--ink3); margin-top:10px; padding-top:8px; border-top:1px dotted var(--dots); }
+  .ask { background:var(--slip); border:1px solid var(--hair); padding:16px 18px; max-width:760px; margin:0 0 40px; }
+  .ask h3 { font-size:20px; margin-bottom:6px; } .ask li { margin:4px 0; color:var(--ink2); }
+  @media (max-width:760px){ .doors,.two,.strip,.steps{grid-template-columns:1fr 1fr} .two{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="intro">
+    <p class="eyebrow">Design demo · not the real site · numbers are real, layout is a mock</p>
+    <h1>Making the site easier to find your way around, and showing the data science</h1>
+    <p>Three screens: a home page with two clear doors, a Market page where the models do something you can touch, and a Method page that lays out how the data was collected and how good the predictions are. The last box asks for your pick.</p>
+  </div>
+
+  <!-- HOME -->
+  <div class="screen">
+    <div class="label">1 · Home</div>
+    <div class="mast"><span class="brand">Shotti Dam<i>সত্যি দাম</i></span>
+      <div class="nav"><span class="grp">Price a car</span><span class="on">Import</span><span>Market</span><span class="sep"></span><span class="grp">Behind it</span><span>Data</span><span>Method</span><span>Rates</span></div></div>
+    <div class="body">
+      <p class="eyebrow">Car prices in Bangladesh, with the working shown</p>
+      <h1 style="font-size:32px;margin:6px 0 14px">What does a car really cost here?</h1>
+      <div class="doors">
+        <div class="door"><p class="eyebrow">Door 1 · Import</p><h2>What would it cost to bring one in?</h2><p>Pick a car and a price abroad. Every customs duty and fee is added line by line, with its source.</p><span class="go">Open the import calculator →</span></div>
+        <div class="door"><p class="eyebrow">Door 2 · Market</p><h2>What does one cost here, today?</h2><p>Pick a model and see what 15,400 current ads ask, by age, with an honest range around each price.</p><span class="go">Open the market explorer →</span></div>
+      </div>
+      <div class="strip">
+        <div><b>15,400</b><span>current ads read from 2 sites</span></div>
+        <div><b>6.5%</b><span>typical miss on a familiar car</span></div>
+        <div><b>80%</b><span>range, checked on cars it hadn't seen</span></div>
+        <div><b>114</b><span>cars with a sourced import breakdown</span></div>
+      </div>
+      <p class="note">The strip is the data science, shown on the first screen. Each number links to the Method page where it comes from.</p>
+    </div>
+  </div>
+
+  <!-- MARKET -->
+  <div class="screen">
+    <div class="label">2 · Market (new): the model, interactive</div>
+    <div class="mast"><span class="brand">Shotti Dam<i>সত্যি দাম</i></span>
+      <div class="nav"><span class="grp">Price a car</span><span>Import</span><span class="on">Market</span><span class="sep"></span><span class="grp">Behind it</span><span>Data</span><span>Method</span><span>Rates</span></div></div>
+    <div class="body">
+      <p class="eyebrow">Market · asking prices today</p>
+      <h1 style="font-size:28px;margin:6px 0 14px">Toyota Noah: what is it asking, by age?</h1>
+      <div class="two">
+        <div class="panel">
+          <h3>Pick a car</h3>
+          <div class="field"><small>Make</small><div class="fake">Toyota ▾</div></div>
+          <div class="field"><small>Model</small><div class="fake">Noah ▾</div></div>
+          <div class="field"><small>Build year</small><div class="fake">2019 ▾</div></div>
+          <div class="field"><small>Mileage (optional)</small><div class="fake">60,000 km</div></div>
+          <p class="muted" style="margin-top:10px">Based on 557 Noah ads.</p>
+        </div>
+        <div class="panel">
+          <p class="eyebrow">Expected asking price</p>
+          <p class="big">৳33.6 lakh <span class="muted" style="font:13px var(--mono)">probably ৳30.1 to ৳37.5 lakh</span></p>
+          <svg viewBox="0 0 560 250" width="100%" role="img" aria-label="Mock chart: asking price against car age with a model line and 80 percent band">
+            <rect x="40" y="10" width="510" height="200" fill="none" stroke="#cfc6b2"/>
+            <g stroke="#e6dfcf"><line x1="40" y1="60" x2="550" y2="60"/><line x1="40" y1="110" x2="550" y2="110"/><line x1="40" y1="160" x2="550" y2="160"/></g>
+            <path d="M40,40 C140,70 240,110 360,148 S500,188 550,196 L550,176 C500,168 400,132 360,118 S140,56 40,22 Z" fill="#8a3b1e" opacity=".13"/>
+            <path d="M40,31 C140,63 240,100 360,133 S500,178 550,186" fill="none" stroke="#8a3b1e" stroke-width="2"/>
+            <g fill="#1d1b16" opacity=".5">
+              <circle cx="60" cy="36" r="2"/><circle cx="75" cy="50" r="2"/><circle cx="95" cy="44" r="2"/><circle cx="110" cy="62" r="2"/><circle cx="150" cy="72" r="2"/><circle cx="165" cy="60" r="2"/><circle cx="200" cy="88" r="2"/><circle cx="215" cy="98" r="2"/><circle cx="260" cy="104" r="2"/><circle cx="290" cy="122" r="2"/><circle cx="320" cy="116" r="2"/><circle cx="350" cy="140" r="2"/><circle cx="380" cy="128" r="2"/><circle cx="420" cy="152" r="2"/><circle cx="470" cy="170" r="2"/><circle cx="520" cy="180" r="2"/><circle cx="130" cy="86" r="2"/><circle cx="240" cy="80" r="2"/><circle cx="395" cy="160" r="2"/><circle cx="85" cy="68" r="2"/>
+            </g>
+            <circle cx="262" cy="106" r="6" fill="none" stroke="#2f5d3a" stroke-width="2"/>
+            <text x="4" y="64">৳60L</text><text x="4" y="114">৳40L</text><text x="4" y="164">৳20L</text>
+            <text x="40" y="228">1 yr</text><text x="290" y="228">8 yrs</text><text x="520" y="228">15 yrs</text>
+          </svg>
+          <p class="muted">Dots show how many ads sit at each age and price (grouped counts, not individual ads). The line is the model. The shaded band is the 80% range. Your car is the green ring. Mock drawing: the live version plots the actual ads.</p>
+          <p class="note">Below it: "Compare with importing one" links to the same car on the Import page.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- METHOD -->
+  <div class="screen">
+    <div class="label">3 · Method (new): data and models, with the working shown</div>
+    <div class="mast"><span class="brand">Shotti Dam<i>সত্যি দাম</i></span>
+      <div class="nav"><span class="grp">Price a car</span><span>Import</span><span>Market</span><span class="sep"></span><span class="grp">Behind it</span><span>Data</span><span class="on">Method</span><span>Rates</span></div></div>
+    <div class="body">
+      <p class="eyebrow">Method</p>
+      <h1 style="font-size:28px;margin:6px 0 10px">How the prices are predicted, and how far to trust them</h1>
+      <div class="tabs"><span>1 · Data</span><span>2 · Cleaning</span><span class="on">3 · Models</span><span>4 · Trust</span><span>5 · Limits</span></div>
+
+      <p class="eyebrow">Tab 2 · Cleaning (what happened to 18,121 rows)</p>
+      <div class="steps">
+        <div><b>18,121</b>rows read</div>
+        <div class="drop"><b>−1,640</b>same ad seen twice</div>
+        <div class="drop"><b>−682</b>no price (“negotiable”)</div>
+        <div class="drop"><b>−379</b>bad year, bad price, outlier, suspect</div>
+        <div><b>15,400</b>used to train</div>
+      </div>
+
+      <div class="panel" style="margin-top:16px">
+        <h3>Tab 3 · Which model guesses best?</h3>
+        <p class="muted" style="margin-bottom:8px">Typical miss, as a share of the real price (lower is better). Each bar is the average of 15 test rounds on cars the model had not been trained on.</p>
+        <div class="bars">
+          <div><span>Dealer from memory</span><i style="width:100%"></i><span>12.2%</span></div>
+          <div><span>Ridge (straight lines)</span><i style="width:66%"></i><span>8.1%</span></div>
+          <div class="best"><span>LightGBM (decision trees)</span><i style="width:53%"></i><span>6.5%</span></div>
+        </div>
+        <p class="note">Plain-English panel: “Ridge draws smooth straight-line rules. LightGBM builds hundreds of small yes/no questions and averages them.” Each term is explained once, where it first appears.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ask">
+    <h3>What I'd build from this</h3>
+    <ul>
+      <li><b>Nav:</b> two groups, “Price a car” (Import, Market) and “Behind it” (Data, Method, Rates). Rates and the changelog merge into one page; Report a price becomes a button on the car pages.</li>
+      <li><b>Home:</b> two doors and a strip of real numbers, instead of dropping straight into a form.</li>
+      <li><b>Market (new):</b> a live scatter of real ads per model with the model line and 80% band. This is where the data science becomes something you touch.</li>
+      <li><b>Method (new):</b> the data, cleaning funnel, model comparison, interval coverage, learning curve, feature importance and limits, built from the real report files. Terms are explained in plain English next to each chart.</li>
+      <li><b>Data (new):</b> where each source came from, how collection is kept polite, what is stored (no descriptions, no contact details), and the permissions.</li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>

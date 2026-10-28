@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { CarFigure, SEGMENT_LABEL } from "./CarFigure";
 import { takaShort } from "@/lib/format";
 import { t } from "@/lib/i18n/en";
-import { FX, byMake, type Origin, type Segment } from "@/lib/market";
+import { FX, SEGMENT_LABEL, byMake, type Origin, type Segment } from "@/lib/market";
 import { foreign } from "@/lib/money";
 import type { Body, Fuel } from "@/lib/tax";
 
@@ -22,6 +21,8 @@ export interface CarRow {
   origin: Origin;
   tti: number;
   onRoad: number;
+  /** small Commons thumbnail, when the car has a photo */
+  thumb?: string;
 }
 
 const ORIGINS: Origin[] = ["japan", "uk"];
@@ -50,7 +51,8 @@ function Row({ r, showMake }: { r: CarRow; showMake?: boolean }) {
   return (
     <li>
       <Link href={`/cars/${r.slug}`}>
-        <span className="thumb"><CarFigure segment={r.segment} compact /></span>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <span className="thumb">{r.thumb && <img src={r.thumb} alt="" loading="lazy" decoding="async" />}</span>
         <span>
           <span className="name">{showMake ? `${r.make} ${r.model}` : r.model}</span>{" "}
           <span className="meta">
