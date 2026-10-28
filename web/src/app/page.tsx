@@ -1,12 +1,12 @@
-import { Calculator } from "@/components/Calculator";
+import { CarView } from "@/components/CarView";
 import { TwoPlates } from "@/components/intro/TwoPlates";
 import { estimateFor } from "@/lib/estimate";
-import { t } from "@/lib/i18n/en";
 import { buildStory } from "@/lib/intro";
 import { CARS, CURRENCY, FREIGHT, FX } from "@/lib/market";
 
-// The intro follows this car; its numbers come from the same engine as the calculator.
-const INTRO_CAR = CARS.find((c) => c.make === "Toyota" && c.model === "Land Cruiser Prado TX")!;
+// The intro follows this car and the page behind it is this car's page, so the hand-off has no jump.
+const INTRO_INDEX = CARS.findIndex((c) => c.make === "Toyota" && c.model === "Land Cruiser Prado TX");
+const INTRO_CAR = CARS[INTRO_INDEX];
 
 export default function Home() {
   const fx = FX[CURRENCY[INTRO_CAR.origin]];
@@ -14,13 +14,7 @@ export default function Home() {
   return (
     <>
       <TwoPlates story={story} />
-      <header className="page-head">
-        <h1>
-          {t.home.h1a}<em>{t.home.h1em}</em>{t.home.h1b}
-        </h1>
-        <p className="lede">{t.home.lede}</p>
-      </header>
-      <Calculator />
+      <CarView index={INTRO_INDEX} />
     </>
   );
 }
