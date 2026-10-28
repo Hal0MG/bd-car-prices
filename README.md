@@ -7,6 +7,7 @@ A transparent car price site for Bangladesh: what a car actually costs to import
 - `web/` — Next.js site and the tax engine
   - `src/lib/tax/` — rate tables and the duty cascade (`engine.ts`), tested against the NBR tariff's printed totals
   - `src/lib/market.ts` — car catalogue, exchange rates and freight defaults
+- `ml/` — Python price model: a baseline on 1,200 Bikroy listings, with cross-validation and prediction intervals (see `ml/README.md`)
 - `design-demos/` — the three style directions explored before building
 
 ## Running
