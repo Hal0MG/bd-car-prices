@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { estimateFor } from "./estimate";
 import { CARS, carKey, carName, carSlug } from "./market";
 import { PHOTOS } from "./photos";
-import { TABLE, ageYears } from "./tax";
+import { TABLE, exactAgeYears } from "./tax";
 
 describe("car catalogue", () => {
   it("has unique page slugs", () => {
@@ -27,8 +27,9 @@ describe("car catalogue", () => {
     expect(estimateFor(taycan).slab.id).toBe("ev-100k");
   });
 
+  // Fails each January for the oldest example years; roll them forward when it does.
   it("only lists cars young enough to import as recon", () => {
-    const tooOld = CARS.filter((c) => ageYears(c.year, new Date()) > TABLE.reconAgeLimitYears);
+    const tooOld = CARS.filter((c) => exactAgeYears(c.year, new Date()) > TABLE.reconAgeLimitYears);
     expect(tooOld.map(carName)).toEqual([]);
   });
 

@@ -21,4 +21,4 @@ npm run dev
 
 ## Rates
 
-Duty rates come from the NBR Customs Tariff 2026-27 (chapter 87, heading 8703). Recon depreciation, BRTA fees and the import age limit aren't in the tariff and are marked unverified on the site.
+Duty rates come from the NBR Customs Tariff 2026-27 (chapter 87, heading 8703, the 11 June 2026 version). Recon depreciation, the import age limit and BRTA advance income tax aren't in the tariff; they follow figures that several news and industry sources agree on and are marked "reported". Other BRTA fees are an estimate. Every figure carries one of four confidence labels (verified, derived, reported, unverified); see `src/lib/tax/types.ts`.

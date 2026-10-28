@@ -60,12 +60,12 @@ export const en = {
     afterCustoms: "Registration and clearing",
     onRoad: "On-road total",
     tti: "Tax as % of assessable value",
-    stampOk: "Rates verified",
+    stampOk: "Duty rates verified",
     stampDraft: "Rates not yet verified",
     notesTitle: "Notes",
     of: "of",
   },
-  flags: { verified: "verified", derived: "derived", unverified: "unverified" },
+  flags: { verified: "verified", derived: "derived", reported: "reported", unverified: "unverified" },
   footer: {
     disclaimer:
       "Estimates only. Customs may assess a different value than your invoice, and rates change with each budget. Check with a licensed C&F agent before you commit money.",

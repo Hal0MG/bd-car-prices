@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { SourceList } from "@/components/SourceList";
 import { Flag } from "@/components/Slip";
-import { pctStr } from "@/lib/format";
+import { pctStr, plain, taka } from "@/lib/format";
 import { TABLE, tti } from "@/lib/tax";
 
 export const metadata: Metadata = {
@@ -17,7 +17,8 @@ export default function Rates() {
         <p className="lede">
           In force from {TABLE.effectiveFrom}. Every duty rate below is copied from the NBR customs tariff
           for FY{TABLE.fiscalYear}, with its HS code so you can look it up yourself. Microbuses are taxed on a
-          separate scale from cars. Anything not in the tariff (depreciation, BRTA fees) is marked unverified.
+          separate scale from cars. What the tariff doesn’t cover (depreciation, the age limit, BRTA fees) is marked
+          <em> reported</em> when several news or industry sources agree, or <em>unverified</em> when we only have a guess.
         </p>
       </header>
 
@@ -80,20 +81,70 @@ export default function Rates() {
       <section className="section">
         <h2>Reconditioned cars</h2>
         <p className="lede">
-          Used imports must be no more than {TABLE.reconAgeLimitYears} years old, counted from 1 January after the year of
-          manufacture, and must ship from the country where they were built. Customs reduces their assessable value by age:
+          Used imports can’t be more than {TABLE.reconAgeLimitYears} years old at shipment, counted from 1 January of
+          the year after manufacture, so in {new Date().getFullYear()} that means built {new Date().getFullYear() - TABLE.reconAgeLimitYears} or
+          later. They must also ship from the country where they were built. Customs reduces the assessable value by age:
         </p>
         <table className="ledger num" style={{ maxWidth: 420 }}>
           <thead><tr><th>Age</th><th className="r">Depreciation</th></tr></thead>
           <tbody>
-            {TABLE.reconDepreciation.map((d, i, all) => (
-              <tr key={i}>
-                <td>{d.maxAgeYears === Infinity ? `${all[i - 1].maxAgeYears}+ years` : `Under ${d.maxAgeYears} year${d.maxAgeYears > 1 ? "s" : ""}`}<Flag v="unverified" /></td>
-                <td className="r">{d.pct}%</td>
-              </tr>
-            ))}
+            {TABLE.reconDepreciation.map((d, i, all) => {
+              const from = i === 0 ? 0 : all[i - 1].maxAgeYears;
+              const to = d.maxAgeYears === Infinity ? TABLE.reconAgeLimitYears : d.maxAgeYears;
+              return (
+                <tr key={i}>
+                  <td>{i === 0 ? `Under ${to} year` : `${from} to ${to} years`}<Flag v={TABLE.reconVerification} /></td>
+                  <td className="r">{d.pct}%</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
+        <p className="hint" style={{ maxWidth: 640, marginTop: 10 }}>
+          This is the year-by-year schedule reported in press coverage from 2018 to 2024, with a 35% cap. Importers have
+          asked for 50%, and we found no sign it was granted. The official order wasn’t checked.
+        </p>
+        <h3 style={{ marginTop: 28, fontSize: 20 }}>Your invoice may not be the customs value</h3>
+        <p className="lede" style={{ marginTop: 6 }}>
+          Press reports say that for reconditioned cars from Japan, customs assesses duty on the Yellow Book reference
+          price from the Japan Auto Appraisal Institute, not the invoice, under a 2013 valuation order (SRO 149). When the
+          Yellow Book price is higher, so are your duties. That’s why the calculator has a customs reference value option:
+          ask your C&amp;F agent for the figure.
+        </p>
+        <p className="hint" style={{ maxWidth: 640 }}>Sources: <SourceList sources={TABLE.reconSources} /></p>
+      </section>
+
+      <section className="section">
+        <h2>Registration at BRTA</h2>
+        <p className="lede">
+          Advance income tax is collected when the car is registered, on a scale by engine size.
+        </p>
+        <table className="ledger num" style={{ maxWidth: 420 }}>
+          <thead><tr><th>Engine</th><th className="r">Advance income tax</th></tr></thead>
+          <tbody>
+            {TABLE.registration.map((r, i, all) => {
+              const from = i === 0 ? 0 : all[i - 1].ccMax + 1;
+              const label = i === 0 ? `Up to ${plain(r.ccMax)}cc` : r.ccMax === Infinity ? `Above ${plain(from - 1)}cc` : `${plain(from)}–${plain(r.ccMax)}cc`;
+              return (
+                <tr key={r.ccMax}>
+                  <td>{label}<Flag v={r.aitVerification} /></td>
+                  <td className="r">{taka(r.ait)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <p className="hint" style={{ maxWidth: 640, marginTop: 10 }}>
+          Two sources agree on these amounts, and one says no change is confirmed for FY{TABLE.fiscalYear}. A summary
+          of the Finance Act says advance tax rose for non-electric vehicles, so these may be stale. A second or later car
+          registered by the same owner is reported to pay 1.5 times as much.
+        </p>
+        <p className="lede" style={{ marginTop: 14 }}>
+          The other BRTA costs (registration fee, number plate, fitness) are a flat {taka(TABLE.registration[0].fees)}
+          <Flag v={TABLE.registration[0].feesVerification} /> estimate. The sources we found disagree, and the BRTA fee
+          calculator is the official reference.
+        </p>
+        <p className="hint" style={{ maxWidth: 640 }}>Sources: <SourceList sources={TABLE.registrationSources} /></p>
       </section>
     </>
   );

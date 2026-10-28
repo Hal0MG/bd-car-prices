@@ -155,7 +155,7 @@ table.ledger tr.group td { padding-top: 14px; font: 500 11px var(--mono); letter
   padding: 3px 5px; margin-left: 6px; vertical-align: 2px; border: 1px solid currentColor;
 }
 .flag.verified { color: var(--green); }
-.flag.derived { color: var(--amber); }
+.flag.derived, .flag.reported { color: var(--amber); }
 .flag.unverified { color: var(--rust); }
 
 .notes { margin-top: 16px; padding-top: 10px; border-top: 1px solid var(--hair); }

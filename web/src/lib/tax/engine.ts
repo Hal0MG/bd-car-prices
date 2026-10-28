@@ -20,11 +20,16 @@ export function findSlab(table: RateTable, input: CalcInput): Slab | undefined {
   });
 }
 
-/** Completed years since 1 January of the year after manufacture (customs convention). */
-export function ageYears(year: number, asOf: Date): number {
+/** Years since 1 January of the year after manufacture (customs convention), with the fraction. */
+export function exactAgeYears(year: number, asOf: Date): number {
   const start = new Date(year + 1, 0, 1);
   const years = (asOf.getTime() - start.getTime()) / (365.25 * 24 * 3600 * 1000);
-  return Math.max(0, Math.floor(years));
+  return Math.max(0, years);
+}
+
+/** Completed years of age; this is what picks the depreciation band. */
+export function ageYears(year: number, asOf: Date): number {
+  return Math.floor(exactAgeYears(year, asOf));
 }
 
 /**
@@ -68,15 +73,23 @@ export function calculate(table: RateTable, input: CalcInput): CalcResult {
 
   let depreciationPct = 0;
   if (input.condition === "recon") {
-    const age = ageYears(input.year, asOf);
-    if (age > table.reconAgeLimitYears) {
+    const exact = exactAgeYears(input.year, asOf);
+    if (exact > table.reconAgeLimitYears) {
       warnings.push(
-        `A ${input.year} car is ${age} years old for customs; the limit is ${table.reconAgeLimitYears}.`,
+        `A ${input.year} car is ${exact.toFixed(1)} years old by customs counting (from 1 January ${input.year + 1}); the limit is ${table.reconAgeLimitYears} years at shipment.`,
       );
     }
+    const age = Math.floor(exact);
     depreciationPct = table.reconDepreciation.find((d) => age < d.maxAgeYears)?.pct ?? 0;
-    if (depreciationPct > 0) {
-      warnings.push(`The ${depreciationPct}% recon depreciation isn't in the tariff book and is unverified.`);
+    if (depreciationPct > 0 && table.reconVerification !== "verified") {
+      warnings.push(
+        `The ${depreciationPct}% recon depreciation follows the year-by-year schedule reported in the press (maximum 35%). The official order wasn't checked.`,
+      );
+    }
+    if (input.referenceValueBdt === undefined) {
+      warnings.push(
+        "For reconditioned cars, customs may assess duty on a reference price (for Japanese cars, the JAAI Yellow Book) instead of your invoice. If that price is higher, so are your duties. Ask your C&F agent for it and use the customs reference value option.",
+      );
     }
   }
 
@@ -93,8 +106,8 @@ export function calculate(table: RateTable, input: CalcInput): CalcResult {
   const reg = table.registration.find((r) => input.cc <= r.ccMax)!;
   const other: Line[] = [
     { key: "clearing", label: "Port, C&F agent and LC charges", amount: input.clearingBdt ?? 0 },
-    { key: "brta-ait", label: "BRTA advance income tax", amount: reg.ait, verification: reg.verification },
-    { key: "brta-fees", label: "BRTA registration and fees", amount: reg.fees, verification: reg.verification },
+    { key: "brta-ait", label: "BRTA advance income tax", amount: reg.ait, verification: reg.aitVerification },
+    { key: "brta-fees", label: "BRTA registration, plate and fitness (estimate)", amount: reg.fees, verification: reg.feesVerification },
   ];
 
   const onRoad = cif + totalDuty + other.reduce((sum, l) => sum + l.amount, 0);

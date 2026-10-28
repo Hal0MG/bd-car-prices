@@ -5,11 +5,12 @@ export type Body = "car" | "microbus";
 
 /**
  * How sure we are about a rate.
- * - verified:   checked against the NBR duty calculator or gazette text
+ * - verified:   copied from the NBR customs tariff, a gazette or the duty calculator
  * - derived:    back-solved from a published total tax incidence (TTI) figure
- * - unverified: best available figure from secondary sources; needs checking
+ * - reported:   several news or industry sources agree; the official text hasn’t been seen
+ * - unverified: a placeholder or a figure sources disagree on; needs checking
  */
-export type Verification = "verified" | "derived" | "unverified";
+export type Verification = "verified" | "derived" | "reported" | "unverified";
 
 export interface Source {
   label: string;
@@ -59,7 +60,11 @@ export interface RateTable {
   /** recon depreciation on assessable value, by completed years of age */
   reconDepreciation: { maxAgeYears: number; pct: number }[];
   reconAgeLimitYears: number;
+  /** how sure we are of the depreciation schedule and the age limit */
+  reconVerification: Verification;
+  reconSources: Source[];
   registration: RegistrationFee[];
+  registrationSources: Source[];
   verifiedOn: string;
 }
 
@@ -67,9 +72,10 @@ export interface RegistrationFee {
   ccMax: number;
   /** advance income tax collected by BRTA at first registration */
   ait: number;
-  /** registration, tax token, fitness, digital plate etc. */
+  aitVerification: Verification;
+  /** registration, plate, fitness and similar; no reliable source for these */
   fees: number;
-  verification: Verification;
+  feesVerification: Verification;
 }
 
 export interface CalcInput {

@@ -63,7 +63,7 @@ export function Slip({ result: r, fobBdt, freightBdt, fobNote, refLabel, conditi
           )}
           {r.depreciation > 0 && (
             <tr className="sub">
-              <td>− {t.slip.depreciation} {r.depreciationPct}%</td>
+              <td>− {t.slip.depreciation} {r.depreciationPct}%<Flag v={TABLE.reconVerification} /></td>
               <td className="r">({plain(r.depreciation)})</td>
             </tr>
           )}

@@ -63,17 +63,73 @@ describe("slab selection", () => {
 
 describe("recon handling", () => {
   const asOf = new Date("2026-10-27");
+  const recon = (year: number, extra = {}) =>
+    calculate(T, {
+      fuel: "petrol", condition: "recon", cc: 1496, year,
+      fobBdt: 1_000_000, freightBdt: 0, insuranceBdt: 0, asOf, ...extra,
+    });
+  const overLimit = (year: number) => recon(year).warnings.some((w) => w.includes("limit"));
+
   it("counts age from 1 Jan of the following year", () => {
     expect(ageYears(2025, asOf)).toBe(0);
     expect(ageYears(2022, asOf)).toBe(3);
   });
-  it("depreciates assessable value and warns past the age limit", () => {
-    const r = calculate(T, {
-      fuel: "petrol", condition: "recon", cc: 1496, year: 2019,
-      fobBdt: 1_000_000, freightBdt: 0, insuranceBdt: 0, asOf,
-    });
-    expect(r.depreciationPct).toBe(30);
-    expect(r.assessableValue).toBeCloseTo(1_010_000 * 0.7);
-    expect(r.warnings.some((w) => w.includes("limit"))).toBe(true);
+
+  it.each([
+    [2026, 0],
+    [2025, 0],
+    [2024, 10],
+    [2023, 20],
+    [2022, 30],
+    [2021, 35],
+  ])("a %i car gets %i%% depreciation in late 2026", (year, pct) => {
+    expect(recon(year).depreciationPct).toBe(pct);
+  });
+
+  it("depreciates the assessable value", () => {
+    const r = recon(2021);
+    expect(r.assessableValue).toBeCloseTo(1_010_000 * 0.65);
+  });
+
+  it("refuses a car more than five years old at shipment", () => {
+    expect(overLimit(2021)).toBe(false);
+    expect(overLimit(2020)).toBe(true);
+    expect(overLimit(2019)).toBe(true);
+  });
+
+  it("ticks over on 1 January", () => {
+    const early = (year: number, d: string) => calculate(T, {
+      fuel: "petrol", condition: "recon", cc: 1496, year, fobBdt: 1e6, freightBdt: 0, asOf: new Date(d),
+    }).warnings.some((w) => w.includes("limit"));
+    expect(early(2021, "2026-12-31")).toBe(false);
+    expect(early(2021, "2027-01-15")).toBe(true);
+  });
+
+  it("warns that customs may use a reference price, unless one was given", () => {
+    const note = (w: string) => w.includes("reference price");
+    expect(recon(2023).warnings.some(note)).toBe(true);
+    expect(recon(2023, { referenceValueBdt: 1_500_000 }).warnings.some(note)).toBe(false);
+    const fresh = calculate(T, { fuel: "petrol", condition: "new", cc: 1496, year: 2026, fobBdt: 1e6, freightBdt: 0, asOf });
+    expect(fresh.warnings.some(note)).toBe(false);
+  });
+
+  it("never depreciates new cars", () => {
+    const fresh = calculate(T, { fuel: "petrol", condition: "new", cc: 1496, year: 2020, fobBdt: 1e6, freightBdt: 0, asOf });
+    expect(fresh.depreciationPct).toBe(0);
+  });
+});
+
+describe("registration costs", () => {
+  const bd = (cc: number) => calculate(T, { fuel: "petrol", condition: "new", cc, year: 2026, fobBdt: 1e6, freightBdt: 0 });
+  it.each([
+    [1500, 25_000],
+    [1501, 50_000],
+    [2000, 50_000],
+    [2500, 75_000],
+    [3000, 125_000],
+    [3500, 150_000],
+    [4000, 200_000],
+  ])("%icc pays %i AIT", (cc, ait) => {
+    expect(bd(cc).other.find((l) => l.key === "brta-ait")!.amount).toBe(ait);
   });
 });

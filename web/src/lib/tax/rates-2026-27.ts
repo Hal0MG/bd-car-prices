@@ -7,6 +7,18 @@ const TARIFF: Source = {
   label: "NBR Customs Tariff 2026-27, chapter 87 (11 Jun 2026)",
 };
 
+const RECON_SOURCES: Source[] = [
+  { label: "TBS, 12 Feb 2024 (depreciation schedule)", url: "https://www.tbsnews.net/nbr/importers-want-50-depreciation-facility-reconditioned-vehicles-791734" },
+  { label: "TBS, 14 Dec 2019 (35% cap, Yellow Book valuation)", url: "https://www.tbsnews.net/economy/reconditioned-car-sales-take-beating-over-duty-complexity" },
+  { label: "KMC Japan import guide, Oct 2026 (age limit)", url: "https://kmcjapan.co.jp/guide/how-to-import-to-bangladesh" },
+  { label: "JPSheet import guide, Oct 2026 (age limit)", url: "https://jpsheet.com/import-guide/bangladesh/" },
+];
+
+const REGISTRATION_SOURCES: Source[] = [
+  { label: "Vehicle registration cost calculator, Oct 2026 (cites NBR circular of 8 Jul 2024)", url: "https://xn--d6bxcvd.xn--54b7fta0cc/en/vehicle-registration/" },
+  { label: "Carbarn, engine cc tax in Bangladesh 2026", url: "https://www.carbarn.com.bd/blog/engine-cc-tax-bangladesh" },
+];
+
 const ICE: Fuel[] = ["petrol", "diesel"];
 const ELECTRIFIED: Fuel[] = ["hybrid", "phev"];
 
@@ -36,7 +48,9 @@ function line(
 }
 
 const MB = { body: "microbus" as const };
-const EV_BAN = { recon: "Reported in the Aug 2026 import policy; single source, unconfirmed." };
+const EV_BAN = {
+  recon: "The import policy published on 24 August 2026 is reported to ban used and reconditioned EVs (Dhaka Tribune, Daily New Nation). The order itself wasn't checked.",
+};
 
 export const RATES_2026_27: RateTable = {
   fiscalYear: "2026-27",
@@ -120,22 +134,31 @@ export const RATES_2026_27: RateTable = {
     })),
   ],
 
-  // Not in the tariff schedule. FY2018-19 schedule capped at 30%, the most recent cap reported (2024).
+  // Not in the tariff book. Year-by-year schedule as reported in 2018-2024 press
+  // coverage: 0% under 1 year, 10% to 2, 20% to 3, 30% to 4, 35% from 4 to 5 (the
+  // cap). BARVIDA has asked for 50%; no source shows that was granted.
   reconDepreciation: [
     { maxAgeYears: 1, pct: 0 },
     { maxAgeYears: 2, pct: 10 },
     { maxAgeYears: 3, pct: 20 },
-    { maxAgeYears: Infinity, pct: 30 },
+    { maxAgeYears: 4, pct: 30 },
+    { maxAgeYears: Infinity, pct: 35 },
   ],
+  reconVerification: "reported",
+  reconSources: RECON_SOURCES,
 
-  // BRTA first-registration costs. AIT was raised for non-EVs in FY27 (PwC);
-  // amounts below are pre-increase placeholders until confirmed.
+  // BRTA first-registration costs. The AIT figures agree across two sources and
+  // one says no FY27 change is confirmed; the PwC summary of the Finance Act says
+  // non-EV advance tax rose, so recheck. The other fees have no reliable source:
+  // the old placeholders (৳95,000 and up) were far above anything reported, so
+  // this is a flat estimate. The BRTA fee calculator is the official reference.
   registration: [
-    { ccMax: 1500, ait: 25000, fees: 95000, verification: "unverified" },
-    { ccMax: 2000, ait: 50000, fees: 110000, verification: "unverified" },
-    { ccMax: 2500, ait: 75000, fees: 125000, verification: "unverified" },
-    { ccMax: 3000, ait: 125000, fees: 140000, verification: "unverified" },
-    { ccMax: 3500, ait: 150000, fees: 155000, verification: "unverified" },
-    { ccMax: Infinity, ait: 200000, fees: 170000, verification: "unverified" },
+    { ccMax: 1500, ait: 25000, aitVerification: "reported", fees: 15000, feesVerification: "unverified" },
+    { ccMax: 2000, ait: 50000, aitVerification: "reported", fees: 15000, feesVerification: "unverified" },
+    { ccMax: 2500, ait: 75000, aitVerification: "reported", fees: 15000, feesVerification: "unverified" },
+    { ccMax: 3000, ait: 125000, aitVerification: "reported", fees: 15000, feesVerification: "unverified" },
+    { ccMax: 3500, ait: 150000, aitVerification: "reported", fees: 15000, feesVerification: "unverified" },
+    { ccMax: Infinity, ait: 200000, aitVerification: "reported", fees: 15000, feesVerification: "unverified" },
   ],
+  registrationSources: REGISTRATION_SOURCES,
 };

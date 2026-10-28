@@ -11,6 +11,24 @@ export interface ChangeEntry {
 export const CHANGELOG: ChangeEntry[] = [
   {
     date: "2026-10-27",
+    title: "Depreciation, age limit and BRTA fees checked",
+    points: [
+      "Recon depreciation now reaches 35%, the reported cap. We had stopped at 30%, so cars aged 4 to 5 years were under-depreciated. The schedule is 0%, 10%, 20%, 30% and 35% by age.",
+      "The 5-year age limit is confirmed by two current guides. Our check rounded the age down, so a 2020 car passed in 2026 when it should have been refused. It now matches the rule: built 2021 or later this year.",
+      "Reconditioned cars may be valued on the Yellow Book reference price rather than your invoice. Every reconditioned slip now says so.",
+      "BRTA advance income tax agrees across two sources and is marked reported. The other BRTA costs fell from ৳95,000–1,70,000 to a flat ৳15,000 estimate: no source supports the old figures, and the sources we found disagree on the real ones.",
+      "The ban on used and reconditioned EVs is now reported by several outlets, from the import policy published 24 August 2026.",
+      "Not yet checked: whether the Finance Act changed any rate from the 11 June tariff, and the official orders behind depreciation and the age limit.",
+    ],
+    sources: [
+      { label: "TBS, Feb 2024", url: "https://www.tbsnews.net/nbr/importers-want-50-depreciation-facility-reconditioned-vehicles-791734" },
+      { label: "TBS, Dec 2019", url: "https://www.tbsnews.net/economy/reconditioned-car-sales-take-beating-over-duty-complexity" },
+      { label: "KMC Japan", url: "https://kmcjapan.co.jp/guide/how-to-import-to-bangladesh" },
+      { label: "Daily New Nation", url: "https://dailynewnation.com/news/854953" },
+    ],
+  },
+  {
+    date: "2026-10-27",
     title: "All duty rates checked against the NBR tariff book",
     points: [
       "Every slab now comes straight from the FY2026-27 customs tariff (chapter 87), with its HS code.",
