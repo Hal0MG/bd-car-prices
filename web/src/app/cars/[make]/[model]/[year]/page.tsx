@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { Calculator } from "@/components/Calculator";
 import { CarFigure } from "@/components/CarFigure";
 import { CarPhoto } from "@/components/CarPhoto";
+import { LocalPrice } from "@/components/LocalPrice";
+import { LOCAL_META, localPriceFor } from "@/lib/local";
 import { inWords } from "@/lib/format";
 import { estimateFor } from "@/lib/estimate";
 import { CARS, carKey, carName, carSlug } from "@/lib/market";
@@ -61,6 +63,7 @@ export default async function CarPage({ params }: { params: Promise<Params> }) {
             : <CarFigure segment={car.segment} caption={car.fuel === "ev" ? "electric" : `${car.cc.toLocaleString("en-IN")} cc`} fig={car.make.toUpperCase()} />}
         </div>
       </header>
+      <LocalPrice local={localPriceFor(car)} importOnRoad={r.onRoad} age={Number(LOCAL_META.asOf.slice(0, 4)) - car.year} />
       <Calculator initialCar={index} exhibit={false} />
     </>
   );

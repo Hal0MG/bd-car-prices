@@ -72,6 +72,16 @@ The collector (`src/shotti_ml/collect/`) is gentle by construction, not by promi
 
 Two runs gathered 3,000 listings in 154 requests, with no failures. GarirBazar's terms grant "personal, non-commercial viewing" and don't mention automated access. The collection was made with an informal go-ahead from someone at the company, and written confirmation is still to be obtained: [docs/garirbazar-permission.md](docs/garirbazar-permission.md) has a short message for that.
 
+## On the site
+
+`export.py` fits LightGBM once, sets the width with the "scaled by difficulty" method, and writes an expected price and 80% range for each catalogue car to `web/src/lib/local-prices.json`. Car pages show it beside the import cost. The site runs no Python.
+
+A catalogue car gets a price only when its model has at least five current listings and at least three were built within a year of its model year; that is 29 of the 114 cars, almost all Toyotas. The rest show a note saying why there is no figure. Each car is predicted with its model's typical engine size and its listings' typical mileage, since cards report engine size in rough classes (mostly 1000 or 2000cc). Models without enough listings are left out, not guessed with the weaker ridge fallback.
+
+```bash
+.venv/Scripts/python.exe -I -m shotti_ml.export
+```
+
 ## What was done
 
 1. **Cleaning** (`current.py`), every change counted: 40 ads seen twice kept once (latest sighting), 137 with no price ("NEGOTIABLE") dropped, 22 impossible years and prices dropped, 23 price outliers dropped (below a quarter or above four times comparable cars), engine size filled in from the model's median for 18% of cars and mileage for 63%.
@@ -92,7 +102,7 @@ Two runs gathered 3,000 listings in 154 requests, with no failures. GarirBazar's
 ## Next
 
 1. Run the collector weekly, then study how long ads stay up and how asking prices fall.
-2. Export the model (ridge for unseen models, LightGBM otherwise) and its intervals so the site's car pages can show an expected local price beside the import cost.
+2. Widen the export beyond the 29 cars it covers today (see below), once more models have enough listings.
 3. Compare local prices with import cost once there is a source of Japan auction prices.
 
 ## Run it
