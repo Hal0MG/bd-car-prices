@@ -83,7 +83,10 @@ export default function Rates() {
         <p className="lede">
           Used imports can’t be more than {TABLE.reconAgeLimitYears} years old at shipment, counted from 1 January of
           the year after manufacture, so in {new Date().getFullYear()} that means built {new Date().getFullYear() - TABLE.reconAgeLimitYears} or
-          later. They must also ship from the country where they were built. Customs reduces the assessable value by age:
+          later. They must be right-hand drive, which is why German brands are bought as UK or Japan-market cars. Several import
+          guides also say a used car must ship from the country that built it. We couldn’t confirm that against the
+          import order, and a German car bought in the UK breaks it to the letter, so ask your C&amp;F agent. Customs
+          reduces the assessable value by age:
         </p>
         <table className="ledger num" style={{ maxWidth: 420 }}>
           <thead><tr><th>Age</th><th className="r">Depreciation</th></tr></thead>

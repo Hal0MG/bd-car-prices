@@ -51,7 +51,7 @@ export default async function CarPage({ params }: { params: Promise<Params> }) {
         </h1>
         <p className="lede">
           A reconditioned {car.year} {car.model} ({car.fuel === "ev" ? "electric" : `${car.cc}cc ${t.calc.fuels[car.fuel].toLowerCase()}`}) from{" "}
-          {t.calc.sources[car.origin]} falls in the “{r.slab.label}” slab. Duties come to{" "}
+          {car.origin === "uk" ? "the UK" : t.calc.sources[car.origin]} falls in the “{r.slab.label}” slab. Duties come to{" "}
           {r.tti.toFixed(1)}% of its assessable value. Change any number below to match your quote.
         </p>
         </div>

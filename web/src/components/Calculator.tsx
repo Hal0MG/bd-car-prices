@@ -6,7 +6,7 @@ import { Slip } from "./Slip";
 import { plain } from "@/lib/format";
 import { t } from "@/lib/i18n/en";
 import {
-  CARS, CURRENCY, DEFAULT_CLEARING_BDT, FREIGHT, FX, SYMBOL, byMake, carName,
+  CARS, CURRENCY, DEFAULT_CLEARING_BDT, FREIGHT, FX, SYMBOL, byMake, carName, originCaution,
   type CarModel, type Origin, type Segment,
 } from "@/lib/market";
 import { TABLE, calculate, type Body, type Condition, type Fuel } from "@/lib/tax";
@@ -118,11 +118,9 @@ export function Calculator({ initialCar = 0, exhibit = true }: { initialCar?: nu
         valueUsd: s.fuel === "ev" ? s.valueUsd || fobBdt / FX.USD : undefined,
         clearingBdt: s.clearing,
       });
-      if (s.origin === "uk" && car && car.builtIn !== "UK") {
-        r.warnings.unshift(`${car.make} cars aren't built in the UK. Bangladesh only admits used cars from their country of origin.`);
-      }
-      if ((s.origin === "uk" || s.origin === "germany") && s.carIdx === CUSTOM && s.condition === "recon") {
-        r.warnings.unshift(`Used cars must come from their country of origin, so this only works for cars built in ${t.calc.sources[s.origin]}.`);
+      if (s.condition === "recon") {
+        const caution = originCaution(s.origin, car?.builtIn);
+        if (caution) r.warnings.unshift(caution);
       }
       return r;
     } catch {
@@ -151,6 +149,7 @@ export function Calculator({ initialCar = 0, exhibit = true }: { initialCar?: nu
               </button>
             ))}
           </div>
+          <p className="hint">{t.calc.sourceHint}</p>
         </div>
 
         <label className="field">

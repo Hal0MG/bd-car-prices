@@ -11,7 +11,10 @@ export const metadata: Metadata = {
   description: "Estimated on-road prices for popular reconditioned cars imported to Bangladesh, with every duty itemised.",
 };
 
-const GROUPS: Origin[] = ["japan", "uk", "germany"];
+const GROUPS: Origin[] = ["japan", "uk"];
+const NOTES: Partial<Record<Origin, string>> = {
+  uk: "Bangladesh only admits right-hand-drive cars and Germany sells left-hand drive, so German brands are listed here as UK-market cars.",
+};
 
 export default function Cars() {
   return (
@@ -25,6 +28,7 @@ export default function Cars() {
       {GROUPS.map((g) => (
         <section key={g} className="section">
           <h2>From {t.calc.sources[g]}</h2>
+          {NOTES[g] && <p className="lede">{NOTES[g]}</p>}
           {byMake(CARS.filter((c) => c.origin === g), (c) => c).map(([make, list]) => (
             <div key={make} className="make-group">
               <h3 className="make">{make}</h3>

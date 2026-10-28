@@ -11,6 +11,19 @@ export interface ChangeEntry {
 export const CHANGELOG: ChangeEntry[] = [
   {
     date: "2026-10-27",
+    title: "German brands now come from the UK, not Germany",
+    points: [
+      "Bangladesh only admits right-hand-drive cars, and Germany sells left-hand drive. German brands (Mercedes-Benz, BMW, Volkswagen, Audi, Porsche) are now priced as UK-market cars in pounds. The from-Germany option and its euro pricing are gone.",
+      "The rule that a used car must ship from the country that built it is repeated by many guides, but we couldn't find it in the import order. A German car bought in the UK breaks it to the letter, so it is now a caution on the slip, not a block.",
+      "Added the models we had left out because of that rule: BMW X5 and Z4, Toyota GR Supra, Audi Q3, Q5 and Q7, and Porsche Cayenne.",
+    ],
+    sources: [
+      { label: "JPSheet import guide, Oct 2026", url: "https://jpsheet.com/import-guide/bangladesh/" },
+      { label: "Gari-Import regulations", url: "https://gari-import.com.bd/import-regulations" },
+    ],
+  },
+  {
+    date: "2026-10-27",
     title: "Depreciation, age limit and BRTA fees checked",
     points: [
       "Recon depreciation now reaches 35%, the reported cap. We had stopped at 30%, so cars aged 4 to 5 years were under-depreciated. The schedule is 0%, 10%, 20%, 30% and 35% by age.",

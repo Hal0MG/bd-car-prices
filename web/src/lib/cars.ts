@@ -1,12 +1,14 @@
-import type { CarModel, Origin, Segment } from "./market";
+import type { CarModel, Country, Origin, Segment } from "./market";
 
-type Row = [make: string, model: string, year: number, cc: number, fuel: CarModel["fuel"], segment: Segment, exampleFob: number];
+/** The last item is where the car was built, when that isn't the list's default. */
+type Row = [make: string, model: string, year: number, cc: number, fuel: CarModel["fuel"], segment: Segment, exampleFob: number, builtIn?: Country];
 
 // Example FOB prices are rough used-market starting points in the source
-// currency, not quotes. Bangladesh only admits used cars from the country
-// they were built in, so each list holds only cars built in that country.
-// Left out for that reason: Toyota Supra and BMW Z4 (Austria), BMW X5 (USA),
-// Audi Q5 (Mexico), Audi Q3/Q7 and Porsche Cayenne (Hungary/Slovakia).
+// currency, not quotes.
+//
+// Lists are grouped by where the car is bought. Bangladesh only admits
+// right-hand-drive cars, and Germany sells left-hand drive, so German brands
+// are listed as UK-market cars (priced in pounds) with their build country.
 
 const JAPAN: Row[] = [
   // Toyota
@@ -103,41 +105,47 @@ const UK: Row[] = [
   ["Nissan", "Qashqai", 2022, 1332, "petrol", "suv", 18_000],
   ["Nissan", "Juke", 2022, 999, "petrol", "suv", 14_000],
   ["Toyota", "Corolla Hybrid (UK-built)", 2022, 1798, "hybrid", "hatchback", 17_000],
+
+  // German brands as right-hand-drive UK-market cars.
+  ["Mercedes-Benz", "C 200", 2022, 1496, "petrol", "sedan", 32_500, "Germany"],
+  ["Mercedes-Benz", "E 200", 2022, 1991, "petrol", "sedan", 34_500, "Germany"],
+  ["Mercedes-Benz", "S 500", 2022, 2999, "petrol", "sedan", 82_000, "Germany"],
+  ["Mercedes-Benz", "GLC 200", 2023, 1999, "petrol", "suv", 43_000, "Germany"],
+  ["Mercedes-Benz", "C 300 Cabriolet", 2022, 1991, "petrol", "convertible", 36_000, "Germany"],
+  ["Mercedes-Benz", "AMG GT", 2022, 3982, "petrol", "coupe", 94_500, "Germany"],
+  ["BMW", "320i", 2022, 1998, "petrol", "sedan", 27_500, "Germany"],
+  ["BMW", "530e", 2022, 1998, "phev", "sedan", 32_500, "Germany"],
+  ["BMW", "740i", 2023, 2998, "petrol", "sedan", 82_000, "Germany"],
+  ["BMW", "X1 sDrive18i", 2023, 1499, "petrol", "suv", 32_500, "Germany"],
+  ["BMW", "M4 Convertible", 2022, 2993, "petrol", "convertible", 69_000, "Germany"],
+  ["BMW", "i4 eDrive40", 2022, 0, "ev", "sedan", 38_500, "Germany"],
+  ["Volkswagen", "Golf GTI", 2022, 1984, "petrol", "hatchback", 27_500, "Germany"],
+  ["Volkswagen", "Passat", 2022, 1984, "petrol", "sedan", 23_000, "Germany"],
+  ["Volkswagen", "Tiguan", 2022, 1395, "petrol", "suv", 24_000, "Germany"],
+  ["Volkswagen", "ID.4", 2022, 0, "ev", "suv", 27_500, "Germany"],
+  ["Audi", "A4", 2022, 1984, "petrol", "sedan", 27_500, "Germany"],
+  ["Audi", "A6", 2022, 1984, "petrol", "sedan", 34_500, "Germany"],
+  ["Audi", "A5 Cabriolet", 2022, 1984, "petrol", "convertible", 36_000, "Germany"],
+  ["Audi", "e-tron GT", 2022, 0, "ev", "sedan", 69_000, "Germany"],
+  ["Audi", "R8 V10", 2022, 5204, "petrol", "coupe", 129_000, "Germany"],
+  ["Porsche", "911 Carrera", 2022, 2981, "petrol", "coupe", 99_000, "Germany"],
+  ["Porsche", "718 Boxster", 2022, 1988, "petrol", "convertible", 56_000, "Germany"],
+  ["Porsche", "Macan", 2022, 1984, "petrol", "suv", 51_500, "Germany"],
+  ["Porsche", "Panamera", 2022, 2894, "petrol", "sedan", 82_000, "Germany"],
+  ["Porsche", "Taycan", 2022, 0, "ev", "sedan", 69_000, "Germany"],
+
+  // Not built in Germany or the UK, but sold new in the UK as right-hand drive.
+  ["BMW", "X5 xDrive40i", 2022, 2998, "petrol", "suv", 48_000, "USA"],
+  ["BMW", "Z4 sDrive20i", 2022, 1998, "petrol", "convertible", 35_000, "Austria"],
+  ["Toyota", "GR Supra", 2022, 2998, "petrol", "coupe", 48_000, "Austria"],
+  ["Audi", "Q3", 2022, 1498, "petrol", "suv", 27_000, "Hungary"],
+  ["Audi", "Q5", 2022, 1984, "petrol", "suv", 38_000, "Mexico"],
+  ["Audi", "Q7", 2022, 2995, "petrol", "suv", 50_000, "Slovakia"],
+  ["Porsche", "Cayenne", 2022, 2995, "petrol", "suv", 62_000, "Slovakia"],
 ];
 
-// Built in Germany: Sindelfingen, Bremen, Munich, Dingolfing, Regensburg,
-// Wolfsburg, Emden, Zwickau, Ingolstadt, Neckarsulm, Stuttgart, Leipzig.
-const GERMANY: Row[] = [
-  ["Mercedes-Benz", "C 200", 2022, 1496, "petrol", "sedan", 38_000],
-  ["Mercedes-Benz", "E 200", 2022, 1991, "petrol", "sedan", 40_000],
-  ["Mercedes-Benz", "S 500", 2022, 2999, "petrol", "sedan", 95_000],
-  ["Mercedes-Benz", "GLC 200", 2023, 1999, "petrol", "suv", 50_000],
-  ["Mercedes-Benz", "C 300 Cabriolet", 2022, 1991, "petrol", "convertible", 42_000],
-  ["Mercedes-Benz", "AMG GT", 2022, 3982, "petrol", "coupe", 110_000],
-  ["BMW", "320i", 2022, 1998, "petrol", "sedan", 32_000],
-  ["BMW", "530e", 2022, 1998, "phev", "sedan", 38_000],
-  ["BMW", "740i", 2023, 2998, "petrol", "sedan", 95_000],
-  ["BMW", "X1 sDrive18i", 2023, 1499, "petrol", "suv", 38_000],
-  ["BMW", "M4 Convertible", 2022, 2993, "petrol", "convertible", 80_000],
-  ["BMW", "i4 eDrive40", 2022, 0, "ev", "sedan", 45_000],
-  ["Volkswagen", "Golf GTI", 2022, 1984, "petrol", "hatchback", 32_000],
-  ["Volkswagen", "Passat", 2022, 1984, "petrol", "sedan", 27_000],
-  ["Volkswagen", "Tiguan", 2022, 1395, "petrol", "suv", 28_000],
-  ["Volkswagen", "ID.4", 2022, 0, "ev", "suv", 32_000],
-  ["Audi", "A4", 2022, 1984, "petrol", "sedan", 32_000],
-  ["Audi", "A6", 2022, 1984, "petrol", "sedan", 40_000],
-  ["Audi", "A5 Cabriolet", 2022, 1984, "petrol", "convertible", 42_000],
-  ["Audi", "e-tron GT", 2022, 0, "ev", "sedan", 80_000],
-  ["Audi", "R8 V10", 2022, 5204, "petrol", "coupe", 150_000],
-  ["Porsche", "911 Carrera", 2022, 2981, "petrol", "coupe", 115_000],
-  ["Porsche", "718 Boxster", 2022, 1988, "petrol", "convertible", 65_000],
-  ["Porsche", "Macan", 2022, 1984, "petrol", "suv", 60_000],
-  ["Porsche", "Panamera", 2022, 2894, "petrol", "sedan", 95_000],
-  ["Porsche", "Taycan", 2022, 0, "ev", "sedan", 80_000],
-];
-
-const toModel = (origin: Origin, builtIn: CarModel["builtIn"]) =>
-  ([make, model, year, cc, fuel, segment, exampleFob]: Row): CarModel => ({
+const toModel = (origin: Origin, defaultBuiltIn: Country) =>
+  ([make, model, year, cc, fuel, segment, exampleFob, builtIn = defaultBuiltIn]: Row): CarModel => ({
     make, model, year, cc, fuel, segment, origin, builtIn, exampleFob,
     body: segment === "minivan" ? "microbus" : "car",
   });
@@ -145,5 +153,4 @@ const toModel = (origin: Origin, builtIn: CarModel["builtIn"]) =>
 export const CARS: CarModel[] = [
   ...JAPAN.map(toModel("japan", "Japan")),
   ...UK.map(toModel("uk", "UK")),
-  ...GERMANY.map(toModel("germany", "Germany")),
 ];
