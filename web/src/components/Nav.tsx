@@ -8,8 +8,6 @@ const LINKS = [
   ["/", t.nav.calculator],
   ["/cars", t.nav.cars],
   ["/rates", t.nav.rates],
-  ["/changelog", t.nav.changelog],
-  ["/report", t.nav.report],
 ] as const;
 
 export function Nav() {

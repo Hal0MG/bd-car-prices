@@ -1,17 +1,12 @@
-import { takaShort } from "./format";
+import { plain, takaShort } from "./format";
 import { FX, SYMBOL, type Currency } from "./market";
 
 /** Taka per one unit of each foreign currency. The calculator overrides the source currency's rate. */
 export type Rates = Record<Currency, number>;
 export const DEFAULT_RATES: Rates = { JPY: FX.JPY, GBP: FX.GBP, USD: FX.USD };
 
-const thousands = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
-
-/** 1,300,000 rather than 13,00,000: yen, pounds and dollars are read in thousands, not lakh. */
-export const western = (n: number) => thousands.format(Math.round(n));
-
-/** ¥1,300,000, £27,500, $8,631 */
-export const foreign = (amount: number, cur: Currency) => `${SYMBOL[cur]}${western(amount)}`;
+/** ¥13,00,000, £27,500, $86,310: lakh grouping throughout, as Bangladeshi readers count. */
+export const foreign = (amount: number, cur: Currency) => `${SYMBOL[cur]}${plain(amount)}`;
 
 export const toBdt = (amount: number, cur: Currency, rates: Rates = DEFAULT_RATES) => amount * rates[cur];
 export const fromBdt = (bdt: number, cur: Currency, rates: Rates = DEFAULT_RATES) => bdt / rates[cur];

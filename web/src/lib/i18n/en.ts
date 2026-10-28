@@ -7,8 +7,6 @@ export const en = {
     calculator: "Calculator",
     cars: "Cars",
     rates: "Tax rates",
-    changelog: "Changelog",
-    report: "Report a price",
   },
   home: {
     title: "Shotti Dam: what a car actually costs to bring home",

@@ -46,6 +46,26 @@ const COMPARE: Record<Exclude<SortKey, "make">, (a: CarRow, b: CarRow) => number
   tax: (a, b) => a.tti - b.tti,
 };
 
+const PAGE = 24;
+
+/** One make as a tile: a photo of one of its cars, how many cars, and the cheapest on-road price. */
+function MakeTile({ make, rows, onOpen }: { make: string; rows: CarRow[]; onOpen: () => void }) {
+  const lead = rows.find((r) => r.thumb);
+  const from = Math.min(...rows.map((r) => r.onRoad));
+  return (
+    <li>
+      <button type="button" className="make-tile" onClick={onOpen}>
+        <span className="tile-photo">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          {lead?.thumb && <img src={lead.thumb.replace(/\/120px-/, "/330px-")} alt="" loading="lazy" decoding="async" />}
+        </span>
+        <span className="tile-name">{make}</span>
+        <span className="meta">{rows.length} {rows.length === 1 ? "car" : "cars"} · from {takaShort(from)}</span>
+      </button>
+    </li>
+  );
+}
+
 function Row({ r, showMake }: { r: CarRow; showMake?: boolean }) {
   const engine = r.fuel === "ev" ? t.calc.fuels.ev : `${r.cc}cc · ${t.calc.fuels[r.fuel]}`;
   return (
@@ -77,6 +97,8 @@ export function CarList({ rows }: { rows: CarRow[] }) {
   const [fuel, setFuel] = useState<"all" | Fuel>("all");
   const [segment, setSegment] = useState<"all" | Segment>("all");
   const [sort, setSort] = useState<SortKey>("make");
+  const [make, setMake] = useState<"all" | string>("all");
+  const [limit, setLimit] = useState(PAGE);
 
   const shown = useMemo(() => {
     const words = query.toLowerCase().split(/\s+/).filter(Boolean);
@@ -84,14 +106,19 @@ export function CarList({ rows }: { rows: CarRow[] }) {
       if (origin !== "all" && r.origin !== origin) return false;
       if (fuel !== "all" && r.fuel !== fuel) return false;
       if (segment !== "all" && r.segment !== segment) return false;
+      if (make !== "all" && r.make !== make) return false;
       const haystack = `${r.make} ${r.model} ${r.year}`.toLowerCase();
       return words.every((w) => haystack.includes(w));
     });
     return sort === "make" ? list : [...list].sort(COMPARE[sort]);
-  }, [rows, query, origin, fuel, segment, sort]);
+  }, [rows, query, origin, fuel, segment, sort, make]);
 
-  const filtered = query !== "" || origin !== "all" || fuel !== "all" || segment !== "all";
+  const filtered = query !== "" || origin !== "all" || fuel !== "all" || segment !== "all" || make !== "all";
+  // With nothing chosen, show makes rather than 114 rows to scroll through.
+  const browsing = !filtered && sort === "make";
   function clear() {
+    setMake("all");
+    setLimit(PAGE);
     setQuery("");
     setOrigin("all");
     setFuel("all");
@@ -109,7 +136,7 @@ export function CarList({ rows }: { rows: CarRow[] }) {
             className="input search-input"
             placeholder="Axio, BMW, Prado…"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => { setQuery(e.target.value); setLimit(PAGE); }}
             autoComplete="off"
           />
         </label>
@@ -118,7 +145,7 @@ export function CarList({ rows }: { rows: CarRow[] }) {
             <span className="eyebrow">Bought in</span>
             <div className="seg" role="group" aria-label="Bought in">
               {(["all", ...ORIGINS] as const).map((o) => (
-                <button key={o} type="button" aria-pressed={origin === o} onClick={() => setOrigin(o)}>
+                <button key={o} type="button" aria-pressed={origin === o} onClick={() => { setOrigin(o); setLimit(PAGE); }}>
                   {o === "all" ? "All" : t.calc.sources[o]}
                 </button>
               ))}
@@ -126,26 +153,27 @@ export function CarList({ rows }: { rows: CarRow[] }) {
           </div>
           <label className="field">
             <span className="eyebrow">Fuel</span>
-            <select className="select" value={fuel} onChange={(e) => setFuel(e.target.value as "all" | Fuel)}>
+            <select className="select" value={fuel} onChange={(e) => { setFuel(e.target.value as "all" | Fuel); setLimit(PAGE); }}>
               <option value="all">Any fuel</option>
               {FUELS.map((f) => <option key={f} value={f}>{t.calc.fuels[f]}</option>)}
             </select>
           </label>
           <label className="field">
             <span className="eyebrow">Body style</span>
-            <select className="select" value={segment} onChange={(e) => setSegment(e.target.value as "all" | Segment)}>
+            <select className="select" value={segment} onChange={(e) => { setSegment(e.target.value as "all" | Segment); setLimit(PAGE); }}>
               <option value="all">Any style</option>
               {SEGMENTS.map((s) => <option key={s} value={s}>{SEGMENT_LABEL[s]}</option>)}
             </select>
           </label>
           <label className="field">
             <span className="eyebrow">Sort by</span>
-            <select className="select" value={sort} onChange={(e) => setSort(e.target.value as SortKey)}>
+            <select className="select" value={sort} onChange={(e) => { setSort(e.target.value as SortKey); setLimit(PAGE); }}>
               {(Object.keys(SORTS) as SortKey[]).map((k) => <option key={k} value={k}>{SORTS[k]}</option>)}
             </select>
           </label>
         </div>
         <p className="result-count" aria-live="polite">
+          {make !== "all" && <><button type="button" className="link-btn" onClick={() => setMake("all")}>All makes</button> / <b>{make}</b> · </>}
           {shown.length === rows.length ? `All ${rows.length} cars` : `${shown.length} of ${rows.length} cars`}
           {filtered && <> · <button type="button" className="link-btn" onClick={clear}>Clear filters</button></>}
         </p>
@@ -155,7 +183,7 @@ export function CarList({ rows }: { rows: CarRow[] }) {
         <p className="empty">
           No cars match that. <button type="button" className="link-btn" onClick={clear}>Clear filters</button> or try a shorter search.
         </p>
-      ) : sort === "make" ? (
+      ) : browsing ? (
         ORIGINS.map((o) => {
           const inOrigin = shown.filter((r) => r.origin === o);
           if (inOrigin.length === 0) return null;
@@ -163,18 +191,22 @@ export function CarList({ rows }: { rows: CarRow[] }) {
             <section key={o} className="section">
               <h2>From {t.calc.sources[o]}</h2>
               {NOTES[o] && <p className="lede">{NOTES[o]}</p>}
-              {byMake(inOrigin, (r) => r).map(([make, list]) => (
-                <div key={make} className="make-group">
-                  <h3 className="make">{make}</h3>
-                  <ul className="index-list">{list.map((r) => <Row key={r.slug} r={r} />)}</ul>
-                </div>
-              ))}
+              <ul className="make-grid">
+                {byMake(inOrigin, (r) => r).map(([m, list]) => (
+                  <MakeTile key={m} make={m} rows={list} onOpen={() => setMake(m)} />
+                ))}
+              </ul>
             </section>
           );
         })
       ) : (
         <section className="section">
-          <ul className="index-list">{shown.map((r) => <Row key={r.slug} r={r} showMake />)}</ul>
+          <ul className="index-list">{shown.slice(0, limit).map((r) => <Row key={r.slug} r={r} showMake={make === "all"} />)}</ul>
+          {shown.length > limit && (
+            <button type="button" className="chip more" onClick={() => setLimit(limit + PAGE)}>
+              Show {Math.min(PAGE, shown.length - limit)} more of {shown.length - limit}
+            </button>
+          )}
         </section>
       )}
     </>

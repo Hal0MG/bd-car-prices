@@ -1,16 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { takaShort } from "./format";
-import { foreign, fromBdt, priceAlternates, toBdt, totalAlternates, western } from "./money";
+import { foreign, fromBdt, priceAlternates, toBdt, totalAlternates } from "./money";
 import { splitOnRoad } from "./summary";
 import { TABLE, calculate } from "./tax";
 
 const rates = { JPY: 0.81, GBP: 163, USD: 122 };
 
 describe("foreign amounts", () => {
-  it("group in thousands, not lakh", () => {
-    expect(foreign(1_300_000, "JPY")).toBe("¥1,300,000");
+  it("group in lakh and crore, as taka does", () => {
+    expect(foreign(1_300_000, "JPY")).toBe("¥13,00,000");
     expect(foreign(27_500, "GBP")).toBe("£27,500");
-    expect(western(12345.6)).toBe("12,346");
+    expect(foreign(12_345_678, "USD")).toBe("$1,23,45,678");
   });
   it("convert to taka and back", () => {
     expect(toBdt(1_300_000, "JPY", rates)).toBeCloseTo(1_053_000);
@@ -34,7 +34,7 @@ describe("alternate currencies", () => {
     expect(priceAlternates(10_000, "USD", rates)).toEqual(["৳12.20 lakh", "£7,485"]);
   });
   it("shows dollars and the source currency beside the on-road total", () => {
-    expect(totalAlternates(2_578_022, "JPY", rates)).toEqual(["$21,131", "¥3,182,743"]);
+    expect(totalAlternates(2_578_022, "JPY", rates)).toEqual(["$21,131", "¥31,82,743"]);
     expect(totalAlternates(2_578_022, "GBP", rates)[1]).toBe("£15,816");
     expect(totalAlternates(2_578_022, "USD", rates)).toEqual(["$21,131", "£15,816"]);
   });

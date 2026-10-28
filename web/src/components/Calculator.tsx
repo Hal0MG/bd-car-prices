@@ -10,7 +10,7 @@ import {
   type CarModel, type Origin, type Segment,
 } from "@/lib/market";
 import { PHOTOS } from "@/lib/photos";
-import { DEFAULT_RATES, foreign, priceAlternates, western, type Rates } from "@/lib/money";
+import { DEFAULT_RATES, foreign, priceAlternates, type Rates } from "@/lib/money";
 import { TABLE, calculate, type Body, type Condition, type Fuel } from "@/lib/tax";
 
 const FUELS = Object.keys(t.calc.fuels) as Fuel[];
@@ -57,9 +57,9 @@ function stateFor(car: CarModel, idx: number): State {
   };
 }
 
-// Taka and lakh grouping for taka, thousands grouping for yen, pounds and dollars.
+// Lakh grouping for every amount, in taka or in the currency the car was bought in.
 type Grouping = "bdt" | "foreign" | "none";
-const GROUP: Record<Grouping, (n: number) => string> = { bdt: plain, foreign: western, none: String };
+const GROUP: Record<Grouping, (n: number) => string> = { bdt: plain, foreign: plain, none: String };
 
 /** Number input that keeps its own text so people can clear and retype freely. */
 function NumInput({ value, onChange, id, grouping = "bdt", className = "" }: {
