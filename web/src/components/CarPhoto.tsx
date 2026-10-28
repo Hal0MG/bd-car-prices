@@ -12,7 +12,7 @@ export function CarPhoto({ photo, alt }: { photo: Photo; alt: string }) {
       <img
         src={small}
         srcSet={`${small} 500w, ${photo.src} 960w`}
-        sizes="(max-width: 820px) 90vw, 420px"
+        sizes="(max-width: 820px) 90vw, 520px"
         alt={alt}
         decoding="async"
       />

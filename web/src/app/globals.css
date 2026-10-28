@@ -27,7 +27,7 @@
   --bangla: var(--font-hind), var(--sans);
 
   --gutter: clamp(16px, 4vw, 40px);
-  --max: 1080px;
+  --max: 1280px;
 }
 
 /* Dark: the same ledger in reverse, ink-dark paper with pale ink. Follows the system unless the
@@ -235,14 +235,14 @@ table.ledger tr.group td { padding-top: 14px; font: 500 11px var(--mono); letter
   box-shadow: 0 1px 2px rgba(29, 27, 22, 0.18), 0 10px 18px -10px rgba(29, 27, 22, 0.35); }
 .photo::before { content: ""; position: absolute; top: -10px; left: 50%; width: 76px; height: 20px; transform: translateX(-50%) rotate(2deg);
   background: var(--tape); border: 1px solid var(--tape-edge); }
-.photo img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; background: var(--paper-rule); filter: saturate(0.88); }
+.photo img { display: block; width: 100%; height: auto; background: var(--paper-rule); filter: saturate(0.88); }
 .photo figcaption { font: 400 10.5px/1.45 var(--mono); color: var(--ink-3); padding: 8px 2px 10px; }
 .photo figcaption a { color: inherit; }
 
 /* ---------- car page header with exhibit ---------- */
 .car-head { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; align-items: center; }
 .car-head .exhibit { padding-top: 24px; }
-.car-head .exhibit .photo { max-width: 420px; margin-left: auto; }
+.car-head .exhibit .photo { max-width: 520px; margin-left: auto; }
 .car-head.solo { grid-template-columns: 1fr; }
 @media (max-width: 820px) { .car-head { grid-template-columns: 1fr; gap: 8px; } .car-head .exhibit .photo { margin: 12px auto 0; } }
 
