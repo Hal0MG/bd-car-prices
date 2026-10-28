@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 from lightgbm import LGBMRegressor
 from sklearn.base import BaseEstimator, RegressorMixin
-from sklearn.compose import ColumnTransformer
+from sklearn.compose import ColumnTransformer, make_column_selector
 from sklearn.linear_model import RidgeCV
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
@@ -46,7 +46,7 @@ def make_ridge():
     prep = ColumnTransformer(
         [
             ("num", StandardScaler(), NUMERIC),
-            ("cat", OneHotEncoder(handle_unknown="ignore"), CATEGORICAL),
+            ("cat", OneHotEncoder(handle_unknown="ignore"), make_column_selector(dtype_include="category")),
         ]
     )
     return make_pipeline(prep, RidgeCV(alphas=np.logspace(-2, 2, 25)))

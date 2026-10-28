@@ -6,8 +6,8 @@ Writes ../web/src/lib/local-prices.json, which the car pages read. The site neve
 the model predicts once per catalogue car, here, and the page shows the stored range.
 
 Only cars with real comparables get a price. A catalogue car is priced when its model has at
-least MIN_MODEL_LISTINGS current listings and at least MIN_NEAR listings built within a year of
-its model year. Everything else is left out, because a number from nothing would be a guess.
+least MIN_MODEL_LISTINGS current listings, at least MIN_NEAR listings built within a year of
+its model year, and a range no wider than MAX_SPREAD. Everything else is left out, because a number from nothing would be a guess.
 """
 
 from __future__ import annotations
@@ -20,17 +20,20 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from .current import clean_current, load_snapshots
+from .current import clean_current, load_all
 from .data import FUEL_COLUMNS, clean, load_raw
 from .features import MIN_MODEL_COUNT, build_features
 from .intervals import scaled_by_difficulty
 from .models import make_lgbm
+from .run_current import EXTRA
 
 CARS_TS = Path(__file__).resolve().parents[3] / "web" / "src" / "lib" / "cars.ts"
 OUT = Path(__file__).resolve().parents[3] / "web" / "src" / "lib" / "local-prices.json"
 
 MIN_MODEL_LISTINGS = MIN_MODEL_COUNT
-MIN_NEAR = 3
+MIN_NEAR = 5
+#: A range wider than this (high / low) says too little to be worth showing.
+MAX_SPREAD = 2.5
 ALPHA = 0.2
 
 #: Catalogue name -> the listing model it is sold as locally, with the fuel it implies.
@@ -59,8 +62,9 @@ def local_name(model: str, known: set[str]) -> str | None:
 def main() -> int:
     sys.stdout.reconfigure(encoding="utf-8")
     old, _ = clean(load_raw())
-    df, report, year = clean_current(load_snapshots(), sorted(old["car_model"].unique()))
-    X, y = build_features(df, year)
+    raw = load_all()
+    df, report, year = clean_current(raw, sorted(old["car_model"].unique()))
+    X, y = build_features(df, year, EXTRA)
 
     rng = np.random.default_rng(0)
     order = rng.permutation(len(X))
@@ -87,6 +91,7 @@ def main() -> int:
         row["engine_cc"] = typical.loc[name, "engine_cc"]
         row["reg_gap"] = 0
         row["automatic"] = 1
+        row["source"], row["condition"] = "bikroy", "Reconditioned"  # the catalogue prices reconditioned imports
         for col in FUEL_COLUMNS:
             row[col] = 0
         row["fuel_hybrid" if fuel == "hybrid" else "fuel_diesel" if fuel == "diesel" else "fuel_petrol"] = 1
@@ -104,13 +109,15 @@ def main() -> int:
     iv = scaled_by_difficulty(make_lgbm, X.iloc[fit], y.iloc[fit], X.iloc[cal], y.iloc[cal], Q, ALPHA)
     out = []
     for m, pred, lo, hi in zip(meta, iv.pred, iv.lo, iv.hi):
+        if np.exp(hi - lo) > MAX_SPREAD:
+            continue
         out.append({**m, "expected": round(float(np.exp(pred)), -3), "low": round(float(np.exp(lo)), -3), "high": round(float(np.exp(hi)), -3)})
 
     payload = {
-        "asOf": str(pd.to_datetime(load_snapshots()["observed_at"]).max().date()),
+        "asOf": str(pd.to_datetime(raw["observed_at"]).max().date()),
         "listings": report.rows_clean,
         "coverage": 1 - ALPHA,
-        "note": "Asking prices on GarirBazar for cars of this model and age, not sale prices.",
+        "note": "Asking prices on GarirBazar and Bikroy for reconditioned cars of this model and age, not sale prices.",
         "prices": out,
     }
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")

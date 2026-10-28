@@ -19,6 +19,19 @@ from .collect.garirbazar import canonical_model
 from .data import FUEL_PATTERNS, MAX_KM, MIN_PLAUSIBLE_CC
 
 SNAPSHOT_DIR = Path(__file__).resolve().parents[2] / "data" / "raw" / "garirbazar" / "snapshots"
+BIKROY_FILE = Path(__file__).resolve().parents[2] / "data" / "raw" / "bikroy" / "bikroy_clean.jsonl"
+
+#: Models whose name starts with another model's name. Without these, "Corolla Cross" collapses into
+#: "Corolla" and "Yaris Cross" into "Yaris", which are different cars at different prices.
+PREFIX_ALIASES = {
+    "land cruiser prado": "Prado",
+    "land cruiser-prado": "Prado",
+    "corolla cross": "Corolla Cross",
+    "corolla fielder": "Fielder",
+    "corolla axio": "Axio",
+    "yaris cross": "Yaris Cross",
+    "rav 4": "RAV4",
+}
 
 MIN_PRICE = 100_000
 MAX_PRICE = 300_000_000
@@ -39,19 +52,51 @@ class CurrentCleaningReport:
     engine_imputed: int
     mileage_imputed: int
     rows_clean: int
+    suspect_dropped: int = 0
+    rows_from_bikroy: int = 0
 
     def as_dict(self) -> dict[str, int]:
         return asdict(self)
 
 
+def canonical_current(model_raw: str, known_models: list[str]) -> str:
+    """The model's canonical name: the explicit aliases first, then the longest known model the text starts with."""
+    lowered = model_raw.lower().strip()
+    for prefix, name in sorted(PREFIX_ALIASES.items(), key=lambda kv: -len(kv[0])):
+        if lowered == prefix or lowered.startswith((prefix + " ", prefix + "-")):
+            return name
+    return canonical_model(model_raw, known_models)
+
+
 def load_snapshots(directory: Path = SNAPSHOT_DIR) -> pd.DataFrame:
     rows = [
-        {**json.loads(line), "filtered": path.stem.endswith("-filtered")}
+        {**json.loads(line), "filtered": path.stem.endswith("-filtered"), "source": "garirbazar", "condition": None}
         for path in sorted(directory.glob("*.jsonl"))
         for line in path.read_text(encoding="utf-8").splitlines()
         if line.strip()
     ]
     return pd.DataFrame(rows)
+
+
+def load_bikroy(path: Path = BIKROY_FILE) -> pd.DataFrame:
+    """Bikroy listings prepared by collect/bikroy_pdf.py; empty if the file isn't there.
+
+    These were read from pages saved in a browser and skew towards dearer cars, so they count as
+    over-sampled (`filtered`) and stay out of the like-for-like comparison with 2021.
+    """
+    if not path.exists():
+        return pd.DataFrame()
+    df = pd.read_json(path, lines=True, dtype=False)
+    df["observed_at"] = pd.to_datetime(df["observed_at"], utc=True).dt.strftime("%Y-%m-%dT%H:%M:%S+00:00")
+    df["filtered"] = True
+    df["suspect"] = df["suspect"].fillna(False).astype(bool)
+    return df
+
+
+def load_all() -> pd.DataFrame:
+    """GarirBazar snapshots and the Bikroy file, one row per sighting, with a `source` column."""
+    parts = [load_snapshots(), load_bikroy()]
+    return pd.concat([p for p in parts if not p.empty], ignore_index=True)
 
 
 def _tidy_case(value: str) -> str:
@@ -87,8 +132,16 @@ def clean_current(raw: pd.DataFrame, known_models: list[str]) -> tuple[pd.DataFr
     df = raw.sort_values("observed_at").copy()
     reference_year = int(pd.to_datetime(df["observed_at"]).dt.year.max())
 
-    several = int(df.duplicated("id").sum())
-    df = df.drop_duplicates("id", keep="last")  # the latest sighting of each ad
+    if "source" not in df:
+        df["source"] = "garirbazar"
+    if "condition" not in df:
+        df["condition"] = None
+    suspect = df["suspect"].fillna(False).astype(bool) if "suspect" in df else pd.Series(False, index=df.index)
+    n_suspect = int(suspect.sum())
+    df = df[~suspect]  # prices a human would call a misread (an extra zero), left unrepaired and unused
+
+    several = int(df.duplicated(["source", "id"]).sum())
+    df = df.drop_duplicates(["source", "id"], keep="last")  # the latest sighting of each ad
 
     no_price = int(df["price_bdt"].isna().sum())
     df = df[df["price_bdt"].notna()]
@@ -108,7 +161,11 @@ def clean_current(raw: pd.DataFrame, known_models: list[str]) -> tuple[pd.DataFr
     df["price"] = df["price_bdt"].astype(float)
     df["build_year"] = df["year"].astype(int)
     df["brand"] = df["make"].map(_tidy_case)
-    df["car_model"] = [_tidy_case(canonical_model(m, known_models)) for m in df["model"].fillna("")]
+    df["car_model"] = [
+        _tidy_case(m if source == "bikroy" else canonical_current(m, known_models))  # Bikroy names were already made canonical
+        for m, source in zip(df["model"].fillna(""), df["source"])
+    ]
+    df["condition"] = df["condition"].fillna("Unknown")
     df = df[df["car_model"] != ""].reset_index(drop=True)
 
     outliers = _price_outliers(df)
@@ -142,5 +199,7 @@ def clean_current(raw: pd.DataFrame, known_models: list[str]) -> tuple[pd.DataFr
         engine_imputed=n_engine,
         mileage_imputed=n_mileage,
         rows_clean=len(df),
+        suspect_dropped=n_suspect,
+        rows_from_bikroy=int((df["source"] == "bikroy").sum()),
     )
     return df, report, reference_year

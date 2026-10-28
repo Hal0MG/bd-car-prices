@@ -68,3 +68,15 @@ def test_fuel_gearbox_and_age_reach_the_model_inputs():
     car = df.index[df["id"] == 1][0]
     assert (X.loc[car, "fuel_petrol"], X.loc[car, "fuel_hybrid"], X.loc[car, "automatic"], X.loc[car, "age"]) == (1, 0, 0, 6)
     assert np.allclose(np.exp(y), df["price"])
+
+
+def test_cross_models_are_not_folded_into_their_base_model():
+    from shotti_ml.current import canonical_current
+
+    known = ["Corolla", "Yaris", "Land Cruiser", "Axio"]
+    assert canonical_current("corolla cross z leather", known) == "Corolla Cross"
+    assert canonical_current("Yaris Cross Hybrid", known) == "Yaris Cross"
+    assert canonical_current("land cruiser prado txl", known) == "Prado"
+    assert canonical_current("corolla axio x", known) == "Axio"
+    assert canonical_current("land cruiser vx-v8", known) == "Land Cruiser"
+    assert canonical_current("corolla x", known) == "Corolla"

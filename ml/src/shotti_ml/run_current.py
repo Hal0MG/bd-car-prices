@@ -12,9 +12,13 @@ import sys
 import pandas as pd
 
 from . import run_baseline as base
-from .current import clean_current, load_snapshots
+from .current import clean_current, load_all
 from .data import REFERENCE_YEAR, clean, load_raw
 from .features import build_features
+
+
+#: Which site an ad came from and whether it is used or reconditioned (only Bikroy says).
+EXTRA = ("source", "condition")
 
 
 def compare_with_2021(new: pd.DataFrame, new_year: int, old: pd.DataFrame, old_year: int, min_each: int = 8) -> pd.DataFrame:
@@ -53,14 +57,14 @@ def main() -> int:
     sys.stdout.reconfigure(encoding="utf-8")
     base.apply_style()
 
-    raw = load_snapshots()
+    raw = load_all()
     if raw.empty:
         print("No snapshots yet. Collect one first:\n  .venv/Scripts/python.exe -I -m shotti_ml.collect.run --pages 40")
         return 1
 
     old, _ = clean(load_raw())
     df, report, year = clean_current(raw, sorted(old["car_model"].unique()))
-    X, y = build_features(df, year)
+    X, y = build_features(df, year, EXTRA)
     print("Cleaning:", report.as_dict())
 
     base.set_output(base.REPORTS / "current")
@@ -69,13 +73,13 @@ def main() -> int:
         df, X, y,
         title="Results on current listings",
         intro=(
-            f"Asking-price models on {report.rows_clean:,} current GarirBazar listings, "
-            f"collected on {snapshots} day(s) up to {raw['observed_at'].max()[:10]}, including {int(raw['filtered'].sum()):,} "
-            "found with the site's own filter for ads asking 50 lakh or more (so dear cars are over-represented). Cards omit engine size on "
-            f"{report.engine_imputed / report.rows_clean:.0%} of listings and mileage on "
-            f"{report.mileage_imputed / report.rows_clean:.0%}, and never show body style or whether the car is "
-            "used or reconditioned. Missing engine sizes and mileages are filled in from similar cars, and "
-            "body style is left out."
+            f"Asking-price models on {report.rows_clean:,} current listings ({(df['source'] == 'garirbazar').sum():,} from GarirBazar, "
+            f"{report.rows_from_bikroy:,} from Bikroy), collected on {snapshots} day(s) up to {raw['observed_at'].max()[:10]}. "
+            f"{int(raw[raw['source'] == 'garirbazar']['filtered'].sum()):,} of the GarirBazar sightings come from the site's own filter for "
+            "ads asking 50 lakh or more, and the Bikroy pages skew expensive too, so dear cars are over-represented. "
+            f"Cards omit engine size on {report.engine_imputed / report.rows_clean:.0%} of listings and mileage on "
+            f"{report.mileage_imputed / report.rows_clean:.0%}, and show body style rarely. Only Bikroy says whether a car is used or "
+            "reconditioned. Missing engine sizes and mileages are filled in from similar cars."
         ),
         cleaning=report.as_dict(),
         extra={"reference_year": year},

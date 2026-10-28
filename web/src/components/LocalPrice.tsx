@@ -8,8 +8,8 @@ export function LocalPrice({ local, importOnRoad, age }: { local?: Local; import
       <section className="local" aria-label="Local market price">
         <p className="eyebrow">Local market</p>
         <p className="muted">
-          Not enough current listings of this car to give a price. We only show one when at least three
-          cars of this model, within a year of its model year, are for sale.
+          Not enough current listings of this car to give a price. We only show one when at least five
+          cars of this model, within a year of its model year, are for sale, and the range is narrow enough to say something.
         </p>
       </section>
     );
@@ -39,7 +39,7 @@ export function LocalPrice({ local, importOnRoad, age }: { local?: Local; import
       </p>
       <p className="local-note muted">
         From {local.listingsNear} listings near this model year ({local.listingsModel} of this model in all) out of{" "}
-        {LOCAL_META.listings.toLocaleString("en-IN")} collected from GarirBazar. “Probably” means an {Math.round(LOCAL_META.coverage * 100)}%
+        {LOCAL_META.listings.toLocaleString("en-IN")} collected from GarirBazar and Bikroy, priced as a reconditioned car. “Probably” means an {Math.round(LOCAL_META.coverage * 100)}%
         range, and in testing it held for about that share of listings the model had not been trained on. These are asking prices, not sale prices, and
         sellers usually take less.
       </p>
