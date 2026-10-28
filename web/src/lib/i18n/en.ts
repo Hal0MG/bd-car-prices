@@ -95,8 +95,6 @@ export const en = {
   },
   theme: { dark: "Dark", light: "Light", label: "Colour theme" },
   footer: {
-    disclaimer:
-      "Estimates only. Customs may assess a different value than your invoice, and rates change with each budget. Check with a licensed C&F agent before you commit money.",
     rates: "Rates: Finance Act",
     replay: "Replay the intro",
     introPhoto: "Intro photo",

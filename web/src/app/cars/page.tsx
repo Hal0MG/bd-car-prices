@@ -33,10 +33,6 @@ export default function Cars() {
     <>
       <header className="page-head">
         <h1>Import cost by car</h1>
-        <p className="lede">
-          {CARS.length} popular reconditioned imports, worked out at an example auction price. Taka first, with
-          dollars beneath. Open any car to change the numbers.
-        </p>
       </header>
       <CarList rows={rows} />
     </>

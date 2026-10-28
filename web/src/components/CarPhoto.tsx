@@ -24,7 +24,6 @@ export function CarPhoto({ photo, alt }: { photo: Photo; alt: string }) {
         ) : (
           photo.license
         )}
-        {photo.note && <> · {photo.note}</>}
       </figcaption>
     </figure>
   );

@@ -52,8 +52,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <footer className="footer">
           <div className="wrap">
             <p>
-              {t.footer.disclaimer}
-              <br />
               {/* a full load, not <Link>, so the head script sees ?intro */}
               {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
               <a href="/?intro">{t.footer.replay}</a>

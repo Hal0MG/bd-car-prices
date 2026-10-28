@@ -23,11 +23,6 @@ export function CarView({ index }: { index: number }) {
           <h1>
             {carName(car)}: <em>{inWords(r.onRoad).replace(" taka", "")}</em> on the road
           </h1>
-          <p className="lede">
-            A reconditioned {car.year} {car.model} ({car.fuel === "ev" ? "electric" : `${car.cc}cc ${t.calc.fuels[car.fuel].toLowerCase()}`}) from{" "}
-            {car.origin === "uk" ? "the UK" : t.calc.sources[car.origin]} falls in the “{r.slab.label}” slab. Duties come to{" "}
-            {r.tti.toFixed(1)}% of its assessable value. Change any number below to match your quote.
-          </p>
         </div>
         {photo && <div className="exhibit"><CarPhoto photo={photo} alt={carName(car)} /></div>}
       </header>
