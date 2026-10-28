@@ -70,7 +70,7 @@ The collector (`src/shotti_ml/collect/`) is gentle by construction, not by promi
 - It keeps car attributes only: make, model, year, price, mileage, engine, fuel, gearbox, city and when the ad was posted. It reads the description for the registration year and throws the rest away, because sellers put phone numbers and emails in it. A test checks that none survives.
 - Raw snapshots stay in `data/raw/`, which git ignores. Only code, tests and aggregate results are published, never the listings.
 
-Two runs gathered 3,000 listings in 154 requests, with no failures. GarirBazar's terms grant "personal, non-commercial viewing" and don't mention automated access. The collection was made with an informal go-ahead from someone at the company, and written confirmation is still to be obtained: [docs/garirbazar-permission.md](docs/garirbazar-permission.md) has a short message for that.
+Two runs gathered 3,000 listings in 154 requests, with no failures. GarirBazar's terms grant "personal, non-commercial viewing" and don't mention automated access. GarirBazar has approved the collection. `scripts/weekly_collect.ps1` takes a 100-page snapshot with a different page sample each week, meant to run from Windows Task Scheduler on Sundays; the draft request is kept in [docs/garirbazar-permission.md](docs/garirbazar-permission.md).
 
 ## On the site
 
