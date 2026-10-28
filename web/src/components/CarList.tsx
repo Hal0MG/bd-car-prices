@@ -28,9 +28,6 @@ export interface CarRow {
 const ORIGINS: Origin[] = ["japan", "uk"];
 const FUELS = Object.keys(t.calc.fuels) as Fuel[];
 const SEGMENTS = Object.keys(SEGMENT_LABEL) as Segment[];
-const NOTES: Partial<Record<Origin, string>> = {
-  uk: "Bangladesh only admits right-hand-drive cars and Germany sells left-hand drive, so German brands are listed here as UK-market cars.",
-};
 
 const SORTS = {
   make: "Make, A to Z",
@@ -190,7 +187,6 @@ export function CarList({ rows }: { rows: CarRow[] }) {
           return (
             <section key={o} className="section">
               <h2>From {t.calc.sources[o]}</h2>
-              {NOTES[o] && <p className="lede">{NOTES[o]}</p>}
               <ul className="make-grid">
                 {byMake(inOrigin, (r) => r).map(([m, list]) => (
                   <MakeTile key={m} make={m} rows={list} onOpen={() => setMake(m)} />

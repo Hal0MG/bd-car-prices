@@ -182,7 +182,6 @@ export function Calculator({ initialCar = 0, exhibit = true }: { initialCar?: nu
               </button>
             ))}
           </div>
-          <p className="hint">{t.calc.sourceHint}</p>
         </div>
 
         {makes.length > 0 && (

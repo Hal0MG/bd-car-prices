@@ -28,7 +28,6 @@ export const en = {
     rateNote: "Check today's rate before relying on the total.",
     clearingHint: "Agent, port and bank charges",
     sources: { japan: "Japan", uk: "UK", other: "New / other" },
-    sourceHint: "Right-hand drive only. German brands are bought as UK or Japan-market cars, never in Germany.",
     car: "Car",
     customCar: "Other car (enter details)",
     fuel: "Fuel",
