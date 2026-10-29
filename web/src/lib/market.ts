@@ -8,7 +8,7 @@ import type { Body, Fuel } from "./tax";
 export type Origin = "japan" | "uk" | "other";
 export type Currency = "JPY" | "GBP" | "USD";
 /** Where the car was manufactured, which can differ from where it is bought. */
-export type Country = "Japan" | "UK" | "Germany" | "USA" | "Mexico" | "Slovakia" | "Austria" | "Hungary" | "Italy" | "Sweden" | "Spain";
+export type Country = "Japan" | "UK" | "Germany" | "USA" | "Mexico" | "Slovakia" | "Austria" | "Hungary" | "Italy" | "Sweden" | "Spain" | "France" | "Czechia" | "South Korea";
 
 export const CURRENCY: Record<Origin, Currency> = { japan: "JPY", uk: "GBP", other: "USD" };
 export const SYMBOL: Record<Currency, string> = { JPY: "¥", GBP: "£", USD: "$" };
