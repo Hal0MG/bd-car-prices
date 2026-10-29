@@ -242,6 +242,24 @@ const UK: Row[] = [
   ["Kia", "EV6", 2022, 0, "ev", "suv", 40_000, "South Korea"],
   ["Hyundai", "i30 N", 2022, 1998, "petrol", "hatchback", 33_000, "Czechia"],
   ["Kia", "Stinger GT", 2021, 3342, "petrol", "sedan", 40_000, "South Korea"],
+
+  // Entry-level German cars, at the engine with the lowest tax: plug-in hybrids where the UK sells one.
+  ["Audi", "A1 25 TFSI", 2022, 999, "petrol", "hatchback", 17_000, "Spain"],
+  ["Audi", "A3 40 TFSI e", 2022, 1395, "phev", "hatchback", 26_000, "Germany"],
+  ["Audi", "Q2 30 TFSI", 2022, 999, "petrol", "suv", 21_000, "Germany"],
+  ["BMW", "118i", 2022, 1499, "petrol", "hatchback", 21_000, "Germany"],
+  ["BMW", "225e Active Tourer", 2022, 1499, "phev", "hatchback", 30_000, "Germany"],
+  ["BMW", "X2 xDrive25e", 2022, 1499, "phev", "suv", 29_000, "Germany"],
+  ["BMW", "X3 xDrive30e", 2022, 1998, "phev", "suv", 38_000, "USA"],
+  ["Mercedes-Benz", "A 250 e", 2022, 1332, "phev", "hatchback", 28_000, "Hungary"],
+  ["Mercedes-Benz", "B 250 e", 2022, 1332, "phev", "hatchback", 30_000, "Germany"],
+  ["Mercedes-Benz", "CLA 250 e", 2022, 1332, "phev", "sedan", 33_000, "Hungary"],
+  ["Mercedes-Benz", "GLA 250 e", 2022, 1332, "phev", "suv", 35_000, "Germany"],
+  ["Mercedes-Benz", "GLB 200", 2022, 1332, "petrol", "suv", 33_000, "Germany"],
+  ["Mini", "Countryman Cooper S E", 2022, 1499, "phev", "suv", 27_000, "Netherlands"],
+  ["Volkswagen", "Polo", 2022, 999, "petrol", "hatchback", 15_000, "Spain"],
+  ["Volkswagen", "T-Roc", 2022, 999, "petrol", "suv", 20_000, "Portugal"],
+  ["Volkswagen", "Up", 2022, 999, "petrol", "hatchback", 9_000, "Slovakia"],
 ];
 
 const toModel = (origin: Origin, defaultBuiltIn: Country) =>
