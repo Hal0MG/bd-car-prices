@@ -1,0 +1,62 @@
+{
+ "ads": 15400,
+ "models": 314,
+ "results": {
+  "Median by model (current)": {
+   "miss": 0.4229,
+   "spread": 0.1535,
+   "rmsle": 0.7412,
+   "gain_vs_current": -0.1616,
+   "gain_se": 0.019,
+   "better_in_folds": 0.07
+  },
+  "Ridge (current)": {
+   "miss": 0.3431,
+   "spread": 0.1142,
+   "rmsle": 0.5086,
+   "gain_vs_current": -0.0818,
+   "gain_se": 0.0078,
+   "better_in_folds": 0.0
+  },
+  "LightGBM (current)": {
+   "miss": 0.2612,
+   "spread": 0.0911,
+   "rmsle": 0.4221,
+   "gain_vs_current": 0.0,
+   "gain_se": 0.0,
+   "better_in_folds": 0.0
+  },
+  "LightGBM without the model name": {
+   "miss": 0.2271,
+   "spread": 0.094,
+   "rmsle": 0.4041,
+   "gain_vs_current": 0.0341,
+   "gain_se": 0.0117,
+   "better_in_folds": 0.72
+  },
+  "+ brand price level": {
+   "miss": 0.247,
+   "spread": 0.1238,
+   "rmsle": 0.4205,
+   "gain_vs_current": 0.0142,
+   "gain_se": 0.0158,
+   "better_in_folds": 0.65
+  },
+  "+ words in the model name": {
+   "miss": 0.2658,
+   "spread": 0.1239,
+   "rmsle": 0.4474,
+   "gain_vs_current": -0.0046,
+   "gain_se": 0.0156,
+   "better_in_folds": 0.5
+  },
+  "+ both": {
+   "miss": 0.2673,
+   "spread": 0.1257,
+   "rmsle": 0.4406,
+   "gain_vs_current": -0.0061,
+   "gain_se": 0.0155,
+   "better_in_folds": 0.5
+  }
+ }
+}

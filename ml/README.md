@@ -104,6 +104,12 @@ A catalogue car gets a price only when its model has at least five current listi
 
 The same car can be listed on both sites or reposted, and a copy in training with its twin in a test fold would flatter the error. `dedupe.py` finds probable twins: same model, build year and price (round prices collide constantly, so price alone proves nothing) plus mileage within 2%, or the same place when a mileage is missing. It found 885 ads with a twin (64 groups span both sites, 514 ads would be dropped to keep one per group). `run_duplicates.py` repeats the LightGBM test with twins kept in the same fold: the typical miss is 6.5% with random folds, 6.7% with every possible same-price group held out, 6.5% with confirmed twins held out, and 6.5% after dropping twins. Duplicates are not what makes the model look good, so the main results keep every ad.
 
+## Pricing a car nobody lists
+
+Most catalogue cars have no ads, and on car models held out of training LightGBM misses by 26%. `coldstart.py` and `run_coldstart.py` test ways to do better: leave the model name out (it is a category the booster has never met at test time), add the brand's price level, add price levels for the words in the model name (each computed out of fold with whole models held out). Over 8 repeats of 5 folds of whole models, with the same folds for every candidate: the current setup misses by 26.1%, without the model name 22.7% (3.4 points better, standard error 1.2, better in 72% of folds), with a brand level 24.7%, with name words 26.6%. A search over booster settings for the no-name version moved nothing beyond noise (21.1% to 21.9% on a fresh seed), so the gain comes from the features, not tuning.
+
+The model that never sees a name still cannot tell a Honda Fit from a Vezel (both 1.5-litre hybrids). Trying it on catalogue cars with no ads priced a Fit hybrid near ৳51 lakh, far too high, so no rough price is published for those cars.
+
 ## Limits
 
 - **One day of data.** All the snapshots and Bikroy pages were taken on 28 October 2026. Prices drift, so weekly snapshots are needed to see that, and to tell a slow-selling overpriced car from a fair one.

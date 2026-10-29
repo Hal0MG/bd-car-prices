@@ -607,6 +607,36 @@
    }
   ]
  },
+ "coldstart": [
+  {
+   "name": "LightGBM as used, with the model name",
+   "miss": 0.2612,
+   "gain": 0.0,
+   "se": 0.0,
+   "better": 0.0
+  },
+  {
+   "name": "LightGBM without the model name",
+   "miss": 0.2271,
+   "gain": 0.0341,
+   "se": 0.0117,
+   "better": 0.72
+  },
+  {
+   "name": "Also given the brand's price level",
+   "miss": 0.247,
+   "gain": 0.0142,
+   "se": 0.0158,
+   "better": 0.65
+  },
+  {
+   "name": "Also given the words in the model name",
+   "miss": 0.2658,
+   "gain": -0.0046,
+   "se": 0.0156,
+   "better": 0.5
+  }
+ ],
  "siteAgreement": {
   "cells": 139,
   "medianRatio": 0.969

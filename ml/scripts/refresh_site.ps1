@@ -3,7 +3,7 @@
 $ml = Split-Path -Parent $PSScriptRoot
 Set-Location $ml
 $py = "$ml\.venv\Scripts\python.exe"
-foreach ($module in "shotti_ml.run_current", "shotti_ml.export", "shotti_ml.run_duplicates", "shotti_ml.export_site", "shotti_ml.export_check") {
+foreach ($module in "shotti_ml.run_current", "shotti_ml.export", "shotti_ml.run_duplicates", "shotti_ml.run_coldstart", "shotti_ml.export_site", "shotti_ml.export_check") {
     Write-Host "== $module"
     & $py -I -m $module
     if ($LASTEXITCODE -ne 0) { Write-Error "$module failed"; exit 1 }

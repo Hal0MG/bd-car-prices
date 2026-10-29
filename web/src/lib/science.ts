@@ -21,6 +21,7 @@ export interface Science {
   features: { name: string; swing: number }[];
   byAge: { model: string; listings: number; cells: { age: number; n: number; p10: number; median: number; p90: number }[] }[];
   duplicates: { adsWithTwin: number; crossSiteClusters: number; dropped: number; setups: { name: string; miss: number }[] };
+  coldstart: { name: string; miss: number; gain: number; se: number; better: number }[];
   siteAgreement: { cells: number; medianRatio: number };
 }
 

@@ -118,6 +118,28 @@ export default function Method() {
       </section>
 
       <section className="section">
+        <h2>8. Pricing a car nobody lists</h2>
+        <p className="lede">
+          Most catalogue cars have no ads, and on a model it has never seen the model misses by about a quarter. The model name is the likely culprit: it is a category the booster has never met at test time. Two ways to borrow from related cars were tried, using each brand's price level and the words in the model name.
+        </p>
+        <div className="table-scroll">
+          <table className="plain">
+            <thead><tr><th>Approach</th><th>Typical miss</th><th>Gain over current</th></tr></thead>
+            <tbody>
+              {S.coldstart.map((c, i) => (
+                <tr key={c.name} className={c.name.startsWith("LightGBM without") ? "best" : undefined}>
+                  <td>{c.name}</td>
+                  <td className="num">{pct(c.miss)}</td>
+                  <td className="num">{i === 0 ? "" : `${c.gain >= 0 ? "+" : "−"}${(Math.abs(c.gain) * 100).toFixed(1)} pts ± ${(c.se * 100).toFixed(1)}`}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="muted">Whole car models held out together, 40 folds, the same folds for every row. Dropping the model name helps; the rest is no better. Even so, the model cannot tell a Fit from a Vezel (both 1.5 hybrids), so the site shows no rough price for cars without ads.</p>
+      </section>
+
+      <section className="section">
         <h2>Limits</h2>
         <ul className="limits">
           <li>These are asking prices, not sale prices. Sellers usually take less.</li>

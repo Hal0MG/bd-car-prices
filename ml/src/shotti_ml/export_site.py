@@ -22,6 +22,7 @@ from .data import clean, load_raw
 ROOT = Path(__file__).resolve().parents[3]
 METRICS = ROOT / "ml" / "reports" / "current" / "baseline_metrics.json"
 DUPLICATES = ROOT / "ml" / "reports" / "duplicates.json"
+COLDSTART = ROOT / "ml" / "reports" / "coldstart.json"
 OUT = ROOT / "web" / "src" / "lib" / "data-science.json"
 
 MIN_CELL = 8
@@ -50,6 +51,21 @@ def duplicates() -> dict:
             {"name": "Twins dropped, random folds", "miss": r["twins dropped, random folds"]["miss"]},
         ],
     }
+
+
+def coldstart() -> list[dict]:
+    """Pricing a model with no ads, from run_coldstart.py: the current booster against versions that borrow from related cars."""
+    r = json.loads(COLDSTART.read_text(encoding="utf-8"))["results"]
+    names = [
+        ("LightGBM (current)", "LightGBM as used, with the model name"),
+        ("LightGBM without the model name", "LightGBM without the model name"),
+        ("+ brand price level", "Also given the brand's price level"),
+        ("+ words in the model name", "Also given the words in the model name"),
+    ]
+    return [
+        {"name": label, "miss": r[k]["miss"], "gain": r[k]["gain_vs_current"], "se": r[k]["gain_se"], "better": r[k]["better_in_folds"]}
+        for k, label in names
+    ]
 
 
 def main() -> int:
@@ -118,6 +134,7 @@ def main() -> int:
         "features": [{"name": k, "swing": v} for k, v in list(m["feature_swing_pct"].items())[:8]],
         "byAge": by_age,
         "duplicates": duplicates(),
+        "coldstart": coldstart(),
         "siteAgreement": {"cells": int(len(ratio)), "medianRatio": round(float(ratio.median()), 3)},
     }
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")

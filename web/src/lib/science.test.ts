@@ -29,6 +29,11 @@ describe("data-science.json", () => {
     for (const o of others) expect(Math.abs(o.miss - headline.miss)).toBeLessThan(0.01);
   });
 
+  it("compares every cold-start approach on the same footing", () => {
+    expect(S.coldstart.length).toBe(4);
+    expect(S.coldstart.every((c) => c.miss > 0 && c.miss < 1)).toBe(true);
+  });
+
   it("scaled intervals hold the target in every price band", () => {
     for (const b of S.coverage.bands) expect(Math.abs(b.scaled - S.coverage.target)).toBeLessThan(0.05);
   });
