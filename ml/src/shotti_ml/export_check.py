@@ -5,8 +5,7 @@ Run from the ml/ folder (after run_current):
     .venv/Scripts/python.exe -I -m shotti_ml.export_check
 Writes ../web/src/lib/check.json. Every ad is predicted by a model that never saw it (5 random
 folds, the same setup as the headline error). Only counts and medians per model and age leave this
-script, never a single ad: GarirBazar and Bikroy allowed collection for this project, not republishing
-their listings. A cell with fewer than MIN_CELL ads is left out.
+script, never a single ad: the site shows aggregates, not individual listings. A cell with fewer than MIN_CELL ads is left out.
 """
 
 from __future__ import annotations

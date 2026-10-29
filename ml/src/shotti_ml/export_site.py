@@ -3,8 +3,7 @@
 Run from the ml/ folder (after run_current):
     .venv/Scripts/python.exe -I -m shotti_ml.export_site
 Writes ../web/src/lib/data-science.json. Only counts, medians and percentile bands leave this
-script, never individual listings: GarirBazar and Bikroy allowed collection for this project,
-not republishing their ads. A cell with fewer than MIN_CELL listings is left out.
+script, never individual listings: the site shows aggregates, not individual ads. A cell with fewer than MIN_CELL listings is left out.
 """
 
 from __future__ import annotations

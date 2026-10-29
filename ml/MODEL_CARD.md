@@ -2,11 +2,11 @@
 
 ## What it does
 
-Predicts the asking price, in taka, of a reconditioned car already for sale in Bangladesh, with an 80% range. It feeds the "Local market" block on 35 of the site's 226 catalogue car pages and the Gap page. It does not predict what a car sells for, and it does not predict the price of a car abroad.
+Predicts the asking price, in taka, of a reconditioned car already for sale in Bangladesh, with an 80% range. It feeds the "Local market" block on 34 of the site's 226 catalogue car pages and the Gap page. It does not predict what a car sells for, and it does not predict the price of a car abroad.
 
 ## Data
 
-15,400 current ads after cleaning (18,121 read): 12,388 from GarirBazar and 3,012 from Bikroy, collected on one day (28 October 2026). GarirBazar was collected politely (robots.txt, three-second gaps, car attributes only, with permission). Bikroy sits behind bot protection, which the project does not bypass: its pages were saved by hand from a browser, with Bikroy's permission, then read by OCR. No descriptions, phone numbers or seller details are kept, and the site publishes only counts, medians and percentile bands, never an individual ad.
+15,400 current ads after cleaning (18,121 read): 12,388 from GarirBazar and 3,012 from Bikroy, collected on one day (28 October 2026). GarirBazar was collected politely (robots.txt, three-second gaps, car attributes only). Bikroy sits behind bot protection, which the project does not bypass: its pages were saved by hand from a browser, then read by OCR. No descriptions, phone numbers or seller details are kept, and the site publishes only counts, medians and percentile bands, never an individual ad.
 
 Known skew: 83% of ads are Toyotas, only 115 of 314 car models have five or more ads, and ads asking 50 lakh or more were collected deliberately, so expensive cars are over-represented. Engine size is filled in for 31% of ads and mileage for 68% from similar cars.
 

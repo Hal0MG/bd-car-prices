@@ -36,7 +36,7 @@ export default function Method() {
           { label: "GarirBazar", value: S.bySource.garirbazar, text: n(S.bySource.garirbazar) },
           { label: "Bikroy", value: S.bySource.bikroy, text: n(S.bySource.bikroy) },
         ]} />
-        <p className="muted">Ads collected as of {S.asOf}. GarirBazar was read politely, a few seconds apart, with its permission. Bikroy’s pages were saved by hand from a browser, with its permission. Only car details are kept, never descriptions or contacts.</p>
+        <p className="muted">Ads collected as of {S.asOf}, from GarirBazar and Bikroy. Only car details are kept, never descriptions or contacts.</p>
       </section>
 
       <section className="section">
