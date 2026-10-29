@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { estimateFor } from "./estimate";
-import { CARS, POPULAR, carKey, carName, carSlug, originCaution } from "./market";
+import { CARS, FX, POPULAR, carKey, carName, carSlug, originCaution } from "./market";
 import { PHOTOS } from "./photos";
 import { TABLE, exactAgeYears } from "./tax";
 
@@ -48,8 +48,10 @@ describe("car catalogue", () => {
   });
 
   // Fails each January for the oldest example years; roll them forward when it does.
-  it("only lists cars young enough to import as recon", () => {
-    const tooOld = CARS.filter((c) => exactAgeYears(c.year, new Date()) > TABLE.reconAgeLimitYears);
+  it("only lists cars young enough to import as recon, as of the rates date", () => {
+    // Fixed to the date the rates were set, so the build doesn't break when a model year ages out.
+    // Roll the catalogue's years forward each January; car pages warn about any car past the limit.
+    const tooOld = CARS.filter((c) => exactAgeYears(c.year, new Date(FX.asOf)) > TABLE.reconAgeLimitYears);
     expect(tooOld.map(carName)).toEqual([]);
   });
 

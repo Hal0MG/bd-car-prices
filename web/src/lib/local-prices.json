@@ -7,13 +7,13 @@
   {
    "make": "Toyota",
    "model": "Axio",
-   "year": 2021,
+   "year": 2022,
    "local_model": "Axio",
-   "listings_near": 447,
+   "listings_near": 106,
    "listings_model": 873,
-   "expected": 2716000.0,
-   "low": 2379000.0,
-   "high": 3100000.0
+   "expected": 3054000.0,
+   "low": 2680000.0,
+   "high": 3482000.0
   },
   {
    "make": "Toyota",
@@ -29,46 +29,46 @@
   {
    "make": "Toyota",
    "model": "Fielder",
-   "year": 2021,
+   "year": 2022,
    "local_model": "Fielder",
-   "listings_near": 239,
+   "listings_near": 57,
    "listings_model": 440,
-   "expected": 2676000.0,
-   "low": 2368000.0,
-   "high": 3025000.0
+   "expected": 3018000.0,
+   "low": 2670000.0,
+   "high": 3411000.0
   },
   {
    "make": "Toyota",
    "model": "Fielder Hybrid",
-   "year": 2021,
+   "year": 2022,
    "local_model": "Fielder",
-   "listings_near": 239,
+   "listings_near": 57,
    "listings_model": 440,
-   "expected": 2605000.0,
-   "low": 2346000.0,
-   "high": 2891000.0
+   "expected": 2936000.0,
+   "low": 2644000.0,
+   "high": 3261000.0
   },
   {
    "make": "Toyota",
    "model": "Premio",
-   "year": 2021,
+   "year": 2022,
    "local_model": "Premio",
-   "listings_near": 319,
+   "listings_near": 176,
    "listings_model": 624,
-   "expected": 4676000.0,
-   "low": 4278000.0,
-   "high": 5112000.0
+   "expected": 4943000.0,
+   "low": 4517000.0,
+   "high": 5410000.0
   },
   {
    "make": "Toyota",
    "model": "Allion",
-   "year": 2021,
+   "year": 2022,
    "local_model": "Allion",
-   "listings_near": 76,
+   "listings_near": 14,
    "listings_model": 328,
-   "expected": 4335000.0,
-   "low": 3903000.0,
-   "high": 4815000.0
+   "expected": 4694000.0,
+   "low": 4194000.0,
+   "high": 5253000.0
   },
   {
    "make": "Toyota",
@@ -271,13 +271,13 @@
   {
    "make": "Toyota",
    "model": "Esquire Hybrid",
-   "year": 2021,
+   "year": 2022,
    "local_model": "Esquire",
-   "listings_near": 436,
+   "listings_near": 142,
    "listings_model": 529,
-   "expected": 4141000.0,
-   "low": 3779000.0,
-   "high": 4538000.0
+   "expected": 4409000.0,
+   "low": 4023000.0,
+   "high": 4832000.0
   },
   {
    "make": "Toyota",
@@ -292,25 +292,14 @@
   },
   {
    "make": "Honda",
-   "model": "Grace Hybrid",
-   "year": 2021,
-   "local_model": "Grace",
-   "listings_near": 28,
-   "listings_model": 61,
-   "expected": 2797000.0,
-   "low": 2452000.0,
-   "high": 3190000.0
-  },
-  {
-   "make": "Honda",
    "model": "Insight",
-   "year": 2021,
+   "year": 2022,
    "local_model": "Insight",
-   "listings_near": 98,
+   "listings_near": 67,
    "listings_model": 142,
-   "expected": 3983000.0,
-   "low": 3627000.0,
-   "high": 4374000.0
+   "expected": 4411000.0,
+   "low": 3979000.0,
+   "high": 4889000.0
   },
   {
    "make": "Honda",
@@ -337,13 +326,13 @@
   {
    "make": "Honda",
    "model": "CR-V",
-   "year": 2021,
+   "year": 2022,
    "local_model": "CR-V",
-   "listings_near": 509,
+   "listings_near": 292,
    "listings_model": 675,
-   "expected": 6208000.0,
-   "low": 5622000.0,
-   "high": 6856000.0
+   "expected": 6369000.0,
+   "low": 5770000.0,
+   "high": 7031000.0
   },
   {
    "make": "Nissan",
