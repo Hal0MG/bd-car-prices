@@ -37,6 +37,8 @@ const JAPAN: Row[] = [
   ["Toyota", "Crown Crossover", 2023, 2487, "hybrid", "sedan", 4_200_000],
   ["Toyota", "Land Cruiser Prado TX", 2022, 2693, "petrol", "suv", 4_800_000],
   ["Toyota", "GR86", 2022, 2387, "petrol", "coupe", 3_000_000],
+  // The 2.0-litre (SZ-R) is the Supra people bring in from Japan; it is built in Austria.
+  ["Toyota", "GR Supra", 2022, 1998, "petrol", "coupe", 5_500_000, "Austria"],
   ["Toyota", "Noah", 2022, 1986, "petrol", "minivan", 2_700_000],
   ["Toyota", "Noah Hybrid", 2022, 1797, "hybrid", "minivan", 3_100_000],
   ["Toyota", "Voxy Hybrid", 2022, 1797, "hybrid", "minivan", 3_200_000],
@@ -171,7 +173,6 @@ const UK: Row[] = [
   // Not built in Germany or the UK, but sold new in the UK as right-hand drive.
   ["BMW", "X5 xDrive40i", 2022, 2998, "petrol", "suv", 48_000, "USA"],
   ["BMW", "Z4 sDrive20i", 2022, 1998, "petrol", "convertible", 35_000, "Austria"],
-  ["Toyota", "GR Supra", 2022, 2998, "petrol", "coupe", 48_000, "Austria"],
   ["Audi", "Q3", 2022, 1498, "petrol", "suv", 27_000, "Hungary"],
   ["Audi", "Q5", 2022, 1984, "petrol", "suv", 38_000, "Mexico"],
   ["Audi", "Q7", 2022, 2995, "petrol", "suv", 50_000, "Slovakia"],
