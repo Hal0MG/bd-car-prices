@@ -362,3 +362,31 @@ details.more summary { line-height: 1.5; }
 .make-tile:hover .tile-photo { border-color: var(--ink); }
 .more { margin-top: 16px; padding: 8px 14px; }
 @media (max-width: 560px) { .make-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* ---------- data pages ---------- */
+.bars { list-style: none; padding: 0; margin: 0 0 10px; border-top: 1.5px solid var(--ink); }
+.bars li { display: grid; grid-template-columns: minmax(130px, 220px) 1fr 80px; gap: 14px; align-items: center; padding: 7px 0; border-bottom: 1px dotted var(--dots); }
+.bar-label { font: 400 15px var(--serif); }
+.bar-track { height: 12px; background: var(--paper-rule); }
+.bar-fill { display: block; height: 100%; background: var(--ink-3); }
+.bar-fill.accent { background: var(--rust); }
+.bar-value { font: 500 13px var(--mono); text-align: right; }
+table.plain { width: 100%; border-collapse: collapse; font: 400 14px var(--sans); border-top: 1.5px solid var(--ink); }
+table.plain th { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); text-align: left; padding: 8px 12px 8px 0; }
+table.plain td { padding: 9px 12px 9px 0; border-bottom: 1px dotted var(--dots); }
+table.plain tr.best td, table.plain td.best-cell { color: var(--rust); font-weight: 500; }
+.limits { margin: 0; padding-left: 18px; color: var(--ink-2); max-width: 640px; }
+.limits li { margin: 6px 0; }
+.chart { width: 100%; height: auto; display: block; max-width: 520px; }
+.chart .grid { stroke: var(--hair); stroke-width: 1; }
+.chart .axis { font: 400 10px var(--mono); fill: var(--ink-3); }
+.chart .range { stroke: var(--ink-3); stroke-width: 6; stroke-linecap: butt; opacity: 0.55; }
+.chart .median { fill: var(--rust); }
+.chart .line polyline { stroke: var(--ink-3); stroke-width: 2; }
+.chart .line.accent polyline { stroke: var(--rust); }
+.chart .line text { fill: var(--ink-2); }
+.market-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 28px 36px; margin-top: 8px; }
+.market-card { margin: 0; }
+.market-card h2 { font-size: 22px; margin: 0; }
+.market-card figcaption { margin-bottom: 6px; }
+@media (max-width: 560px) { .bars li { grid-template-columns: 1fr 70px; } .bar-track { grid-column: 1 / -1; grid-row: 2; } .bar-label { grid-column: 1; } .bar-value { grid-column: 2; grid-row: 1; } }

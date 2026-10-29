@@ -7,6 +7,8 @@ import { t } from "@/lib/i18n/en";
 const LINKS = [
   ["/", t.nav.calculator],
   ["/cars", t.nav.cars],
+  ["/market", "Market"],
+  ["/method", "Method"],
   ["/rates", t.nav.rates],
 ] as const;
 
