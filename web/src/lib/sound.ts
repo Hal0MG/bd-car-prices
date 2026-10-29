@@ -9,7 +9,7 @@ export const SOUND_KEY = "sd-sound";
 /** fired on window when sound is switched on or off */
 export const SOUND_EVENT = "sd-sound";
 
-const VOLUME = 0.8;
+const VOLUME = 0.4;
 let ctx: AudioContext | null = null, master: GainNode, noiseBuf: AudioBuffer;
 let drone: { stop: (fade: number) => void } | null = null;
 
@@ -67,19 +67,33 @@ function noise(c: AudioContext, t: number, len: number, out: AudioNode) {
   return s;
 }
 
-/** a soft tick for buttons and links */
-export function click() {
+export type ClickKind = "link" | "button" | "toggle";
+
+/** a random factor around 1, so no two clicks sound quite the same */
+const vary = (spread: number) => 1 + (Math.random() * 2 - 1) * spread;
+
+/** A short sound for a click. Links tick, buttons tap, toggles and menus pip; each is nudged in pitch and level. */
+export function click(kind: ClickKind = "button") {
   const c = audio(); if (!c) return;
-  const t = c.currentTime;
-  tone(c, t, "sine", 2400, 1400, env(c, t, 0.05, 0.002, 0.04), 0.05);
+  const t = c.currentTime, p = vary(0.12), g = vary(0.25);
   const bp = c.createBiquadFilter();
-  bp.type = "bandpass"; bp.frequency.value = 4000; bp.Q.value = 2;
-  bp.connect(env(c, t, 0.04, 0.001, 0.012));
+  bp.type = "bandpass"; bp.frequency.value = 3800 * vary(0.3); bp.Q.value = 2;
   noise(c, t, 0.02, bp);
+  if (kind === "link") {
+    tone(c, t, "sine", 2600 * p, 1600 * p, env(c, t, 0.035 * g, 0.002, 0.035), 0.045);
+    bp.connect(env(c, t, 0.025 * g, 0.001, 0.01));
+  } else if (kind === "button") {
+    tone(c, t, "triangle", 950 * p, 620 * p, env(c, t, 0.06 * g, 0.002, 0.06), 0.07);
+    bp.connect(env(c, t, 0.035 * g, 0.001, 0.015));
+  } else {
+    const f1 = 1200 * p, f2 = f1 * (Math.random() < 0.5 ? 4 / 3 : 3 / 4);   // two pips, a fourth up or down
+    tone(c, t, "sine", f1, f1, env(c, t, 0.04 * g, 0.002, 0.03), 0.04);
+    tone(c, t + 0.045, "sine", f2, f2, env(c, t + 0.045, 0.035 * g, 0.002, 0.04), 0.05);
+  }
 }
 
-// A minor pentatonic, so ledger lines climb without ever clashing with the drone.
-const SCALE = [0, 3, 5, 7, 10, 12, 15, 17, 19, 22, 24, 27];
+// A major pentatonic, so ledger lines climb without ever clashing with the pad.
+const SCALE = [0, 2, 4, 7, 9, 12, 14, 16, 19, 21, 24, 26];
 const note = (semis: number) => 440 * Math.pow(2, semis / 12);
 
 /** a line arriving on the slip; i is its place in the list, so the slip climbs as it fills */
@@ -136,32 +150,39 @@ export function whoosh(len: number) {
 export function arrive(delay = 0) {
   const c = audio(); if (!c) return;
   const t = c.currentTime + delay;
-  for (const [i, s] of [-12, 0, 7, 12, 15].entries()) {
+  for (const [i, s] of [-12, 0, 4, 7, 12, 16].entries()) {
     const f = note(s);
     tone(c, t + i * 0.06, "triangle", f, f, env(c, t + i * 0.06, 0.06, 0.08, 2.6), 2.8);
   }
 }
 
-/** a low, slowly moving pad under the intro; starting it twice does nothing */
+/** a soft, warm major chord under the intro, each note swelling on its own; starting it twice does nothing */
 export function startDrone() {
   const c = audio(); if (!c || drone) return;
   const t = c.currentTime;
   const out = c.createGain();
   out.gain.setValueAtTime(0.0001, t);
-  out.gain.exponentialRampToValueAtTime(0.07, t + 2.5);
+  out.gain.exponentialRampToValueAtTime(0.03, t + 3);
   out.connect(master);
   const lp = c.createBiquadFilter();
-  lp.type = "lowpass"; lp.frequency.value = 420; lp.Q.value = 3;
+  lp.type = "lowpass"; lp.frequency.value = 1400;
   lp.connect(out);
-  const lfo = c.createOscillator(), depth = c.createGain();
-  lfo.frequency.value = 0.07; depth.gain.value = 220;
-  lfo.connect(depth); depth.connect(lp.frequency);
-  const oscs = [lfo];
-  for (const [f, type] of [[55, "sawtooth"], [55.4, "sawtooth"], [82.4, "sawtooth"], [27.5, "sine"]] as const) {
-    const o = c.createOscillator();
-    o.type = type; o.frequency.value = f;
-    o.connect(lp); oscs.push(o);
-  }
+  const oscs: OscillatorNode[] = [];
+  // A, C♯, E, B: an A chord with an added ninth, in the middle register
+  [220, 277.18, 329.63, 493.88].forEach((f, i) => {
+    const voice = c.createGain();
+    voice.gain.value = 0.5;
+    voice.connect(lp);
+    const swell = c.createOscillator(), depth = c.createGain();
+    swell.frequency.value = 0.05 + i * 0.023; depth.gain.value = 0.35;
+    swell.connect(depth); depth.connect(voice.gain);
+    oscs.push(swell);
+    for (const [type, detune] of [["sine", 0], ["triangle", 4]] as const) {
+      const o = c.createOscillator();
+      o.type = type; o.frequency.value = f; o.detune.value = detune;
+      o.connect(voice); oscs.push(o);
+    }
+  });
   oscs.forEach((o) => o.start(t));
   drone = {
     stop(fade) {
@@ -184,10 +205,12 @@ export function installClickSounds() {
   if (clicksOn) return;
   clicksOn = true;
   document.addEventListener("click", (e) => {
-    const el = (e.target as Element | null)?.closest?.("button, a[href], summary, [role=button], input[type=checkbox], input[type=radio]");
-    if (el && !(el as HTMLButtonElement).disabled) click();
+    const el = (e.target as Element | null)?.closest?.("button, a[href], summary, [role=button], [role=tab], input[type=checkbox], input[type=radio]");
+    if (!el || (el as HTMLButtonElement).disabled) return;
+    const toggle = el.matches("input, summary, [role=tab], [aria-pressed], [aria-selected], [aria-expanded]");
+    click(toggle ? "toggle" : el.matches("a") ? "link" : "button");
   }, true);
   document.addEventListener("change", (e) => {
-    if ((e.target as Element).matches?.("select")) click();
+    if ((e.target as Element).matches?.("select")) click("toggle");
   }, true);
 }

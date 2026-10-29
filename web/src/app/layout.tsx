@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, IBM_Plex_Mono, IBM_Plex_Sans, Hind_Siliguri, Noto_Sans_JP } from "next/font/google";
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
+import { SoundToggle } from "@/components/SoundToggle";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { BASE, SITE_URL } from "@/lib/base";
 import { INTRO_SEEN_KEY } from "@/lib/intro";
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <div className="masthead-end">
               <Nav />
               <ThemeToggle />
+              <SoundToggle />
             </div>
           </div>
         </header>

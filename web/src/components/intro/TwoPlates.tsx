@@ -5,6 +5,8 @@ import { inWords, plain, taka, takaShort } from "@/lib/format";
 import { t } from "@/lib/i18n/en";
 import { INTRO_SEEN_KEY, LAST_STOP, type Split, type Story } from "@/lib/intro";
 import { BASE } from "@/lib/base";
+import * as sfx from "@/lib/sound";
+import { SoundToggle } from "../SoundToggle";
 import { DhakaPlate, JapanPlate } from "./Plates";
 import type { Globe } from "./globe";
 
@@ -81,12 +83,20 @@ export function TwoPlates({ story }: { story: Story }) {
     }
 
     let lastStop = -1, lastTotal = -1, captionTimer = 0;
+    const wasOn = story.lines.map(() => false);
     function updateSlip(s: number) {
       const stop = Math.min(LAST_STOP, Math.floor(s));
       const sum: Record<Split, number> = { car: 0, tax: 0, fees: 0 };
-      let lastOn: HTMLElement | null = null;
+      let lastOn: HTMLElement | null = null, arrived = 0;
       story.lines.forEach((l, i) => {
         const on = s >= l.stop + 0.12, el = lineEls[i];
+        // each line that lands plays a note, a little after the one before when several land at once
+        if (on && !wasOn[i]) {
+          const delay = arrived++ * 0.11;
+          if (l.kind === "grand") sfx.arrive(delay);
+          else { sfx.blip(i, delay); if (l.kind === "big") sfx.thud(delay); }
+        }
+        wasOn[i] = on;
         el.classList.toggle("on", on);
         el.classList.toggle("now", on && l.stop === stop && stop < LAST_STOP);
         if (on) lastOn = el;
@@ -120,6 +130,7 @@ export function TwoPlates({ story }: { story: Story }) {
       globeBox.style.opacity = String(clamp01((h - 0.4) / 0.5));
       // registered at BRTA: the Japanese plate comes off, the Dhaka one goes on
       const dhaka = s >= LAST_STOP - 0.85;
+      if (dhaka && bdSlip.style.opacity !== "1") sfx.clack();
       bdSlip.style.opacity = dhaka ? "1" : "0"; jpSlip.style.opacity = dhaka ? "0" : "1";
       updateSlip(s);
     }
@@ -130,6 +141,8 @@ export function TwoPlates({ story }: { story: Story }) {
       cur = Math.max(0, Math.min(LAST_STOP, k));
       from = sCur; to = at(cur); t0 = performance.now();
       dur = reduced ? 0 : Math.min(2600, 1400 * Math.abs(to - from));
+      if (cur > 0) sfx.startDrone();
+      if (dur) sfx.whoosh(dur / 1000);
       setStep(cur);
     };
     let globe: Globe | null = null, raf = 0, last = performance.now(), sDrawn = -1, alive = true;
@@ -171,6 +184,7 @@ export function TwoPlates({ story }: { story: Story }) {
     };
     function cleanup() {
       alive = false;
+      sfx.stopDrone();
       cancelAnimationFrame(raf);
       clearTimeout(captionTimer);
       removeEventListener("resize", resize);
@@ -188,7 +202,10 @@ export function TwoPlates({ story }: { story: Story }) {
 
   return (
     <div className="intro-layer" ref={rootRef} role="dialog" aria-modal="true" aria-label={T.title}>
-      <button type="button" className="intro-skip" onClick={() => close()}>{T.skip}</button>
+      <div className="intro-top">
+        <SoundToggle />
+        <button type="button" className="intro-skip" onClick={() => close()}>{T.skip}</button>
+      </div>
       <div className="globe-box"><canvas aria-hidden="true" /><div className="pins" aria-hidden="true" /></div>
 
       <section className="opening">

@@ -6,7 +6,9 @@ html[data-intro="show"] .intro-layer {
   display: block; position: fixed; inset: 0; z-index: 100; overflow: hidden; color: var(--ink);
   background-color: var(--paper); background-image: repeating-linear-gradient(var(--paper) 0 31px, var(--paper-rule) 31px 32px);
 }
-.intro-layer .intro-skip { position: absolute; top: 16px; right: var(--gutter); z-index: 10; font: 400 13px var(--mono); color: var(--ink);
+.intro-layer .intro-top { position: absolute; top: 16px; right: var(--gutter); z-index: 10; display: flex; align-items: baseline; gap: 20px; }
+.intro-layer .intro-top .sound-toggle { min-width: 0; }
+.intro-layer .intro-skip { font: 400 13px var(--mono); color: var(--ink);
   background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-decoration-color: var(--rust); text-decoration-thickness: 2px; text-underline-offset: 3px; }
 .intro-layer .btn[disabled] { opacity: 0.35; pointer-events: none; }
 .intro-layer em { color: var(--rust); }

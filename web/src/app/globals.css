@@ -335,14 +335,14 @@ details.more summary { line-height: 1.5; }
   .masthead .masthead-end { width: 100%; flex-wrap: nowrap; justify-content: space-between; gap: 14px; }
   .masthead .nav { min-width: 0; flex-wrap: nowrap; gap: 16px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; font-size: 12.5px; padding-bottom: 2px; }
   .nav::-webkit-scrollbar { display: none; }
-  .theme-toggle { flex: none; }
+  .theme-toggle, .sound-toggle { flex: none; }
 }
 
 /* ---------- theme toggle ---------- */
 .masthead-end { display: flex; align-items: baseline; gap: 20px; flex-wrap: wrap; }
-.theme-toggle { font: 400 13px var(--mono); color: var(--ink-2); background: none; border: 0; padding: 0; cursor: pointer;
+.theme-toggle, .sound-toggle { font: 400 13px var(--mono); color: var(--ink-2); background: none; border: 0; padding: 0; cursor: pointer;
   text-decoration: underline; text-decoration-color: var(--dots); text-underline-offset: 3px; min-width: 3.5em; text-align: left; }
-.theme-toggle:hover { color: var(--rust); text-decoration-color: var(--rust); }
+.theme-toggle:hover, .sound-toggle:hover { color: var(--rust); text-decoration-color: var(--rust); }
 
 /* ---------- cars: makes first, then the cars ---------- */
 .make-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 18px 16px; border-top: 1.5px solid var(--ink); padding-top: 18px; }
