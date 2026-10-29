@@ -95,6 +95,7 @@ export const en = {
   },
   theme: { dark: "Dark", light: "Light", label: "Colour theme" },
   footer: {
+    disclaimer: "Estimates only. Rates change with each budget and customs may value your car differently. Check with a licensed C&F agent before you commit money.",
     rates: "Rates: Finance Act",
     replay: "Replay the intro",
     introPhoto: "Intro photo",

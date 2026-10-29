@@ -3,6 +3,7 @@ import { Fraunces, IBM_Plex_Mono, IBM_Plex_Sans, Hind_Siliguri, Noto_Sans_JP } f
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { BASE, SITE_URL } from "@/lib/base";
 import { INTRO_SEEN_KEY } from "@/lib/intro";
 import { THEME_KEY } from "@/lib/theme";
 import { t } from "@/lib/i18n/en";
@@ -18,14 +19,22 @@ const hind = Hind_Siliguri({ variable: "--font-hind", subsets: ["bengali", "lati
 const notoJp = Noto_Sans_JP({ variable: "--font-jp", subsets: ["latin"], weight: ["500"], preload: false });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: { default: t.home.title, template: `%s · ${t.brand}` },
   description: t.home.lede,
+  openGraph: {
+    title: t.home.title,
+    description: t.home.lede,
+    siteName: t.brand,
+    type: "website",
+    images: [{ url: `${BASE}/intro/prado-front.jpg`, width: 800, height: 600, alt: "A Land Cruiser Prado with a Japanese number plate" }],
+  },
 };
 
 // Runs before the page paints, so there's no flash of the wrong theme or of the page behind the intro.
 // The intro shows on the home page once per browser, or again when the address carries ?intro.
 const HEAD_SCRIPT = `try{var d=document.documentElement,s=localStorage,th=s.getItem("${THEME_KEY}");if(th)d.dataset.theme=th;
-if(location.pathname==="/"&&(/[?&]intro\\b/.test(location.search)||!s.getItem("${INTRO_SEEN_KEY}")))d.dataset.intro="show";}catch(e){}`;
+if(location.pathname.replace("${BASE}","").replace(/^\\/+$/,"")===""&&(/[?&]intro\\b/.test(location.search)||!s.getItem("${INTRO_SEEN_KEY}")))d.dataset.intro="show";}catch(e){}`;
 
 const INTRO_PHOTO = "https://commons.wikimedia.org/wiki/File:Toyota_LAND_CRUISER_PRADO_DIESEL_TX_L_Package_5-Seater_(3DA-GDJ150W-GGTEY)_front.jpg";
 
@@ -52,9 +61,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <footer className="footer">
           <div className="wrap">
             <p>
+              {t.footer.disclaimer}
+              <br />
               {/* a full load, not <Link>, so the head script sees ?intro */}
-              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-              <a href="/?intro">{t.footer.replay}</a>
+              <a href={`${BASE}/?intro`}>{t.footer.replay}</a>
               {" · "}
               {t.footer.introPhoto}: <a href={INTRO_PHOTO} target="_blank" rel="noreferrer">Tokumeigakarinoaoshima</a>,{" "}
               <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>

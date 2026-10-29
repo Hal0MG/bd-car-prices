@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { inWords, plain, taka, takaShort } from "@/lib/format";
 import { t } from "@/lib/i18n/en";
 import { INTRO_SEEN_KEY, LAST_STOP, type Split, type Story } from "@/lib/intro";
+import { BASE } from "@/lib/base";
 import { DhakaPlate, JapanPlate } from "./Plates";
 import type { Globe } from "./globe";
 
@@ -197,7 +198,7 @@ export function TwoPlates({ story }: { story: Story }) {
           <figure className="shot">
             <div className="print"><div className="frame">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/intro/prado-front.jpg" alt={T.altJapan} width={800} height={600} />
+              <img src={`${BASE}/intro/prado-front.jpg`} alt={T.altJapan} width={800} height={600} />
               <JapanPlate />
             </div></div>
             <figcaption><span className="eyebrow">{T.japanPlate}</span><b>{takaShort(story.japan)}</b></figcaption>
@@ -205,7 +206,7 @@ export function TwoPlates({ story }: { story: Story }) {
           <figure className="shot">
             <div className="print"><div className="frame">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/intro/prado-front.jpg" alt={T.altDhaka} width={800} height={600} />
+              <img src={`${BASE}/intro/prado-front.jpg`} alt={T.altDhaka} width={800} height={600} />
               <DhakaPlate />
             </div></div>
             <figcaption><span className="eyebrow">{T.dhakaPlate}</span><b className="dhaka">{takaShort(story.dhaka)}</b></figcaption>
