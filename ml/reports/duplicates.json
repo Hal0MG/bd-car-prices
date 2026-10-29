@@ -1,0 +1,33 @@
+{
+ "ads": 15400,
+ "twin_pairs": {
+  "by_mileage": 834,
+  "by_place": 66
+ },
+ "ads_with_a_twin": 885,
+ "clusters_spanning_both_sites": 64,
+ "dropped": 514,
+ "results": {
+  "random folds (main results)": {
+   "miss": 0.0651,
+   "spread": 0.0011,
+   "rows": 15400
+  },
+  "loose twin groups held out together": {
+   "miss": 0.0671,
+   "spread": 0.0027,
+   "rows": 15400
+  },
+  "confirmed twin groups held out together": {
+   "miss": 0.065,
+   "spread": 0.0018,
+   "rows": 15400
+  },
+  "twins dropped, random folds": {
+   "miss": 0.0652,
+   "spread": 0.0014,
+   "rows": 14886,
+   "dropped": 514
+  }
+ }
+}

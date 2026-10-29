@@ -24,6 +24,11 @@ describe("data-science.json", () => {
     for (const m of S.byAge) for (const c of m.cells) expect(c.p10 <= c.median && c.median <= c.p90).toBe(true);
   });
 
+  it("duplicate ads do not move the error much", () => {
+    const [headline, ...others] = S.duplicates.setups;
+    for (const o of others) expect(Math.abs(o.miss - headline.miss)).toBeLessThan(0.01);
+  });
+
   it("scaled intervals hold the target in every price band", () => {
     for (const b of S.coverage.bands) expect(Math.abs(b.scaled - S.coverage.target)).toBeLessThan(0.05);
   });

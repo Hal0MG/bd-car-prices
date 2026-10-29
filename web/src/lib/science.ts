@@ -20,6 +20,7 @@ export interface Science {
   learning: Record<string, { n: number; miss: number }[]>;
   features: { name: string; swing: number }[];
   byAge: { model: string; listings: number; cells: { age: number; n: number; p10: number; median: number; p90: number }[] }[];
+  duplicates: { adsWithTwin: number; crossSiteClusters: number; dropped: number; setups: { name: string; miss: number }[] };
   siteAgreement: { cells: number; medianRatio: number };
 }
 

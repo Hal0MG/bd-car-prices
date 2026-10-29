@@ -100,6 +100,10 @@ A catalogue car gets a price only when its model has at least five current listi
 4. **Models** (`models.py`). The median by model, ridge regression, and LightGBM with modest capacity.
 5. **Evaluation** (`evaluate.py`, `intervals.py`). Repeated 5-fold cross-validation, run two ways: random folds, and folds holding out whole car models. Intervals use the same folds for every method.
 
+## Duplicate ads
+
+The same car can be listed on both sites or reposted, and a copy in training with its twin in a test fold would flatter the error. `dedupe.py` finds probable twins: same model, build year and price (round prices collide constantly, so price alone proves nothing) plus mileage within 2%, or the same place when a mileage is missing. It found 885 ads with a twin (64 groups span both sites, 514 ads would be dropped to keep one per group). `run_duplicates.py` repeats the LightGBM test with twins kept in the same fold: the typical miss is 6.5% with random folds, 6.7% with every possible same-price group held out, 6.5% with confirmed twins held out, and 6.5% after dropping twins. Duplicates are not what makes the model look good, so the main results keep every ad.
+
 ## Limits
 
 - **One day of data.** All the snapshots and Bikroy pages were taken on 28 October 2026. Prices drift, so weekly snapshots are needed to see that, and to tell a slow-selling overpriced car from a fair one.

@@ -584,6 +584,29 @@
    ]
   }
  ],
+ "duplicates": {
+  "adsWithTwin": 885,
+  "crossSiteClusters": 64,
+  "dropped": 514,
+  "setups": [
+   {
+    "name": "Random folds (the headline test)",
+    "miss": 0.0651
+   },
+   {
+    "name": "Possible twins kept in the same fold",
+    "miss": 0.0671
+   },
+   {
+    "name": "Confirmed twins kept in the same fold",
+    "miss": 0.065
+   },
+   {
+    "name": "Twins dropped, random folds",
+    "miss": 0.0652
+   }
+  ]
+ },
  "siteAgreement": {
   "cells": 139,
   "medianRatio": 0.969

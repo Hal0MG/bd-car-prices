@@ -100,12 +100,30 @@ export default function Method() {
       </section>
 
       <section className="section">
+        <h2>7. Do duplicate ads flatter the result?</h2>
+        <p className="lede">
+          The same car can sit on both sites, or be reposted. {n(S.duplicates.adsWithTwin)} ads have a probable twin: the same model, year and price, with the mileage agreeing within 2% or, when it is missing, the same place. If a copy trained the model and its twin was in the test, the error would look too good. So the test was repeated with twins kept together.
+        </p>
+        <div className="table-scroll">
+          <table className="plain">
+            <thead><tr><th>Test setup</th><th>Typical miss</th></tr></thead>
+            <tbody>
+              {S.duplicates.setups.map((d) => (
+                <tr key={d.name}><td>{d.name}</td><td className="num">{pct(d.miss)}</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="muted">No setup moves the error by more than 0.2 points, so duplicates are not what makes the model look good.</p>
+      </section>
+
+      <section className="section">
         <h2>Limits</h2>
         <ul className="limits">
           <li>These are asking prices, not sale prices. Sellers usually take less.</li>
           <li>{pct(S.makes[0].listings / S.listings, 0)} of the ads are Toyotas. Only {S.modelsWithFive} of {S.modelsTotal} models have five or more ads.</li>
           <li>Expensive cars are over-represented, so averages here are not market averages.</li>
-          <li>One collection date. The two sites may list the same car, and the data can’t tell.</li>
+          <li>One collection date, so there is no test on prices that moved over time.</li>
         </ul>
       </section>
     </>

@@ -21,6 +21,7 @@ from .data import clean, load_raw
 
 ROOT = Path(__file__).resolve().parents[3]
 METRICS = ROOT / "ml" / "reports" / "current" / "baseline_metrics.json"
+DUPLICATES = ROOT / "ml" / "reports" / "duplicates.json"
 OUT = ROOT / "web" / "src" / "lib" / "data-science.json"
 
 MIN_CELL = 8
@@ -32,6 +33,23 @@ BANDS = {"3": "Under 28 lakh", "28": "28 to 40", "40": "40 to 51", "51": "51 to 
 
 def band_label(key: str) -> str:
     return next(label for prefix, label in BANDS.items() if key.startswith(prefix) and (prefix != "3" or key.startswith("3�") or key.startswith("3–")))
+
+
+def duplicates() -> dict:
+    """The duplicate-ad check, written by run_duplicates.py (rerun it after a retrain)."""
+    d = json.loads(DUPLICATES.read_text(encoding="utf-8"))
+    r = d["results"]
+    return {
+        "adsWithTwin": d["ads_with_a_twin"],
+        "crossSiteClusters": d["clusters_spanning_both_sites"],
+        "dropped": d["dropped"],
+        "setups": [
+            {"name": "Random folds (the headline test)", "miss": r["random folds (main results)"]["miss"]},
+            {"name": "Possible twins kept in the same fold", "miss": r["loose twin groups held out together"]["miss"]},
+            {"name": "Confirmed twins kept in the same fold", "miss": r["confirmed twin groups held out together"]["miss"]},
+            {"name": "Twins dropped, random folds", "miss": r["twins dropped, random folds"]["miss"]},
+        ],
+    }
 
 
 def main() -> int:
@@ -99,6 +117,7 @@ def main() -> int:
         "learning": {name: [{"n": int(n), "miss": v} for n, v in curve.items()] for name, curve in m["learning_curve"].items()},
         "features": [{"name": k, "swing": v} for k, v in list(m["feature_swing_pct"].items())[:8]],
         "byAge": by_age,
+        "duplicates": duplicates(),
         "siteAgreement": {"cells": int(len(ratio)), "medianRatio": round(float(ratio.median()), 3)},
     }
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
