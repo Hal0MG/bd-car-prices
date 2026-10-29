@@ -369,14 +369,14 @@
   },
   {
    "make": "Toyota",
-   "model": "Alphard Hybrid",
+   "model": "Alphard",
    "year": 2022,
    "local_model": "Alphard",
    "listings_near": 77,
    "listings_model": 175,
-   "expected": 11981000.0,
-   "low": 10428000.0,
-   "high": 13765000.0
+   "expected": 12349000.0,
+   "low": 10355000.0,
+   "high": 14728000.0
   },
   {
    "make": "Toyota",
@@ -388,17 +388,6 @@
    "expected": 3167000.0,
    "low": 2867000.0,
    "high": 3499000.0
-  },
-  {
-   "make": "Audi",
-   "model": "A6",
-   "year": 2022,
-   "local_model": "A6",
-   "listings_near": 5,
-   "listings_model": 17,
-   "expected": 12325000.0,
-   "low": 9066000.0,
-   "high": 16756000.0
   }
  ]
 }

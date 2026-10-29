@@ -35,7 +35,7 @@ describe("car catalogue", () => {
 
   it("cautions when a car is bought somewhere other than where it was built", () => {
     const find = (model: string) => CARS.find((c) => c.model === model)!;
-    expect(originCaution(find("318i").origin, find("318i").builtIn)).toMatch(/built in Germany.*the UK/);
+    expect(originCaution(find("330e").origin, find("330e").builtIn)).toMatch(/built in Germany.*the UK/);
     expect(originCaution(find("Axio").origin, find("Axio").builtIn)).toBeUndefined();
     expect(originCaution("uk", "UK")).toBeUndefined();
     expect(originCaution("other", "Germany")).toBeUndefined();
