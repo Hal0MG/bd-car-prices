@@ -1,0 +1,1246 @@
+{
+ "ads": 15400,
+ "miss": 0.0665,
+ "inside": 0.804,
+ "target": 0.8,
+ "models": [
+  {
+   "model": "Toyota Corolla Cross",
+   "ads": 1872,
+   "miss": 0.0362,
+   "inside": 0.808,
+   "cells": [
+    {
+     "age": 1,
+     "n": 320,
+     "actual": 5750000.0,
+     "predicted": 5813000.0
+    },
+    {
+     "age": 2,
+     "n": 352,
+     "actual": 5450000.0,
+     "predicted": 5436000.0
+    },
+    {
+     "age": 3,
+     "n": 352,
+     "actual": 5000000.0,
+     "predicted": 5017000.0
+    },
+    {
+     "age": 4,
+     "n": 459,
+     "actual": 4570000.0,
+     "predicted": 4662000.0
+    },
+    {
+     "age": 5,
+     "n": 320,
+     "actual": 4380000.0,
+     "predicted": 4274000.0
+    },
+    {
+     "age": 6,
+     "n": 8,
+     "actual": 4355000.0,
+     "predicted": 3957000.0
+    }
+   ]
+  },
+  {
+   "model": "Toyota Harrier",
+   "ads": 1723,
+   "miss": 0.0584,
+   "inside": 0.798,
+   "cells": [
+    {
+     "age": 1,
+     "n": 17,
+     "actual": 11800000.0,
+     "predicted": 11069000.0
+    },
+    {
+     "age": 2,
+     "n": 14,
+     "actual": 10450000.0,
+     "predicted": 10710000.0
+    },
+    {
+     "age": 3,
+     "n": 92,
+     "actual": 9245000.0,
+     "predicted": 9512000.0
+    },
+    {
+     "age": 4,
+     "n": 138,
+     "actual": 8900000.0,
+     "predicted": 9382000.0
+    },
+    {
+     "age": 5,
+     "n": 414,
+     "actual": 7790000.0,
+     "predicted": 7749000.0
+    },
+    {
+     "age": 6,
+     "n": 717,
+     "actual": 7650000.0,
+     "predicted": 7486000.0
+    },
+    {
+     "age": 7,
+     "n": 209,
+     "actual": 6790000.0,
+     "predicted": 6790000.0
+    },
+    {
+     "age": 8,
+     "n": 38,
+     "actual": 6300000.0,
+     "predicted": 6538000.0
+    },
+    {
+     "age": 9,
+     "n": 18,
+     "actual": 5550000.0,
+     "predicted": 5268000.0
+    },
+    {
+     "age": 10,
+     "n": 17,
+     "actual": 5000000.0,
+     "predicted": 4890000.0
+    },
+    {
+     "age": 11,
+     "n": 26,
+     "actual": 4700000.0,
+     "predicted": 4793000.0
+    },
+    {
+     "age": 12,
+     "n": 16,
+     "actual": 4200000.0,
+     "predicted": 4770000.0
+    }
+   ]
+  },
+  {
+   "model": "Toyota Noah",
+   "ads": 1340,
+   "miss": 0.0766,
+   "inside": 0.827,
+   "cells": [
+    {
+     "age": 1,
+     "n": 24,
+     "actual": 6300000.0,
+     "predicted": 5969000.0
+    },
+    {
+     "age": 2,
+     "n": 36,
+     "actual": 5488000.0,
+     "predicted": 5526000.0
+    },
+    {
+     "age": 3,
+     "n": 180,
+     "actual": 5100000.0,
+     "predicted": 4971000.0
+    },
+    {
+     "age": 4,
+     "n": 318,
+     "actual": 4750000.0,
+     "predicted": 4662000.0
+    },
+    {
+     "age": 5,
+     "n": 210,
+     "actual": 3740000.0,
+     "predicted": 3924000.0
+    },
+    {
+     "age": 6,
+     "n": 295,
+     "actual": 3580000.0,
+     "predicted": 3541000.0
+    },
+    {
+     "age": 7,
+     "n": 112,
+     "actual": 3425000.0,
+     "predicted": 3386000.0
+    },
+    {
+     "age": 8,
+     "n": 20,
+     "actual": 3312000.0,
+     "predicted": 3238000.0
+    },
+    {
+     "age": 12,
+     "n": 15,
+     "actual": 2750000.0,
+     "predicted": 2248000.0
+    }
+   ]
+  },
+  {
+   "model": "Toyota Axio",
+   "ads": 873,
+   "miss": 0.069,
+   "inside": 0.802,
+   "cells": [
+    {
+     "age": 4,
+     "n": 9,
+     "actual": 3050000.0,
+     "predicted": 3090000.0
+    },
+    {
+     "age": 5,
+     "n": 92,
+     "actual": 2650000.0,
+     "predicted": 2729000.0
+    },
+    {
+     "age": 6,
+     "n": 346,
+     "actual": 2494000.0,
+     "predicted": 2543000.0
+    },
+    {
+     "age": 7,
+     "n": 216,
+     "actual": 2450000.0,
+     "predicted": 2470000.0
+    },
+    {
+     "age": 8,
+     "n": 15,
+     "actual": 2200000.0,
+     "predicted": 2332000.0
+    },
+    {
+     "age": 9,
+     "n": 9,
+     "actual": 2180000.0,
+     "predicted": 2048000.0
+    },
+    {
+     "age": 10,
+     "n": 11,
+     "actual": 1935000.0,
+     "predicted": 1991000.0
+    },
+    {
+     "age": 11,
+     "n": 10,
+     "actual": 1890000.0,
+     "predicted": 1908000.0
+    },
+    {
+     "age": 12,
+     "n": 27,
+     "actual": 1780000.0,
+     "predicted": 1765000.0
+    }
+   ]
+  },
+  {
+   "model": "Toyota Hiace",
+   "ads": 783,
+   "miss": 0.1127,
+   "inside": 0.88,
+   "cells": [
+    {
+     "age": 1,
+     "n": 16,
+     "actual": 5500000.0,
+     "predicted": 5652000.0
+    },
+    {
+     "age": 2,
+     "n": 13,
+     "actual": 5000000.0,
+     "predicted": 5321000.0
+    },
+    {
+     "age": 3,
+     "n": 43,
+     "actual": 4740000.0,
+     "predicted": 4968000.0
+    },
+    {
+     "age": 4,
+     "n": 74,
+     "actual": 4550000.0,
+     "predicted": 4813000.0
+    },
+    {
+     "age": 5,
+     "n": 194,
+     "actual": 4295000.0,
+     "predicted": 3957000.0
+    },
+    {
+     "age": 6,
+     "n": 291,
+     "actual": 3950000.0,
+     "predicted": 3757000.0
+    },
+    {
+     "age": 7,
+     "n": 99,
+     "actual": 3550000.0,
+     "predicted": 3615000.0
+    }
+   ]
+  },
+  {
+   "model": "Honda CR-V",
+   "ads": 675,
+   "miss": 0.0558,
+   "inside": 0.822,
+   "cells": [
+    {
+     "age": 4,
+     "n": 94,
+     "actual": 6600000.0,
+     "predicted": 6488000.0
+    },
+    {
+     "age": 5,
+     "n": 198,
+     "actual": 6285000.0,
+     "predicted": 6163000.0
+    },
+    {
+     "age": 6,
+     "n": 217,
+     "actual": 5950000.0,
+     "predicted": 5957000.0
+    },
+    {
+     "age": 7,
+     "n": 110,
+     "actual": 5600000.0,
+     "predicted": 5524000.0
+    },
+    {
+     "age": 8,
+     "n": 16,
+     "actual": 5100000.0,
+     "predicted": 4918000.0
+    }
+   ]
+  },
+  {
+   "model": "Toyota Prado",
+   "ads": 665,
+   "miss": 0.0653,
+   "inside": 0.815,
+   "cells": [
+    {
+     "age": 2,
+     "n": 9,
+     "actual": 24800000.0,
+     "predicted": 20936000.0
+    },
+    {
+     "age": 3,
+     "n": 56,
+     "actual": 17875000.0,
+     "predicted": 18313000.0
+    },
+    {
+     "age": 4,
+     "n": 132,
+     "actual": 16750000.0,
+     "predicted": 17519000.0
+    },
+    {
+     "age": 5,
+     "n": 117,
+     "actual": 16000000.0,
+     "predicted": 14902000.0
+    },
+    {
+     "age": 6,
+     "n": 47,
+     "actual": 14490000.0,
+     "predicted": 13328000.0
+    },
+    {
+     "age": 7,
+     "n": 23,
+     "actual": 13700000.0,
+     "predicted": 11924000.0
+    },
+    {
+     "age": 8,
+     "n": 38,
+     "actual": 11750000.0,
+     "predicted": 11569000.0
+    },
+    {
+     "age": 9,
+     "n": 25,
+     "actual": 11000000.0,
+     "predicted": 10686000.0
+    },
+    {
+     "age": 10,
+     "n": 14,
+     "actual": 8900000.0,
+     "predicted": 10053000.0
+    },
+    {
+     "age": 11,
+     "n": 40,
+     "actual": 7975000.0,
+     "predicted": 7462000.0
+    },
+    {
+     "age": 12,
+     "n": 52,
+     "actual": 7995000.0,
+     "predicted": 7807000.0
+    }
+   ]
+  },
+  {
+   "model": "Toyota Premio",
+   "ads": 624,
+   "miss": 0.0469,
+   "inside": 0.798,
+   "cells": [
+    {
+     "age": 5,
+     "n": 174,
+     "actual": 4780000.0,
+     "predicted": 4700000.0
+    },
+    {
+     "age": 6,
+     "n": 144,
+     "actual": 4400000.0,
+     "predicted": 4264000.0
+    },
+    {
+     "age": 7,
+     "n": 63,
+     "actual": 3950000.0,
+     "predicted": 4008000.0
+    },
+    {
+     "age": 8,
+     "n": 18,
+     "actual": 3600000.0,
+     "predicted": 3743000.0
+    },
+    {
+     "age": 9,
+     "n": 19,
+     "actual": 3350000.0,
+     "predicted": 3373000.0
+    },
+    {
+     "age": 10,
+     "n": 22,
+     "actual": 2972000.0,
+     "predicted": 3108000.0
+    },
+    {
+     "age": 11,
+     "n": 24,
+     "actual": 2670000.0,
+     "predicted": 2882000.0
+    },
+    {
+     "age": 12,
+     "n": 22,
+     "actual": 2550000.0,
+     "predicted": 2425000.0
+    }
+   ]
+  },
+  {
+   "model": "Toyota Voxy",
+   "ads": 562,
+   "miss": 0.0604,
+   "inside": 0.763,
+   "cells": [
+    {
+     "age": 1,
+     "n": 15,
+     "actual": 6580000.0,
+     "predicted": 6199000.0
+    },
+    {
+     "age": 2,
+     "n": 22,
+     "actual": 5470000.0,
+     "predicted": 5641000.0
+    },
+    {
+     "age": 3,
+     "n": 157,
+     "actual": 5300000.0,
+     "predicted": 5142000.0
+    },
+    {
+     "age": 4,
+     "n": 210,
+     "actual": 5050000.0,
+     "predicted": 4876000.0
+    },
+    {
+     "age": 5,
+     "n": 20,
+     "actual": 3600000.0,
+     "predicted": 4012000.0
+    },
+    {
+     "age": 6,
+     "n": 98,
+     "actual": 3350000.0,
+     "predicted": 3508000.0
+    },
+    {
+     "age": 7,
+     "n": 30,
+     "actual": 3215000.0,
+     "predicted": 3354000.0
+    }
+   ]
+  },
+  {
+   "model": "Toyota Esquire",
+   "ads": 529,
+   "miss": 0.0579,
+   "inside": 0.783,
+   "cells": [
+    {
+     "age": 5,
+     "n": 142,
+     "actual": 4290000.0,
+     "predicted": 4307000.0
+    },
+    {
+     "age": 6,
+     "n": 294,
+     "actual": 3950000.0,
+     "predicted": 3893000.0
+    },
+    {
+     "age": 7,
+     "n": 63,
+     "actual": 3650000.0,
+     "predicted": 3736000.0
+    },
+    {
+     "age": 8,
+     "n": 14,
+     "actual": 3745000.0,
+     "predicted": 3404000.0
+    },
+    {
+     "age": 9,
+     "n": 9,
+     "actual": 2850000.0,
+     "predicted": 3018000.0
+    }
+   ]
+  },
+  {
+   "model": "Toyota Fielder",
+   "ads": 440,
+   "miss": 0.0665,
+   "inside": 0.739,
+   "cells": [
+    {
+     "age": 5,
+     "n": 51,
+     "actual": 2470000.0,
+     "predicted": 2678000.0
+    },
+    {
+     "age": 6,
+     "n": 182,
+     "actual": 2445000.0,
+     "predicted": 2503000.0
+    },
+    {
+     "age": 7,
+     "n": 90,
+     "actual": 2500000.0,
+     "predicted": 2450000.0
+    },
+    {
+     "age": 8,
+     "n": 9,
+     "actual": 2350000.0,
+     "predicted": 2340000.0
+    }
+   ]
+  },
+  {
+   "model": "Toyota Corolla",
+   "ads": 435,
+   "miss": 0.0911,
+   "inside": 0.779,
+   "cells": [
+    {
+     "age": 2,
+     "n": 9,
+     "actual": 5600000.0,
+     "predicted": 5466000.0
+    },
+    {
+     "age": 3,
+     "n": 13,
+     "actual": 5150000.0,
+     "predicted": 4487000.0
+    },
+    {
+     "age": 4,
+     "n": 13,
+     "actual": 4200000.0,
+     "predicted": 3982000.0
+    },
+    {
+     "age": 5,
+     "n": 62,
+     "actual": 3240000.0,
+     "predicted": 3335000.0
+    },
+    {
+     "age": 6,
+     "n": 123,
+     "actual": 2900000.0,
+     "predicted": 3091000.0
+    },
+    {
+     "age": 7,
+     "n": 22,
+     "actual": 2975000.0,
+     "predicted": 2998000.0
+    }
+   ]
+  },
+  {
+   "model": "Toyota RAV4",
+   "ads": 337,
+   "miss": 0.0694,
+   "inside": 0.798,
+   "cells": [
+    {
+     "age": 3,
+     "n": 9,
+     "actual": 8480000.0,
+     "predicted": 8116000.0
+    },
+    {
+     "age": 4,
+     "n": 32,
+     "actual": 7785000.0,
+     "predicted": 7738000.0
+    },
+    {
+     "age": 5,
+     "n": 100,
+     "actual": 6760000.0,
+     "predicted": 6774000.0
+    },
+    {
+     "age": 6,
+     "n": 137,
+     "actual": 6800000.0,
+     "predicted": 6532000.0
+    },
+    {
+     "age": 7,
+     "n": 38,
+     "actual": 6540000.0,
+     "predicted": 6247000.0
+    }
+   ]
+  },
+  {
+   "model": "Toyota Prius",
+   "ads": 333,
+   "miss": 0.0563,
+   "inside": 0.823,
+   "cells": [
+    {
+     "age": 3,
+     "n": 40,
+     "actual": 4300000.0,
+     "predicted": 4081000.0
+    },
+    {
+     "age": 5,
+     "n": 59,
+     "actual": 3350000.0,
+     "predicted": 3454000.0
+    },
+    {
+     "age": 6,
+     "n": 134,
+     "actual": 3150000.0,
+     "predicted": 3192000.0
+    },
+    {
+     "age": 7,
+     "n": 57,
+     "actual": 3100000.0,
+     "predicted": 3089000.0
+    },
+    {
+     "age": 8,
+     "n": 27,
+     "actual": 2715000.0,
+     "predicted": 2816000.0
+    }
+   ]
+  },
+  {
+   "model": "Toyota Allion",
+   "ads": 328,
+   "miss": 0.0527,
+   "inside": 0.79,
+   "cells": [
+    {
+     "age": 5,
+     "n": 14,
+     "actual": 4340000.0,
+     "predicted": 4426000.0
+    },
+    {
+     "age": 6,
+     "n": 62,
+     "actual": 3950000.0,
+     "predicted": 3957000.0
+    },
+    {
+     "age": 7,
+     "n": 63,
+     "actual": 3800000.0,
+     "predicted": 3782000.0
+    },
+    {
+     "age": 10,
+     "n": 10,
+     "actual": 2918000.0,
+     "predicted": 2983000.0
+    },
+    {
+     "age": 12,
+     "n": 11,
+     "actual": 2490000.0,
+     "predicted": 2413000.0
+    }
+   ]
+  },
+  {
+   "model": "Toyota Crown",
+   "ads": 293,
+   "miss": 0.0775,
+   "inside": 0.898,
+   "cells": [
+    {
+     "age": 3,
+     "n": 17,
+     "actual": 15900000.0,
+     "predicted": 12754000.0
+    },
+    {
+     "age": 4,
+     "n": 87,
+     "actual": 12700000.0,
+     "predicted": 11747000.0
+    },
+    {
+     "age": 5,
+     "n": 48,
+     "actual": 7500000.0,
+     "predicted": 8609000.0
+    },
+    {
+     "age": 6,
+     "n": 80,
+     "actual": 7300000.0,
+     "predicted": 7773000.0
+    },
+    {
+     "age": 7,
+     "n": 9,
+     "actual": 7030000.0,
+     "predicted": 7121000.0
+    },
+    {
+     "age": 8,
+     "n": 28,
+     "actual": 7425000.0,
+     "predicted": 6998000.0
+    }
+   ]
+  },
+  {
+   "model": "Toyota Land Cruiser",
+   "ads": 279,
+   "miss": 0.1031,
+   "inside": 0.781,
+   "cells": [
+    {
+     "age": 2,
+     "n": 15,
+     "actual": 25000000.0,
+     "predicted": 25358000.0
+    },
+    {
+     "age": 3,
+     "n": 23,
+     "actual": 19500000.0,
+     "predicted": 21985000.0
+    },
+    {
+     "age": 4,
+     "n": 53,
+     "actual": 17000000.0,
+     "predicted": 19393000.0
+    },
+    {
+     "age": 5,
+     "n": 42,
+     "actual": 16400000.0,
+     "predicted": 17565000.0
+    },
+    {
+     "age": 6,
+     "n": 13,
+     "actual": 27500000.0,
+     "predicted": 25717000.0
+    },
+    {
+     "age": 8,
+     "n": 12,
+     "actual": 23800000.0,
+     "predicted": 20329000.0
+    },
+    {
+     "age": 9,
+     "n": 12,
+     "actual": 22750000.0,
+     "predicted": 21453000.0
+    },
+    {
+     "age": 10,
+     "n": 19,
+     "actual": 19000000.0,
+     "predicted": 17780000.0
+    },
+    {
+     "age": 11,
+     "n": 27,
+     "actual": 15900000.0,
+     "predicted": 15386000.0
+    },
+    {
+     "age": 12,
+     "n": 15,
+     "actual": 14500000.0,
+     "predicted": 14970000.0
+    }
+   ]
+  },
+  {
+   "model": "Nissan X-Trail",
+   "ads": 252,
+   "miss": 0.0969,
+   "inside": 0.79,
+   "cells": [
+    {
+     "age": 3,
+     "n": 43,
+     "actual": 6880000.0,
+     "predicted": 6577000.0
+    },
+    {
+     "age": 4,
+     "n": 36,
+     "actual": 6265000.0,
+     "predicted": 6082000.0
+    },
+    {
+     "age": 6,
+     "n": 59,
+     "actual": 5299000.0,
+     "predicted": 4880000.0
+    },
+    {
+     "age": 7,
+     "n": 29,
+     "actual": 3850000.0,
+     "predicted": 4177000.0
+    },
+    {
+     "age": 8,
+     "n": 16,
+     "actual": 3750000.0,
+     "predicted": 3785000.0
+    },
+    {
+     "age": 9,
+     "n": 8,
+     "actual": 2997000.0,
+     "predicted": 3442000.0
+    },
+    {
+     "age": 11,
+     "n": 10,
+     "actual": 2200000.0,
+     "predicted": 2830000.0
+    },
+    {
+     "age": 12,
+     "n": 11,
+     "actual": 2850000.0,
+     "predicted": 2482000.0
+    }
+   ]
+  },
+  {
+   "model": "Toyota C-HR",
+   "ads": 250,
+   "miss": 0.0412,
+   "inside": 0.768,
+   "cells": [
+    {
+     "age": 5,
+     "n": 28,
+     "actual": 3565000.0,
+     "predicted": 3746000.0
+    },
+    {
+     "age": 6,
+     "n": 109,
+     "actual": 3550000.0,
+     "predicted": 3442000.0
+    },
+    {
+     "age": 7,
+     "n": 83,
+     "actual": 3370000.0,
+     "predicted": 3329000.0
+    },
+    {
+     "age": 8,
+     "n": 13,
+     "actual": 2800000.0,
+     "predicted": 3025000.0
+    },
+    {
+     "age": 9,
+     "n": 15,
+     "actual": 2550000.0,
+     "predicted": 2630000.0
+    }
+   ]
+  },
+  {
+   "model": "Lexus RX",
+   "ads": 238,
+   "miss": 0.076,
+   "inside": 0.882,
+   "cells": [
+    {
+     "age": 3,
+     "n": 133,
+     "actual": 17499000.0,
+     "predicted": 17262000.0
+    },
+    {
+     "age": 5,
+     "n": 10,
+     "actual": 11900000.0,
+     "predicted": 13961000.0
+    },
+    {
+     "age": 6,
+     "n": 47,
+     "actual": 12900000.0,
+     "predicted": 12692000.0
+    },
+    {
+     "age": 7,
+     "n": 36,
+     "actual": 11200000.0,
+     "predicted": 11224000.0
+    }
+   ]
+  },
+  {
+   "model": "Toyota Alphard",
+   "ads": 175,
+   "miss": 0.0765,
+   "inside": 0.783,
+   "cells": [
+    {
+     "age": 2,
+     "n": 11,
+     "actual": 16700000.0,
+     "predicted": 16919000.0
+    },
+    {
+     "age": 3,
+     "n": 12,
+     "actual": 14590000.0,
+     "predicted": 13834000.0
+    },
+    {
+     "age": 4,
+     "n": 15,
+     "actual": 11450000.0,
+     "predicted": 13461000.0
+    },
+    {
+     "age": 5,
+     "n": 50,
+     "actual": 10400000.0,
+     "predicted": 10999000.0
+    },
+    {
+     "age": 6,
+     "n": 48,
+     "actual": 10400000.0,
+     "predicted": 10117000.0
+    },
+    {
+     "age": 7,
+     "n": 20,
+     "actual": 9250000.0,
+     "predicted": 9345000.0
+    }
+   ]
+  },
+  {
+   "model": "Toyota Aqua",
+   "ads": 148,
+   "miss": 0.0586,
+   "inside": 0.777,
+   "cells": [
+    {
+     "age": 5,
+     "n": 30,
+     "actual": 2175000.0,
+     "predicted": 2184000.0
+    },
+    {
+     "age": 6,
+     "n": 60,
+     "actual": 1980000.0,
+     "predicted": 1970000.0
+    },
+    {
+     "age": 7,
+     "n": 15,
+     "actual": 1930000.0,
+     "predicted": 1937000.0
+    },
+    {
+     "age": 12,
+     "n": 11,
+     "actual": 1290000.0,
+     "predicted": 1312000.0
+    }
+   ]
+  },
+  {
+   "model": "Honda Insight",
+   "ads": 142,
+   "miss": 0.0499,
+   "inside": 0.838,
+   "cells": [
+    {
+     "age": 4,
+     "n": 19,
+     "actual": 4200000.0,
+     "predicted": 4438000.0
+    },
+    {
+     "age": 5,
+     "n": 48,
+     "actual": 4025000.0,
+     "predicted": 4003000.0
+    },
+    {
+     "age": 6,
+     "n": 31,
+     "actual": 3950000.0,
+     "predicted": 3821000.0
+    },
+    {
+     "age": 7,
+     "n": 43,
+     "actual": 3680000.0,
+     "predicted": 3686000.0
+    }
+   ]
+  },
+  {
+   "model": "Honda Vezel",
+   "ads": 133,
+   "miss": 0.063,
+   "inside": 0.767,
+   "cells": [
+    {
+     "age": 4,
+     "n": 12,
+     "actual": 4475000.0,
+     "predicted": 4518000.0
+    },
+    {
+     "age": 5,
+     "n": 60,
+     "actual": 4350000.0,
+     "predicted": 4149000.0
+    },
+    {
+     "age": 10,
+     "n": 8,
+     "actual": 2140000.0,
+     "predicted": 2441000.0
+    },
+    {
+     "age": 11,
+     "n": 8,
+     "actual": 2150000.0,
+     "predicted": 2262000.0
+    },
+    {
+     "age": 12,
+     "n": 35,
+     "actual": 1800000.0,
+     "predicted": 1814000.0
+    }
+   ]
+  },
+  {
+   "model": "Toyota Sienta",
+   "ads": 100,
+   "miss": 0.0677,
+   "inside": 0.81,
+   "cells": [
+    {
+     "age": 5,
+     "n": 27,
+     "actual": 2750000.0,
+     "predicted": 2739000.0
+    },
+    {
+     "age": 6,
+     "n": 45,
+     "actual": 2700000.0,
+     "predicted": 2664000.0
+    },
+    {
+     "age": 7,
+     "n": 18,
+     "actual": 2700000.0,
+     "predicted": 2546000.0
+    }
+   ]
+  },
+  {
+   "model": "Honda Civic",
+   "ads": 88,
+   "miss": 0.0904,
+   "inside": 0.795,
+   "cells": [
+    {
+     "age": 5,
+     "n": 36,
+     "actual": 5265000.0,
+     "predicted": 4926000.0
+    },
+    {
+     "age": 6,
+     "n": 13,
+     "actual": 3900000.0,
+     "predicted": 4605000.0
+    },
+    {
+     "age": 7,
+     "n": 19,
+     "actual": 3800000.0,
+     "predicted": 4170000.0
+    },
+    {
+     "age": 8,
+     "n": 9,
+     "actual": 3490000.0,
+     "predicted": 3685000.0
+    }
+   ]
+  }
+ ],
+ "calibration": [
+  {
+   "n": 1540,
+   "predicted": 1347000.0,
+   "actual": 1350000.0
+  },
+  {
+   "n": 1542,
+   "predicted": 2479000.0,
+   "actual": 2450000.0
+  },
+  {
+   "n": 1538,
+   "predicted": 3334000.0,
+   "actual": 3270000.0
+  },
+  {
+   "n": 1540,
+   "predicted": 3808000.0,
+   "actual": 3780000.0
+  },
+  {
+   "n": 1540,
+   "predicted": 4319000.0,
+   "actual": 4370000.0
+  },
+  {
+   "n": 1540,
+   "predicted": 4845000.0,
+   "actual": 4850000.0
+  },
+  {
+   "n": 1540,
+   "predicted": 5534000.0,
+   "actual": 5590000.0
+  },
+  {
+   "n": 1564,
+   "predicted": 6691000.0,
+   "actual": 6790000.0
+  },
+  {
+   "n": 1520,
+   "predicted": 7827000.0,
+   "actual": 8020000.0
+  },
+  {
+   "n": 1536,
+   "predicted": 15384000.0,
+   "actual": 15900000.0
+  }
+ ]
+}

@@ -9,6 +9,7 @@ const LINKS = [
   ["/cars", t.nav.cars],
   ["/market", "Market"],
   ["/method", "Method"],
+  ["/check", "Check"],
   ["/rates", t.nav.rates],
 ] as const;
 

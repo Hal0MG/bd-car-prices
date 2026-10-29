@@ -390,3 +390,16 @@ table.plain tr.best td, table.plain td.best-cell { color: var(--rust); font-weig
 .market-card h2 { font-size: 22px; margin: 0; }
 .market-card figcaption { margin-bottom: 6px; }
 @media (max-width: 560px) { .bars li { grid-template-columns: 1fr 70px; } .bar-track { grid-column: 1 / -1; grid-row: 2; } .bar-label { grid-column: 1; } .bar-value { grid-column: 2; grid-row: 1; } }
+
+.chart .gap { stroke: var(--ink-3); stroke-width: 1.5; }
+.chart .actual { fill: var(--ink); }
+.chart .diag { stroke: var(--ink-3); stroke-width: 1; stroke-dasharray: 4 4; }
+.chart.square { max-width: 360px; }
+.check { max-width: 560px; }
+.check-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 14px 0; }
+.check-stats dt { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); }
+.check-stats dd { margin: 2px 0 0; font: 600 28px var(--serif); }
+.legend { font: 400 12px var(--mono); color: var(--ink-2); margin: 6px 0; }
+.key { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin: 0 4px 0 10px; }
+.key.actual { background: var(--ink); }
+.key.pred { background: var(--rust); }
