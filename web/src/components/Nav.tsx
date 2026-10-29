@@ -16,7 +16,9 @@ export function Nav() {
   return (
     <nav className="nav" aria-label="Main">
       {LINKS.map(([href, label]) => {
-        const active = href === "/" ? path === "/" : path.startsWith(href);
+        // A car's own page is the calculator for that car, so it keeps the Calculator tab lit.
+        const onCarPage = /^\/cars\/.+/.test(path);
+        const active = href === "/" ? path === "/" || onCarPage : href === "/cars" ? path.startsWith("/cars") && !onCarPage : path.startsWith(href);
         return (
           <Link key={href} href={href} aria-current={active ? "page" : undefined}>
             {label}

@@ -3,7 +3,14 @@ import { LOCAL_META, type LocalPrice as Local } from "@/lib/local";
 
 /** Local asking price beside the import cost: the "buy here or bring one in" comparison. */
 export function LocalPrice({ local, importOnRoad, age }: { local?: Local; importOnRoad: number; age: number }) {
-  if (!local) return null;
+  if (!local) {
+    return (
+      <section className="local" aria-label="Local market price">
+        <p className="eyebrow">Local market · {LOCAL_META.asOf}</p>
+        <p className="muted">Too few ads of this car to give a local price.</p>
+      </section>
+    );
+  }
 
   const gap = importOnRoad - local.expected;
   const cheaper = gap < 0 ? "importing" : "buying here";
