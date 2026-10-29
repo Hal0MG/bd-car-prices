@@ -76,7 +76,15 @@ The collector (`src/shotti_ml/collect/`) is gentle by construction, not by promi
 
 ## On the site
 
-`export.py` fits LightGBM once, sets the width with the "scaled by difficulty" method, and writes an expected price and 80% range for each catalogue car to `web/src/lib/local-prices.json`. Car pages show it beside the import cost. The site runs no Python.
+`export.py` fits LightGBM once, sets the width with the "scaled by difficulty" method, and writes an expected price and 80% range for each catalogue car to `web/src/lib/local-prices.json`. Car pages show it beside the import cost. The site runs no Python. Three scripts write the numbers it shows, all from the same cleaned listings and all aggregate-only (no single ad is exported):
+
+| Script | Writes | Shown on |
+|---|---|---|
+| `export.py` | `local-prices.json` | local price on car pages |
+| `export_site.py` | `data-science.json` | The data: Market and Method |
+| `export_check.py` | `check.json` | The data: Check (every ad predicted by a model that never saw it) |
+
+`scripts/refresh_site.ps1` runs the training report and all three, in order.
 
 A catalogue car gets a price only when its model has at least five current listings and at least five were built within a year of its model year; that is 34 of the 114 cars, almost all Toyotas. A model also needs a range no wider than 2.5 times from low to high, so the Range Rover and Audi Q7 are left out despite having a few listings. Bikroy added a few cars (the Corolla Cross, Yaris Cross and Camry among them); the German, sports and electric cars still have too few. The rest show a note saying why there is no figure. Each car is predicted as a reconditioned car, with its model's typical engine size and its listings' typical mileage, since cards report engine size in rough classes (mostly 1000 or 2000cc). Models without enough listings are left out, not guessed with the weaker ridge fallback.
 
@@ -87,7 +95,7 @@ A catalogue car gets a price only when its model has at least five current listi
 ## What was done
 
 1. **Cleaning** (`current.py`), every change counted: 1,640 ads seen twice kept once (latest sighting), 682 with no price ("NEGOTIABLE") dropped, 145 impossible years and prices dropped (mostly Bikroy cards with no year), 20 suspect prices dropped, 217 price outliers dropped (below a quarter or above four times comparable cars), engine size filled in from the model's median for 31% of cars and mileage for 68%. Model names are made canonical with explicit rules so that, for example, "Corolla Cross" is not folded into "Corolla" (an earlier version did this, and it mixed about 600 SUVs into the Corolla sedan's price).
-2. **Features** (`features.py`). Age, log mileage, engine size, gearbox, fuel flags, brand, model, used-versus-reconditioned (known only for Bikroy ads) and the source site, with rare ones pooled using counts of features only. Adding the last two cut the median error from 6.7% to 6.5% overall and from 6.9% to 6.3% on Bikroy ads. For the same model and build year, the two sites' median prices mostly agree (the median ratio is about 1.03), with some gaps where trims differ.
+2. **Features** (`features.py`). Age, log mileage, engine size, gearbox, fuel flags, brand, model, used-versus-reconditioned (known only for Bikroy ads) and the source site, with rare ones pooled using counts of features only. Adding the last two cut the median error from 6.7% to 6.5% overall and from 6.9% to 6.3% on Bikroy ads. For the same model and build year, the two sites' median prices mostly agree (Bikroy's median is 97% of GarirBazar's across 139 model-years with at least three ads on each site), with some gaps where trims differ.
 3. **Target.** The log of the price, so errors are relative.
 4. **Models** (`models.py`). The median by model, ridge regression, and LightGBM with modest capacity.
 5. **Evaluation** (`evaluate.py`, `intervals.py`). Repeated 5-fold cross-validation, run two ways: random folds, and folds holding out whole car models. Intervals use the same folds for every method.

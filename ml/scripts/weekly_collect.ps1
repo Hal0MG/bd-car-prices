@@ -1,4 +1,4 @@
-# Weekly GarirBazar snapshot. Registered with Windows Task Scheduler as "ShottiWeeklyCollect".
+# Weekly GarirBazar snapshot, meant to run from Windows Task Scheduler (task name "ShottiWeeklyCollect").
 # A different page sample each week (seed = day of the year) so snapshots overlap but don't repeat.
 $ml = Split-Path -Parent $PSScriptRoot
 Set-Location $ml

@@ -54,6 +54,7 @@ class CurrentCleaningReport:
     rows_clean: int
     suspect_dropped: int = 0
     rows_from_bikroy: int = 0
+    no_model: int = 0
 
     def as_dict(self) -> dict[str, int]:
         return asdict(self)
@@ -166,7 +167,9 @@ def clean_current(raw: pd.DataFrame, known_models: list[str]) -> tuple[pd.DataFr
         for m, source in zip(df["model"].fillna(""), df["source"])
     ]
     df["condition"] = df["condition"].fillna("Unknown")
-    df = df[df["car_model"] != ""].reset_index(drop=True)
+    no_model = df["car_model"] == ""
+    n_no_model = int(no_model.sum())
+    df = df[~no_model].reset_index(drop=True)
 
     outliers = _price_outliers(df)
     n_outliers = int(outliers.sum())
@@ -201,5 +204,6 @@ def clean_current(raw: pd.DataFrame, known_models: list[str]) -> tuple[pd.DataFr
         rows_clean=len(df),
         suspect_dropped=n_suspect,
         rows_from_bikroy=int((df["source"] == "bikroy").sum()),
+        no_model=n_no_model,
     )
     return df, report, reference_year

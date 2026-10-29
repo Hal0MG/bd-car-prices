@@ -87,7 +87,7 @@ def main() -> int:
             "read": report.rows_raw,
             "repeats": report.seen_in_several_snapshots,
             "noPrice": report.no_price,
-            "badOrSuspect": report.electric_dropped + report.implausible_year + report.implausible_price + report.suspect_dropped + report.price_outliers,
+            "badOrSuspect": report.electric_dropped + report.implausible_year + report.implausible_price + report.suspect_dropped + report.price_outliers + report.no_model,
             "used": report.rows_clean,
         },
         "imputed": {"engine": round(report.engine_imputed / report.rows_clean, 3), "mileage": round(report.mileage_imputed / report.rows_clean, 3)},

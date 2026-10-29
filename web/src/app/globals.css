@@ -211,12 +211,6 @@ table.ledger tr.group td { padding-top: 14px; font: 500 11px var(--mono); letter
 .index-list .meta { font: 400 12px var(--mono); color: var(--ink-3); }
 .index-list .price { font: 500 14px var(--mono); }
 
-.entry { display: grid; grid-template-columns: 140px 1fr; gap: 20px; padding: 16px 0; border-bottom: 1px dotted var(--dots); }
-.entry .date { font: 500 12px var(--mono); color: var(--ink-3); padding-top: 4px; }
-.entry h3 { font-size: 20px; }
-.entry p, .entry li { color: var(--ink-2); font-size: 15px; }
-@media (max-width: 600px) { .entry { grid-template-columns: 1fr; gap: 4px; } }
-
 .cascade { counter-reset: step; list-style: none; padding: 0; margin: 0; }
 .cascade li { counter-increment: step; display: grid; grid-template-columns: 34px 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px dotted var(--dots); }
 .cascade li::before { content: counter(step, upper-roman) "."; font: 500 14px var(--mono); color: var(--rust); }
@@ -225,8 +219,6 @@ table.ledger tr.group td { padding-top: 14px; font: 500 11px var(--mono); letter
 .table-scroll { overflow-x: auto; }
 .thanks { font: 400 15px var(--mono); padding: 18px; border: 1.5px dashed var(--green); color: var(--green); margin-top: 20px; }
 .error { color: var(--rust); font: 400 12px var(--mono); margin-top: 4px; }
-.report-form { max-width: 560px; }
-.report-form .input-row { align-items: start; }
 .make-group { margin-top: 22px; }
 .make-group .make { font: 500 11px var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--rust); margin-bottom: 4px; }
 
