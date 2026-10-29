@@ -94,6 +94,7 @@ export const en = {
     skip: "Skip intro",
   },
   theme: { dark: "Dark", light: "Light", label: "Colour theme" },
+  sound: { on: "Sound", off: "Muted", label: "Sound effects" },
   footer: {
     disclaimer: "Estimates only. Rates change with each budget and customs may value your car differently. Check with a licensed C&F agent before you commit money.",
     rates: "Rates: Finance Act",
