@@ -136,9 +136,6 @@ const UK: Row[] = [
   ["Lotus", "Emira", 2023, 1991, "petrol", "coupe", 70_000],
   ["Mini", "Cooper", 2022, 1499, "petrol", "hatchback", 15_000],
   ["Mini", "Clubman", 2022, 1499, "petrol", "wagon", 17_000],
-  ["Nissan", "Qashqai e-Power", 2023, 1497, "hybrid", "suv", 30_000],
-  ["Nissan", "Juke Hybrid", 2022, 1598, "hybrid", "suv", 21_000],
-  ["Toyota", "Corolla Hybrid (UK-built)", 2022, 1798, "hybrid", "hatchback", 17_000],
 
   // German brands as right-hand-drive UK-market cars.
   ["Mercedes-Benz", "C 300 e", 2022, 1999, "phev", "sedan", 40_000, "Germany"],
