@@ -120,7 +120,7 @@ export default function Method() {
       <section className="section">
         <h2>8. Pricing a car nobody lists</h2>
         <p className="lede">
-          Most catalogue cars have no ads, and on a model it has never seen the model misses by about a quarter. The model name is the likely culprit: it is a category the booster has never met at test time. Two ways to borrow from related cars were tried, using each brand's price level and the words in the model name.
+          Most catalogue cars have no ads, and on a model it has never seen the model misses by about a quarter. The model name is the likely culprit: it is a category the booster has never met at test time. Two ways to borrow from related cars were tried, using each brand’s price level and the words in the model name.
         </p>
         <div className="table-scroll">
           <table className="plain">
