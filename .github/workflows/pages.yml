@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_BASE_PATH: /bd-car-prices
-      NEXT_PUBLIC_SITE_URL: https://hal0mg.github.io/bd-car-prices
+      NEXT_PUBLIC_SITE_URL: https://hal0mg.github.io
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
