@@ -403,3 +403,12 @@ table.plain tr.best td, table.plain td.best-cell { color: var(--rust); font-weig
 .key { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin: 0 4px 0 10px; }
 .key.actual { background: var(--ink); }
 .key.pred { background: var(--rust); }
+
+/* ---------- the data section ---------- */
+.data-tabs { display: flex; gap: 22px; font: 400 13px var(--mono); padding: 12px 0 0; border-bottom: 1px solid var(--hair); }
+.data-tabs a { text-decoration: none; padding-bottom: 8px; margin-bottom: -1px; border-bottom: 2px solid transparent; }
+.data-tabs a[aria-current="page"] { border-bottom-color: var(--rust); }
+.data-hub { list-style: none; padding: 0; margin: 0; border-top: 1.5px solid var(--ink); }
+.data-hub a { display: block; padding: 16px 0; border-bottom: 1px dotted var(--dots); text-decoration: none; }
+.data-hub .name { font: 500 24px var(--serif); display: block; }
+.data-hub a:hover .name { color: var(--rust); }
