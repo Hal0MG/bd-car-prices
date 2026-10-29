@@ -336,14 +336,14 @@
   },
   {
    "make": "Honda",
-   "model": "CR-V e:HEV",
-   "year": 2022,
+   "model": "CR-V",
+   "year": 2021,
    "local_model": "CR-V",
-   "listings_near": 292,
+   "listings_near": 509,
    "listings_model": 675,
-   "expected": 6111000.0,
-   "low": 5595000.0,
-   "high": 6675000.0
+   "expected": 6208000.0,
+   "low": 5622000.0,
+   "high": 6856000.0
   },
   {
    "make": "Nissan",

@@ -82,7 +82,7 @@ export function originCaution(origin: Origin, builtIn?: Country): string | undef
 /** Cars most people start from, by "Make Model" key, shown as one-tap picks in the calculator. */
 export const POPULAR: Record<Origin, string[]> = {
   japan: ["Toyota Axio Hybrid", "Toyota Aqua", "Toyota Premio", "Toyota Noah Hybrid", "Toyota Harrier Hybrid", "Honda Vezel e:HEV"],
-  uk: ["BMW 320i", "Mercedes-Benz C 200", "Land Rover Range Rover Evoque", "Mini Cooper", "Audi A4"],
+  uk: ["BMW 318i", "Mercedes-Benz C 200", "Land Rover Range Rover Evoque", "Mini Cooper", "Audi A4"],
   other: [],
 };
 
