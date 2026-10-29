@@ -1,3 +1,5 @@
+import { BASE } from "./base";
+import { slugify } from "./format";
 // Hand-checked lead photos from Wikimedia Commons, one per catalogue car where
 // the photo shows the right model and generation. Generated from
 // scripts/photo-candidates.mts output, then reviewed on a contact sheet.
@@ -239,3 +241,8 @@ export const PHOTOS: Record<string, Photo> = {
   "Volkswagen T-Roc": {"file":"Volkswagen T-Roc (2021) 1X7A0330.jpg","src":"https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/Volkswagen_T-Roc_%282021%29_1X7A0330.jpg/960px-Volkswagen_T-Roc_%282021%29_1X7A0330.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","author":"Alexander Migl","license":"CC BY-SA 4.0","licenseUrl":"https://creativecommons.org/licenses/by-sa/4.0"},
   "Volkswagen Up": {"file":"2021 Volkswagen Up!.jpg","src":"https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/2021_Volkswagen_Up%21.jpg/960px-2021_Volkswagen_Up%21.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail","author":"Cardinator25","license":"CC BY 2.0","licenseUrl":"https://creativecommons.org/licenses/by/2.0"},
 };
+
+/** Where a photo is hosted: copied into public/cars by scripts/localize_photos.py, in three widths. */
+export const PHOTO_WIDTHS = [120, 360, 960] as const;
+export const photoId = (p: Photo) => slugify(p.file.replace(/\.[^.]+$/, ""));
+export const photoUrl = (p: Photo, width: (typeof PHOTO_WIDTHS)[number]) => `${BASE}/cars/${photoId(p)}-${width}.jpg`;

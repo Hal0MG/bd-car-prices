@@ -54,7 +54,7 @@ function MakeTile({ make, rows, onOpen }: { make: string; rows: CarRow[]; onOpen
       <button type="button" className="make-tile" onClick={onOpen}>
         <span className="tile-photo">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          {lead?.thumb && <img src={lead.thumb.replace(/\/120px-/, "/330px-")} alt="" loading="lazy" decoding="async" />}
+          {lead?.thumb && <img src={lead.thumb.replace(/-120\.jpg$/, "-360.jpg")} alt="" loading="lazy" decoding="async" />}
         </span>
         <span className="tile-name">{make}</span>
         <span className="meta">{rows.length} {rows.length === 1 ? "car" : "cars"} · from {takaShort(from)}</span>
