@@ -28,8 +28,9 @@ export const metadata: Metadata = {
     description: t.home.lede,
     siteName: t.brand,
     type: "website",
-    images: [{ url: `${BASE}/intro/prado-front.jpg`, width: 800, height: 600, alt: "A Land Cruiser Prado with a Japanese number plate" }],
+    images: [{ url: `${BASE}/og.png`, width: 1200, height: 630, alt: "Shotti Dam: what a car actually costs to bring home" }],
   },
+  twitter: { card: "summary_large_image", title: t.home.title, description: t.home.lede, images: [`${BASE}/og.png`] },
 };
 
 // Runs before the page paints, so there's no flash of the wrong theme or of the page behind the intro.
