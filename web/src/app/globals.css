@@ -404,3 +404,12 @@ table.plain tr.best td, table.plain td.best-cell { color: var(--rust); font-weig
 .data-hub a { display: block; padding: 16px 0; border-bottom: 1px dotted var(--dots); text-decoration: none; }
 .data-hub .name { font: 500 24px var(--serif); display: block; }
 .data-hub a:hover .name { color: var(--rust); }
+
+.gap td { vertical-align: middle; }
+.gap .meta { display: block; font-size: 11px; }
+.gapbar { position: relative; display: inline-block; width: 120px; height: 12px; background: var(--paper-rule); vertical-align: middle; margin-right: 8px; }
+.gapbar::after { content: ""; position: absolute; left: 50%; top: -2px; bottom: -2px; width: 1px; background: var(--ink-3); }
+.gapbar i { position: absolute; top: 0; bottom: 0; }
+.gapbar i.neg { background: var(--green); }
+.gapbar i.pos { background: var(--rust); }
+.gapval { font: 500 13px var(--mono); }
