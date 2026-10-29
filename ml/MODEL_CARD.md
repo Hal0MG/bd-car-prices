@@ -2,7 +2,7 @@
 
 ## What it does
 
-Predicts the asking price, in taka, of a reconditioned car already for sale in Bangladesh, with an 80% range. It feeds the "Local market" block on 35 of the site's 213 catalogue car pages and the Gap page. It does not predict what a car sells for, and it does not predict the price of a car abroad.
+Predicts the asking price, in taka, of a reconditioned car already for sale in Bangladesh, with an 80% range. It feeds the "Local market" block on 35 of the site's 210 catalogue car pages and the Gap page. It does not predict what a car sells for, and it does not predict the price of a car abroad.
 
 ## Data
 
