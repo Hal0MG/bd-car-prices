@@ -2,6 +2,30 @@
 
 A transparent car price site for Bangladesh: what a car actually costs to import from Japan or the UK, with every customs duty, fee and source itemised.
 
+**Live:** https://hal0mg.github.io/bd-car-prices/
+
+![The intro: the same Prado, two plates, ৳99.43 lakh apart](docs/screens/intro.png)
+
+## What it does
+
+**Calculator.** Pick a car, enter the price abroad, and see every customs duty, fee and tax line by line, with how much of the total is tax. Where the local market has enough ads, it also shows what the same car typically asks in Bangladesh.
+
+![The calculator on the 2022 Land Cruiser Prado](docs/screens/calculator.png)
+
+**Cars.** 226 cars bought from Japan or the UK, with the import cost of each.
+
+![Import cost by car](docs/screens/cars.png)
+
+**The data.** The offline price model behind the local-market figures, with its error and its limits shown rather than hidden.
+
+![Method: which model predicts best, and what moves the price](docs/screens/data-method.png)
+
+![Market: asking prices by age for the most-listed models](docs/screens/data-market.png)
+
+![Gap: the most you can pay abroad and still beat the local ask](docs/screens/data-gap.png)
+
+![Check: the model's predictions against asking prices it had not seen](docs/screens/data-check.png)
+
 ## Layout
 
 - `web/` — Next.js site and the tax engine
