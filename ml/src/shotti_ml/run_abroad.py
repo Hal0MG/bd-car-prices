@@ -168,6 +168,8 @@ TARGETS: dict[tuple[str, str], Target] = {
     ("Subaru", "Impreza"): T("subaru", "impreza"),
     ("Honda", "Accord e:HEV"): T("honda", "accord", ("CY2",)),
     ("Honda", "N-WGN"): T("honda", "nwgn"),
+    ("Mitsuoka", "Viewt"): T("mitsuoka", "viewt"),
+    ("Mitsuoka", "Buddy"): T("mitsuoka", "buddy"),
 }
 
 

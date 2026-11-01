@@ -153,6 +153,9 @@ const JAPAN: Row[] = [
   ["Subaru", "Impreza", 2023, 1995, "hybrid", "hatchback", 2_340_000],
   ["Honda", "Accord e:HEV", 2022, 1993, "hybrid", "sedan", 3_500_000],
   ["Honda", "N-WGN", 2022, 658, "petrol", "hatchback", 1_120_000],
+  // Specialist makers: Mitsuoka rebodies other cars
+  ["Mitsuoka", "Viewt", 2022, 1198, "petrol", "hatchback", 1_740_000],
+  ["Mitsuoka", "Buddy", 2022, 1986, "petrol", "suv", 5_740_000],
 ];
 
 // Built in the UK: Solihull, Halewood, Oxford, Sunderland, Burnaston, Crewe,
@@ -385,6 +388,20 @@ const UK: Row[] = [
   ["Renault", "Megane E-Tech", 2022, 0, "ev", "hatchback", 22_000, "France"],
   ["Genesis", "GV60", 2023, 0, "ev", "suv", 35_000, "South Korea"],
   ["Volkswagen", "ID.3", 2022, 0, "ev", "hatchback", 14_600, "Germany"],
+  // Brands that were missing: Corvette, Jeep, Fiat/Abarth, Citroen/DS, SEAT, Vauxhall, SsangYong
+  ["Chevrolet", "Corvette Stingray", 2022, 6162, "petrol", "coupe", 79_900, "USA"],
+  ["Jeep", "Wrangler 4xe", 2022, 1995, "phev", "suv", 39_700, "USA"],
+  ["Jeep", "Renegade 4xe", 2022, 1332, "phev", "suv", 16_700, "Italy"],
+  ["Fiat", "500e", 2022, 0, "ev", "hatchback", 11_900, "Italy"],
+  ["Abarth", "695", 2022, 1368, "petrol", "hatchback", 20_000, "Italy"],
+  ["Citroen", "e-C4", 2022, 0, "ev", "hatchback", 12_000, "Spain"],
+  ["DS", "7 E-Tense", 2022, 1598, "phev", "suv", 12_200, "France"],
+  ["SEAT", "Leon e-Hybrid", 2022, 1395, "phev", "hatchback", 12_000, "Spain"],
+  ["SEAT", "Tarraco e-Hybrid", 2022, 1395, "phev", "suv", 19_000, "Spain"],
+  ["Vauxhall", "Corsa-e", 2022, 0, "ev", "hatchback", 10_800, "Spain"],
+  ["Vauxhall", "Mokka-e", 2022, 0, "ev", "suv", 11_900, "Spain"],
+  ["Vauxhall", "Grandland PHEV", 2022, 1598, "phev", "suv", 14_400, "France"],
+  ["SsangYong", "Korando e-Motion", 2022, 0, "ev", "suv", 17_000, "South Korea"],
 ];
 
 const toModel = (origin: Origin, defaultBuiltIn: Country) =>

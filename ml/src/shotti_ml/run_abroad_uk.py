@@ -255,6 +255,19 @@ TARGETS: dict[tuple[str, str], Target] = {
     ("Tesla", "Model S Plaid"): T("Tesla", "Model S", r"PLAID"),
     ("Caterham", "Seven 170"): T("Caterham", "Seven", r"170"),
     ("Morgan", "Plus Four"): T("Morgan", "Plus 4"),
+    ("Chevrolet", "Corvette Stingray"): T("Chevrolet", "Corvette"),
+    ("Jeep", "Wrangler 4xe"): T("Jeep", "Wrangler"),
+    ("Jeep", "Renegade 4xe"): T("Jeep", "Renegade", r"4XE"),
+    ("Fiat", "500e"): T("Fiat", "500", r"(500E|ICON|LA PRIMA|PASSION|RED)"),
+    ("Abarth", "695"): T("Abarth", "695"),
+    ("Citroen", "e-C4"): T("Citroen", "C4", r"(E-C4|ELECTRIC|50KWH)"),
+    ("DS", "7 E-Tense"): T("DS", "DS 7", r"E-TENSE"),
+    ("SEAT", "Leon e-Hybrid"): T("Seat", "Leon"),
+    ("SEAT", "Tarraco e-Hybrid"): T("Seat", "Tarraco"),
+    ("Vauxhall", "Corsa-e"): T("Vauxhall", "Corsa", r"(ELECTRIC|CORSA-E|50KWH)"),
+    ("Vauxhall", "Mokka-e"): T("Vauxhall", "Mokka", r"(ELECTRIC|MOKKA-E|50KWH)"),
+    ("Vauxhall", "Grandland PHEV"): T("Vauxhall", "Grandland", r"(PHEV|HYBRID)"),
+    ("SsangYong", "Korando e-Motion"): T("Ssangyong", "Korando"),
 }
 
 

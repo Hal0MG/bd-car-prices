@@ -2332,6 +2332,171 @@
    "median": 14600,
    "p10": 13150,
    "p90": 16300
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Chevrolet",
+   "model": "Corvette Stingray",
+   "year": 2022,
+   "n": 1,
+   "median": 79900,
+   "p10": 79900,
+   "p90": 79900
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Jeep",
+   "model": "Renegade 4xe",
+   "year": 2022,
+   "n": 6,
+   "median": 16680,
+   "p10": 14240,
+   "p90": 17240
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Fiat",
+   "model": "500e",
+   "year": 2022,
+   "n": 46,
+   "median": 11920,
+   "p10": 10500,
+   "p90": 14560
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Abarth",
+   "model": "695",
+   "year": 2022,
+   "n": 3,
+   "median": 20000,
+   "p10": 18400,
+   "p90": 20480
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "DS",
+   "model": "7 E-Tense",
+   "year": 2022,
+   "n": 4,
+   "median": 12240,
+   "p10": 10010,
+   "p90": 14400
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Vauxhall",
+   "model": "Grandland PHEV",
+   "year": 2022,
+   "n": 11,
+   "median": 14450,
+   "p10": 11500,
+   "p90": 15000
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Citroen",
+   "model": "e-C4",
+   "year": 2022,
+   "n": 21,
+   "median": 11990,
+   "p10": 11000,
+   "p90": 13490
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Vauxhall",
+   "model": "Corsa-e",
+   "year": 2022,
+   "n": 47,
+   "median": 10780,
+   "p10": 9500,
+   "p90": 11790
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Vauxhall",
+   "model": "Mokka-e",
+   "year": 2022,
+   "n": 57,
+   "median": 11920,
+   "p10": 10200,
+   "p90": 13830
+  },
+  {
+   "source": "sbt",
+   "currency": "USD",
+   "make": "Mitsuoka",
+   "model": "Viewt",
+   "year": 2022,
+   "n": 3,
+   "median": 11560,
+   "p10": 10300,
+   "p90": 22740
+  },
+  {
+   "source": "sbt",
+   "currency": "USD",
+   "make": "Mitsuoka",
+   "model": "Buddy",
+   "year": 2022,
+   "n": 4,
+   "median": 38160,
+   "p10": 37270,
+   "p90": 39460
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Jeep",
+   "model": "Wrangler 4xe",
+   "year": 2022,
+   "n": 2,
+   "median": 39740,
+   "p10": 39550,
+   "p90": 39940
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "SEAT",
+   "model": "Leon e-Hybrid",
+   "year": 2022,
+   "n": 90,
+   "median": 12050,
+   "p10": 8940,
+   "p90": 15280
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "SEAT",
+   "model": "Tarraco e-Hybrid",
+   "year": 2022,
+   "n": 20,
+   "median": 18970,
+   "p10": 15420,
+   "p90": 22990
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "SsangYong",
+   "model": "Korando e-Motion",
+   "year": 2022,
+   "n": 3,
+   "median": 17000,
+   "p10": 15400,
+   "p90": 17000
   }
  ]
 }
