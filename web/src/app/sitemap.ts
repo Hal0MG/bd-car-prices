@@ -5,7 +5,7 @@ import { CARS, carSlug } from "@/lib/market";
 
 export const dynamic = "force-static";
 
-const PAGES = ["", "cars", "rates", "data", ...DATA_PAGES.map(([href]) => href.slice(1))];
+const PAGES = ["", "cars", "rates", "china", "data", ...DATA_PAGES.map(([href]) => href.slice(1))];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const url = (path: string) => `${SITE_URL}${BASE}/${path}${path ? "/" : ""}`;

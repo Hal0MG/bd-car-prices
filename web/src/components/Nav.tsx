@@ -8,6 +8,7 @@ const LINKS = [
   ["/", t.nav.calculator],
   ["/cars", t.nav.cars],
   ["/rates", t.nav.rates],
+  ["/china", "The Chinese dilemma"],
   ["/data", "The data"],
 ] as const;
 
