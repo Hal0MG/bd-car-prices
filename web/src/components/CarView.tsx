@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { Calculator } from "@/components/Calculator";
 import { CarPhoto } from "@/components/CarPhoto";
@@ -9,8 +12,9 @@ import { LOCAL_META, localPriceFor } from "@/lib/local";
 import { CARS, carKey, carName } from "@/lib/market";
 import { PHOTOS } from "@/lib/photos";
 
-/** One car's page: headline, local price beside the import cost, then the calculator. Used by every car page and by the home page. */
-export function CarView({ index }: { index: number }) {
+/** One car's page, whose header follows whichever car the calculator is set to: headline, local price beside the import cost, then the calculator. Used by every car page and by the home page. */
+export function CarView({ index: initial }: { index: number }) {
+  const [index, setIndex] = useState(initial);
   const car = CARS[index];
   const r = estimateFor(car);
   const photo = PHOTOS[carKey(car)];
@@ -27,7 +31,7 @@ export function CarView({ index }: { index: number }) {
         {photo && <div className="exhibit"><CarPhoto photo={photo} alt={carName(car)} /></div>}
       </header>
       <LocalPrice local={localPriceFor(car)} importOnRoad={r.onRoad} age={Number(LOCAL_META.asOf.slice(0, 4)) - car.year} />
-      <Calculator initialCar={index} exhibit={false} />
+      <Calculator initialCar={initial} exhibit={false} onCarChange={setIndex} />
     </>
   );
 }

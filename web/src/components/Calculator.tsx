@@ -86,8 +86,8 @@ function NumInput({ value, onChange, id, grouping = "bdt", className = "" }: {
   );
 }
 
-/** `exhibit` shows a photo of the selected car above the form, when there is one; car pages turn it off because their header already shows the car. */
-export function Calculator({ initialCar = 0, exhibit = true }: { initialCar?: number; exhibit?: boolean }) {
+/** `onCarChange` reports each catalogue car picked. `exhibit` shows a photo of the selected car above the form, when there is one; car pages turn it off because their header already shows the car. */
+export function Calculator({ initialCar = 0, exhibit = true, onCarChange }: { initialCar?: number; exhibit?: boolean; onCarChange?: (index: number) => void }) {
   const [s, setS] = useState<State>(() => stateFor(CARS[initialCar], initialCar));
   const set = <K extends keyof State>(k: K, v: State[K]) => setS((p) => ({ ...p, [k]: v }));
 
@@ -97,6 +97,9 @@ export function Calculator({ initialCar = 0, exhibit = true }: { initialCar?: nu
   const car = isCustom ? undefined : CARS[Number(s.carIdx)];
   const photo = car && PHOTOS[carKey(car)];
   const listed = car && abroadFor(car);
+
+  // Lets the page header follow the picked car; "your own details" leaves it on the last one.
+  useEffect(() => { if (!isCustom) onCarChange?.(Number(s.carIdx)); }, [s.carIdx, isCustom, onCarChange]);
 
   const carsForOrigin = CARS.map((c, i) => [c, i] as const).filter(([c]) => c.origin === s.origin);
   const makes = byMake(carsForOrigin, ([c]) => c);
