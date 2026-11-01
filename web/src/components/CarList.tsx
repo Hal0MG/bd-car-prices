@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { takaShort } from "@/lib/format";
 import { t } from "@/lib/i18n/en";
-import { FX, SEGMENT_LABEL, byMake, type Origin, type Segment } from "@/lib/market";
+import { FX, SEGMENT_LABEL, byMake, byMakeModel, type Origin, type Segment } from "@/lib/market";
 import { foreign } from "@/lib/money";
 import type { Body, Fuel } from "@/lib/tax";
 
@@ -34,6 +34,9 @@ const SORTS = {
   low: "Price, low to high",
   high: "Price, high to low",
   tax: "Lowest tax first",
+  taxHigh: "Highest tax first",
+  newest: "Newest model year",
+  engine: "Engine size, largest first",
 } as const;
 type SortKey = keyof typeof SORTS;
 
@@ -41,6 +44,9 @@ const COMPARE: Record<Exclude<SortKey, "make">, (a: CarRow, b: CarRow) => number
   low: (a, b) => a.onRoad - b.onRoad,
   high: (a, b) => b.onRoad - a.onRoad,
   tax: (a, b) => a.tti - b.tti,
+  taxHigh: (a, b) => b.tti - a.tti,
+  newest: (a, b) => b.year - a.year,
+  engine: (a, b) => b.cc - a.cc,
 };
 
 const PAGE = 24;
@@ -107,7 +113,9 @@ export function CarList({ rows }: { rows: CarRow[] }) {
       const haystack = `${r.make} ${r.model} ${r.year}`.toLowerCase();
       return words.every((w) => haystack.includes(w));
     });
-    return sort === "make" ? list : [...list].sort(COMPARE[sort]);
+    // Ties keep A to Z order, so every sort reads sensibly.
+    const alphabetical = [...list].sort(byMakeModel);
+    return sort === "make" ? alphabetical : alphabetical.sort(COMPARE[sort]);
   }, [rows, query, origin, fuel, segment, sort, make]);
 
   const filtered = query !== "" || origin !== "all" || fuel !== "all" || segment !== "all" || make !== "all";

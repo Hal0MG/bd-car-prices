@@ -77,3 +77,15 @@ describe("car catalogue", () => {
     expect(missing).toEqual([]);
   });
 });
+
+describe("sorting", () => {
+  it("lists makes A to Z and each make's models in natural order", async () => {
+    const { byMake } = await import("./market");
+    const groups = byMake(CARS, (c) => c);
+    const makes = groups.map(([m]) => m);
+    expect(makes).toEqual([...makes].sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" })));
+    const bmw = groups.find(([m]) => m === "BMW")![1].map((c) => c.model);
+    expect(bmw.indexOf("i5 M60")).toBeLessThan(bmw.indexOf("i7 xDrive60"));
+    expect(bmw.indexOf("118i")).toBeLessThan(bmw.indexOf("M2"));
+  });
+});

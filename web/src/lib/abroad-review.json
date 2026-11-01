@@ -550,15 +550,6 @@
  },
  {
   "make": "Mini",
-  "model": "Cooper",
-  "source": "cargurus",
-  "fuel": "petrol",
-  "n": 57,
-  "example": 15500,
-  "real": 15300
- },
- {
-  "make": "Mini",
   "model": "Clubman",
   "source": "cargurus",
   "fuel": "petrol",
@@ -945,15 +936,6 @@
   "real": 500000
  },
  {
-  "make": "Alfa Romeo",
-  "model": "Stelvio",
-  "source": "cargurus",
-  "fuel": "petrol",
-  "n": 11,
-  "example": 22500,
-  "real": 23900
- },
- {
   "make": "Volvo",
   "model": "XC60 Recharge T6",
   "source": "cargurus",
@@ -1042,5 +1024,23 @@
   "n": 7,
   "example": 137000,
   "real": 135000
+ },
+ {
+  "make": "Mini",
+  "model": "Cooper",
+  "source": "cargurus",
+  "fuel": "petrol",
+  "n": 60,
+  "example": 15500,
+  "real": 15500
+ },
+ {
+  "make": "Alfa Romeo",
+  "model": "Stelvio",
+  "source": "cargurus",
+  "fuel": "petrol",
+  "n": 11,
+  "example": 22500,
+  "real": 23900
  }
 ]

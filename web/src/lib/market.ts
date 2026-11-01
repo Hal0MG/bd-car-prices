@@ -8,7 +8,7 @@ import type { Body, Fuel } from "./tax";
 export type Origin = "japan" | "uk" | "other";
 export type Currency = "JPY" | "GBP" | "USD";
 /** Where the car was manufactured, which can differ from where it is bought. */
-export type Country = "Japan" | "UK" | "Germany" | "USA" | "Mexico" | "Slovakia" | "Austria" | "Hungary" | "Italy" | "Sweden" | "Spain" | "France" | "Czechia" | "South Korea" | "Portugal" | "Netherlands";
+export type Country = "Japan" | "UK" | "Germany" | "USA" | "Mexico" | "Slovakia" | "Austria" | "Hungary" | "Italy" | "Sweden" | "Spain" | "France" | "Czechia" | "South Korea" | "Portugal" | "Netherlands" | "Belgium";
 
 export const CURRENCY: Record<Origin, Currency> = { japan: "JPY", uk: "GBP", other: "USD" };
 export const SYMBOL: Record<Currency, string> = { JPY: "¥", GBP: "£", USD: "$" };
@@ -52,10 +52,17 @@ export const carSlug = (c: CarModel) => [c.make, c.model, String(c.year)].map(sl
 
 export const carName = (c: CarModel) => `${c.year} ${c.make} ${c.model}`;
 
-/** Group items by make, keeping first-seen order of makes. */
-export function byMake<T>(items: T[], car: (item: T) => Pick<CarModel, "make">): [string, T[]][] {
+/** Text order for names: case ignored, numbers by value, so "i5" comes before "i30" and "GR86" before "GR Yaris". */
+export const byText = (a: string, b: string) => a.localeCompare(b, "en", { numeric: true, sensitivity: "base" });
+
+/** Alphabetical by make, then by model. */
+export const byMakeModel = (a: Pick<CarModel, "make" | "model">, b: Pick<CarModel, "make" | "model">) =>
+  byText(a.make, b.make) || byText(a.model, b.model);
+
+/** Group items by make, makes A to Z and each make's cars by model name. */
+export function byMake<T>(items: T[], car: (item: T) => Pick<CarModel, "make" | "model">): [string, T[]][] {
   const groups = new Map<string, T[]>();
-  for (const item of items) {
+  for (const item of [...items].sort((a, b) => byMakeModel(car(a), car(b)))) {
     const make = car(item).make;
     groups.set(make, [...(groups.get(make) ?? []), item]);
   }
