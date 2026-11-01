@@ -32,6 +32,8 @@ A transparent car price site for Bangladesh: what a car actually costs to import
 
 ![Check: the model's predictions against asking prices it had not seen](docs/screens/data-check.png)
 
+**Chinese cars.** Chinese cars are sold new here, so they sit outside the import calculator. A separate page in The data shows how the new-car duty on electric and plug-in cars steps up with value (checked against the 64%, 80% and 73.44% the budget coverage quotes) and works back from BYD showroom prices to how much of each is tax.
+
 ## Layout
 
 - `web/` — Next.js site and the tax engine
