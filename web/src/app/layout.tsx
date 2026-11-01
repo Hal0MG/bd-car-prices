@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Fraunces, IBM_Plex_Mono, IBM_Plex_Sans, Hind_Siliguri, Noto_Sans_JP } from "next/font/google";
 import Link from "next/link";
+import { Analytics } from "@/components/Analytics";
 import { Nav } from "@/components/Nav";
 import { SoundToggle } from "@/components/SoundToggle";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { GOATCOUNTER_CODE } from "@/lib/analytics";
 import { BASE, SITE_URL } from "@/lib/base";
 import { INTRO_SEEN_KEY } from "@/lib/intro";
 import { THEME_KEY } from "@/lib/theme";
@@ -61,6 +63,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           </div>
         </header>
         <main className="wrap">{children}</main>
+        <Analytics />
         <footer className="footer">
           <div className="wrap">
             <p>
@@ -72,6 +75,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               {t.footer.introPhoto}: <a href={INTRO_PHOTO} target="_blank" rel="noreferrer">Tokumeigakarinoaoshima</a>,{" "}
               <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>
             </p>
+            {GOATCOUNTER_CODE && (
+              <p>Page views are counted without cookies or personal data (GoatCounter): which pages, and which country.</p>
+            )}
             <p>
               {t.footer.rates} {TABLE.fiscalYear}
               <br />
