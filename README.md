@@ -18,7 +18,7 @@ A transparent car price site for Bangladesh: what a car actually costs to import
 
 ![What engine size does: on-road cost by engine size, one step per tax slab](docs/screens/rates-engine.png)
 
-**Cars.** 226 cars bought from Japan or the UK, with the import cost of each.
+**Cars.** 225 cars bought from Japan or the UK, with the import cost of each.
 
 ![Import cost by car](docs/screens/cars.png)
 

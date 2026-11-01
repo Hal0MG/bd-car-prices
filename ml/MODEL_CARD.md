@@ -2,7 +2,7 @@
 
 ## What it does
 
-Predicts the asking price, in taka, of a reconditioned car already for sale in Bangladesh, with an 80% range. It feeds the "Local market" block on 34 of the site's 226 catalogue car pages and the Gap page. It does not predict what a car sells for, and it does not predict the price of a car abroad.
+Predicts the asking price, in taka, of a reconditioned car already for sale in Bangladesh, with an 80% range. It feeds the "Local market" block on 34 of the site's 225 catalogue car pages and the Gap page. It does not predict what a car sells for, and it does not predict the price of a car abroad.
 
 ## Data
 
@@ -34,7 +34,7 @@ The 80% ranges hold 78 to 82% in every price band, tested on cars the model had 
 - One collection date: nothing here tests how prices move over time.
 - The two sites may overlap beyond what the duplicate check can see.
 - Mileage and trim vary within a model; the range is for a typical car of that model and age.
-- Prices abroad are listing medians from 1 November 2026 (SBT Japan's export stock, CarGurus UK) for 117 of the 226 catalogue cars, including 21 of the 34 with a local price, and rounded examples elsewhere. The Gap page's break-even column is the part that uses only local data and the tax rates.
+- Prices abroad are listing medians from 1 November 2026 (SBT Japan's export stock, CarGurus UK) for 117 of the 225 catalogue cars, including 21 of the 34 with a local price, and rounded examples elsewhere. The Gap page's break-even column is the part that uses only local data and the tax rates.
 - Not for valuing a particular car, setting a sale price or any financial decision. Customs duties come from a separate rules engine, whose rates are labelled by how well they are verified.
 
 ## Reproduce

@@ -53,7 +53,6 @@ const JAPAN: Row[] = [
   ["Toyota", "HiAce", 2022, 2754, "diesel", "minivan", 3_370_000],
   // Honda
   ["Honda", "Fit e:HEV", 2022, 1496, "hybrid", "hatchback", 1_700_000],
-  ["Honda", "Grace Hybrid", 2022, 1496, "hybrid", "sedan", 1_300_000],
   ["Honda", "Insight", 2022, 1496, "hybrid", "sedan", 2_650_000],
   ["Honda", "Vezel e:HEV", 2022, 1496, "hybrid", "suv", 2_500_000],
   ["Honda", "Civic", 2022, 1496, "petrol", "hatchback", 2_930_000],

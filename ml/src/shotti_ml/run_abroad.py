@@ -92,7 +92,6 @@ TARGETS: dict[tuple[str, str], Target] = {
     ("Toyota", "bZ4X"): T("toyota", "bz4x"),
     ("Toyota", "Roomy"): T("toyota", "roomy", ("M900A", "M910A")),
     ("Honda", "Fit e:HEV"): T("honda", "fit", ("GR3", "GR4", "GR6", "GR8")),
-    ("Honda", "Grace Hybrid"): T("honda", "grace", ("GM4", "GM5")),
     ("Honda", "Civic Type R"): T("honda", "civic", ("FL5",)),
     ("Honda", "S660"): T("honda", "s660", ("JW5",)),
     ("Honda", "NSX"): T("honda", "nsx", ("NC1",)),
