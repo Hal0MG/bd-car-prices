@@ -929,17 +929,6 @@
    "source": "cargurus",
    "currency": "GBP",
    "make": "McLaren",
-   "model": "Artura",
-   "year": 2023,
-   "n": 1,
-   "median": 124990,
-   "p10": 124990,
-   "p90": 124990
-  },
-  {
-   "source": "cargurus",
-   "currency": "GBP",
-   "make": "McLaren",
    "model": "720S",
    "year": 2022,
    "n": 1,
@@ -1534,17 +1523,6 @@
    "source": "cargurus",
    "currency": "GBP",
    "make": "Ferrari",
-   "model": "Roma",
-   "year": 2022,
-   "n": 7,
-   "median": 135000,
-   "p10": 122980,
-   "p90": 150000
-  },
-  {
-   "source": "cargurus",
-   "currency": "GBP",
-   "make": "Ferrari",
    "model": "F8 Tributo",
    "year": 2022,
    "n": 1,
@@ -1595,17 +1573,6 @@
    "median": 25800,
    "p10": 20540,
    "p90": 29920
-  },
-  {
-   "source": "cargurus",
-   "currency": "GBP",
-   "make": "Maserati",
-   "model": "MC20",
-   "year": 2022,
-   "n": 3,
-   "median": 160000,
-   "p10": 151960,
-   "p90": 163990
   },
   {
    "source": "cargurus",
@@ -1936,6 +1903,105 @@
    "median": 257450,
    "p10": 255450,
    "p90": 259450
+  },
+  {
+   "source": "sbt",
+   "currency": "USD",
+   "make": "Nissan",
+   "model": "Aura Nismo",
+   "year": 2022,
+   "n": 4,
+   "median": 14940,
+   "p10": 13600,
+   "p90": 16820
+  },
+  {
+   "source": "sbt",
+   "currency": "USD",
+   "make": "Subaru",
+   "model": "Solterra",
+   "year": 2022,
+   "n": 1,
+   "median": 26740,
+   "p10": 26740,
+   "p90": 26740
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "McLaren",
+   "model": "Artura",
+   "year": 2023,
+   "n": 1,
+   "median": 124990,
+   "p10": 124990,
+   "p90": 124990
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Ferrari",
+   "model": "Roma",
+   "year": 2022,
+   "n": 7,
+   "median": 135000,
+   "p10": 122980,
+   "p90": 150000
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Maserati",
+   "model": "MC20",
+   "year": 2022,
+   "n": 3,
+   "median": 160000,
+   "p10": 151960,
+   "p90": 163990
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "BMW",
+   "model": "i5 M60",
+   "year": 2024,
+   "n": 1,
+   "median": 45000,
+   "p10": 45000,
+   "p90": 45000
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Mercedes-Benz",
+   "model": "AMG GT 63 S E Performance",
+   "year": 2023,
+   "n": 1,
+   "median": 97990,
+   "p10": 97990,
+   "p90": 97990
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Aston Martin",
+   "model": "DB12",
+   "year": 2024,
+   "n": 10,
+   "median": 148470,
+   "p10": 139940,
+   "p90": 157240
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Lamborghini",
+   "model": "Temerario",
+   "year": 2025,
+   "n": 2,
+   "median": 332240,
+   "p10": 318440,
+   "p90": 346040
   }
  ]
 }

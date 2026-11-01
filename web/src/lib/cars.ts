@@ -131,6 +131,12 @@ const JAPAN: Row[] = [
   ["Toyota", "Crown Sport", 2024, 2487, "hybrid", "suv", 5_800_000],
   ["Nissan", "Sakura", 2022, 0, "ev", "hatchback", 1_290_000],
   ["Mitsubishi", "Delica Mini", 2023, 659, "petrol", "hatchback", 1_890_000],
+  ["Lexus", "IS 500", 2022, 4968, "petrol", "sedan", 7_500_000],
+  ["Honda", "Stepwgn e:HEV", 2022, 1993, "hybrid", "minivan", 3_600_000],
+  ["Nissan", "Aura Nismo", 2022, 1198, "hybrid", "hatchback", 2_500_000],
+  ["Subaru", "Solterra", 2022, 0, "ev", "suv", 4_500_000],
+  ["Toyota", "Crown Estate", 2025, 2487, "hybrid", "wagon", 6_500_000],
+  ["Lexus", "LX 700h", 2025, 3444, "hybrid", "suv", 14_000_000],
 ];
 
 // Built in the UK: Solihull, Halewood, Oxford, Sunderland, Burnaston, Crewe,
@@ -319,6 +325,21 @@ const UK: Row[] = [
   ["Bugatti", "Mistral", 2024, 7993, "petrol", "convertible", 5_000_000, "France"],
   ["Bentley", "Bentayga EWB Azure", 2022, 3996, "petrol", "suv", 190_000],
   ["Rolls-Royce", "Cullinan Black Badge", 2022, 6749, "petrol", "suv", 290_000],
+  // More hypercars, convertibles and fast saloons, 2022 and later.
+  ["Porsche", "718 Cayman GT4 RS", 2022, 3995, "petrol", "coupe", 150_000, "Germany"],
+  ["Porsche", "911 Dakar", 2023, 2981, "petrol", "coupe", 240_000, "Germany"],
+  ["BMW", "M2 CS", 2025, 2993, "petrol", "coupe", 95_000, "Germany"],
+  ["BMW", "i5 M60", 2024, 0, "ev", "sedan", 75_000, "Germany"],
+  ["Mercedes-Benz", "AMG GT 63 S E Performance", 2023, 3982, "phev", "sedan", 140_000, "Germany"],
+  ["Mercedes-Benz", "AMG SL 63", 2022, 3982, "petrol", "convertible", 110_000, "Germany"],
+  ["Aston Martin", "DB12", 2024, 3982, "petrol", "coupe", 148_500],
+  ["Ferrari", "296 GTS", 2023, 2992, "phev", "convertible", 270_000, "Italy"],
+  ["Ferrari", "Roma Spider", 2024, 3855, "petrol", "convertible", 240_000, "Italy"],
+  ["Lamborghini", "Temerario", 2025, 3994, "phev", "coupe", 250_000, "Italy"],
+  ["Lamborghini", "Huracan Sterrato", 2023, 5204, "petrol", "coupe", 260_000, "Italy"],
+  ["McLaren", "Artura Spider", 2024, 2993, "phev", "convertible", 200_000],
+  ["Maserati", "MC20 Cielo", 2023, 3000, "petrol", "convertible", 190_000, "Italy"],
+  ["Bentley", "Bentayga Speed", 2022, 5950, "petrol", "suv", 190_000],
 ];
 
 const toModel = (origin: Origin, defaultBuiltIn: Country) =>
