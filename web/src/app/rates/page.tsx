@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { EngineSize } from "@/components/EngineSize";
 import { SourceList } from "@/components/SourceList";
 import { Flag } from "@/components/Slip";
 import { pctStr, plain, taka } from "@/lib/format";
@@ -32,6 +33,12 @@ export default function Rates() {
           <li><span><b>VAT</b> and <b>advance tax</b> are charged on everything so far. <code>VAT = (AV + CD + RD + SD) × 15%</code></span></li>
           <li><span><b>Advance income tax</b> is charged on AV alone. <code>AIT = AV × 5%</code></span></li>
         </ol>
+      </section>
+
+      <section className="section" id="engine">
+        <h2>What engine size does</h2>
+        <p className="lede">The same car price can land at very different totals, because supplementary duty is set by engine size and fuel. Drag across a slab edge to see the jump.</p>
+        <EngineSize />
       </section>
 
       <section className="section">

@@ -3,11 +3,24 @@ import { inWords, pctStr, plain, taka, takaShort } from "@/lib/format";
 import { t } from "@/lib/i18n/en";
 import type { Currency } from "@/lib/market";
 import { totalAlternates, type Rates } from "@/lib/money";
+import type { ReactNode } from "react";
 import { splitOnRoad } from "@/lib/summary";
 
 export function Flag({ v }: { v?: Verification }) {
   if (!v || v === "verified") return null;
   return <span className={`flag ${v}`}>{t.flags[v]}</span>;
+}
+
+/** A slip label with a plain-English note on hover or tap (focus), drawn in CSS so it needs no script. */
+export function Term({ k, children }: { k: string; children: ReactNode }) {
+  const tip = t.glossary[k];
+  if (!tip) return <>{children}</>;
+  return (
+    <span className="term" tabIndex={0}>
+      {children}
+      <span className="term-tip" role="tooltip">{tip}</span>
+    </span>
+  );
 }
 
 /** Where the money goes, at a glance: the car, the taxes, and everything else. */
@@ -99,22 +112,22 @@ export function Slip({ result: r, fobBdt, freightBdt, fobNote, freightNote, refL
             <td className="r">{plain(freightBdt)}</td>
           </tr>
           <tr><td>{t.slip.insurance}</td><td className="r">{plain(r.insurance)}</td></tr>
-          <tr className="sum"><td>{t.slip.cif}</td><td className="r">{plain(r.cif)}</td></tr>
+          <tr className="sum"><td><Term k="cif">{t.slip.cif}</Term></td><td className="r">{plain(r.cif)}</td></tr>
           {!r.usedReference && (
             <tr className="sub">
-              <td>+ {t.slip.landing} 1%</td>
+              <td>+ <Term k="landing">{t.slip.landing}</Term> 1%</td>
               <td className="r">{plain(r.landingCharge)}</td>
             </tr>
           )}
           {r.depreciation > 0 && (
             <tr className="sub">
-              <td>− {t.slip.depreciation} {r.depreciationPct}%<Flag v={TABLE.reconVerification} /></td>
+              <td>− <Term k="depreciation">{t.slip.depreciation}</Term> {r.depreciationPct}%<Flag v={TABLE.reconVerification} /></td>
               <td className="r">({plain(r.depreciation)})</td>
             </tr>
           )}
           <tr className="sum">
             <td>
-              {t.slip.assessable}
+              <Term k="assessable">{t.slip.assessable}</Term>
               {r.usedReference && <span className="calc">customs reference value</span>}
             </td>
             <td className="r">{plain(r.assessableValue)}</td>
@@ -124,7 +137,7 @@ export function Slip({ result: r, fobBdt, freightBdt, fobNote, freightNote, refL
           {r.duties.map((l) => (
             <tr key={l.key} className="sub">
               <td>
-                {l.label}
+                <Term k={l.key}>{l.label}</Term>
                 <span className="calc">{pctStr(l.rate!)} {t.slip.of} {plain(l.base!)}</span>
               </td>
               <td className="r">{plain(l.amount)}</td>
@@ -133,7 +146,7 @@ export function Slip({ result: r, fobBdt, freightBdt, fobNote, freightNote, refL
           <tr className="sum">
             <td>
               {t.slip.totalDuty}
-              <span className="calc">{t.slip.tti}: {r.tti.toFixed(2)}%</span>
+              <span className="calc"><Term k="tti">{t.slip.tti}</Term>: {r.tti.toFixed(2)}%</span>
             </td>
             <td className="r">{plain(r.totalDuty)}</td>
           </tr>

@@ -413,3 +413,25 @@ table.plain tr.best td, table.plain td.best-cell { color: var(--rust); font-weig
 .gapbar i.neg { background: var(--green); }
 .gapbar i.pos { background: var(--rust); }
 .gapval { font: 500 13px var(--mono); }
+
+/* ---------- glossary terms on the slip ---------- */
+.term { position: relative; border-bottom: 1px dotted var(--ink-3); cursor: help; outline: none; }
+.term:focus-visible { box-shadow: 0 0 0 2px var(--rust-soft); }
+.term-tip {
+  display: none; position: absolute; left: 0; top: calc(100% + 6px); z-index: 20; width: max-content; max-width: min(280px, 70vw);
+  padding: 8px 10px; background: var(--ink); color: var(--paper); font: 400 12.5px/1.45 var(--sans);
+  letter-spacing: 0; text-transform: none; white-space: normal; text-align: left;
+}
+.term:hover .term-tip, .term:focus .term-tip { display: block; }
+
+/* ---------- engine size what-if (Tax rates page) ---------- */
+.engine { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px 36px; margin-top: 18px; align-items: end; }
+.engine-controls { display: grid; gap: 14px; }
+.engine-controls input[type="range"] { width: 100%; accent-color: var(--rust); margin: 8px 0 0; }
+.engine-controls .eyebrow b { color: var(--ink); font-weight: 600; letter-spacing: 0; text-transform: none; }
+.engine-result .total { font: 600 clamp(30px, 4vw, 42px)/1.1 var(--serif); margin: 4px 0 6px; }
+.engine-result p:last-child { margin: 0; color: var(--ink-2); }
+.engine .engine-chart, .engine .muted { grid-column: 1 / -1; }
+.chart.wide { max-width: none; }
+.chart .marker { stroke: var(--rust); stroke-width: 1; stroke-dasharray: 3 3; }
+@media (max-width: 720px) { .engine { grid-template-columns: 1fr; } }

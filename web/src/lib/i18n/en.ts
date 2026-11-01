@@ -79,6 +79,20 @@ export const en = {
     totalBar: "On-road total",
     breakdown: "Breakdown",
   },
+  /** Plain-English notes shown when a slip term is hovered or tapped. Keys match slip rows and duty lines. */
+  glossary: {
+    cif: "Cost, insurance and freight: the car's price plus shipping and insurance to Chattogram. Customs starts from this.",
+    landing: "A notional 1% that customs adds to CIF for handling at the port.",
+    depreciation: "Customs takes a share off a used car's value for each year of age, up to a cap.",
+    assessable: "The value every duty is charged on: CIF plus the landing charge, less depreciation.",
+    cd: "The basic import duty, charged on the assessable value.",
+    rd: "An extra import duty set each budget, charged on the assessable value.",
+    sd: "The duty that rises with engine size and fuel type, and the reason big engines cost so much. Charged on the value plus the two duties above.",
+    vat: "Charged on the value plus every duty above it, so it taxes the taxes too.",
+    at: "An advance on the importer's VAT, charged on the same base as VAT.",
+    ait: "An advance on the importer's income tax, charged on the assessable value.",
+    tti: "Total tax incidence: all the duties added up, as a share of the assessable value. News reports quote this figure.",
+  } as Record<string, string>,
   flags: { verified: "verified", derived: "derived", reported: "reported", unverified: "unverified" },
   intro: {
     title: "Two plates",
