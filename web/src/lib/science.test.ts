@@ -37,6 +37,11 @@ describe("data-science.json", () => {
   it("scaled intervals hold the target in every price band", () => {
     for (const b of S.coverage.bands) expect(Math.abs(b.scaled - S.coverage.target)).toBeLessThan(0.05);
   });
+
+  // The Method page says scaled ranges are the narrowest in every band; a retrain must keep that true.
+  it("scaled intervals are the narrowest in every price band", () => {
+    for (const b of S.coverage.bands) expect(b.width.scaled).toBeLessThanOrEqual(Math.min(b.width.constant, b.width.quantile));
+  });
 });
 
 describe("check.json", () => {

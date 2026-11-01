@@ -21,7 +21,7 @@ LightGBM on log price. Features: age, log mileage, engine size, gearbox, fuel, b
 | Car model seen in training | 12.2% | 8.1% | **6.5%** |
 | Car model never seen | 45% | 35% | 27% (23% without the model name) |
 
-The 80% ranges hold 78 to 82% in every price band, tested on cars the model had not trained on. A fixed-width range holds 72% for cars under 28 lakh and 88% for those at 40 to 51 lakh.
+The 80% ranges hold 78 to 82% in every price band, tested on cars the model had not trained on. A fixed-width range holds 72% for cars under 28 lakh and 88% for those at 40 to 51 lakh. Quantile regression with conformal calibration (CQR) also lands near 80% per band, but its ranges for cars under 28 lakh are about twice as wide (±31% against ±14%).
 
 ## Checks that did not change the answer
 

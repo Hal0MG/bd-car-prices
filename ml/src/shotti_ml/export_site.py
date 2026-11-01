@@ -29,6 +29,28 @@ MODELS_SHOWN = 6
 MAX_AGE = 12
 #: Band keys in the metrics file carry a broken dash; match them by their first digits.
 BANDS = {"3": "Under 28 lakh", "28": "28 to 40", "40": "40 to 51", "51": "51 to 75", "75": "75 lakh and up"}
+INTERVAL_NAMES = {"constant": "Constant width", "quantile": "Quantile (CQR)", "scaled": "Scaled by difficulty"}
+#: How far a headline number may move in one refresh before it is flagged for a person to look at.
+DRIFT = {"familiar miss": 0.01, "unseen miss": 0.03, "coverage": 0.02}
+
+
+def headline(payload: dict) -> dict[str, float]:
+    light = next(x for x in payload["models"] if x["name"] == "LightGBM")
+    return {
+        "familiar miss": light["familiar"]["miss"],
+        "unseen miss": light["unseen"]["miss"],
+        "coverage": payload["coverage"]["overall"]["Scaled by difficulty"],
+    }
+
+
+def drift_warnings(old: dict, new: dict) -> list[str]:
+    """Headline numbers that moved more than DRIFT since the last export."""
+    before, after = headline(old), headline(new)
+    return [
+        f"{k} moved from {before[k]:.3f} to {after[k]:.3f}"
+        for k, limit in DRIFT.items()
+        if abs(after[k] - before[k]) > limit
+    ]
 
 
 def band_label(key: str) -> str:
@@ -84,12 +106,16 @@ def main() -> int:
     ]
 
     bands = []
-    for key in m["intervals_by_price_band"]["Constant width"]:
+    iv = m["intervals_by_price_band"]
+    for key in iv["Constant width"]:
         bands.append({
             "band": band_label(key),
             "order": float(key.replace("–", "�").split("�")[0]),
-            "constant": m["intervals_by_price_band"]["Constant width"][key]["coverage"],
-            "scaled": m["intervals_by_price_band"]["Scaled by difficulty"][key]["coverage"],
+            "constant": iv["Constant width"][key]["coverage"],
+            "quantile": iv["Quantile (CQR)"][key]["coverage"],
+            "scaled": iv["Scaled by difficulty"][key]["coverage"],
+            # the range is the prediction divided and multiplied by this ratio
+            "width": {name: iv[label][key]["median_ratio"] for name, label in INTERVAL_NAMES.items()},
         })
     bands.sort(key=lambda b: b["order"])
     for b in bands:
@@ -136,6 +162,9 @@ def main() -> int:
         "coldstart": coldstart(),
         "siteAgreement": {"cells": int(len(ratio)), "medianRatio": round(float(ratio.median()), 3)},
     }
+    if OUT.exists():
+        for w in drift_warnings(json.loads(OUT.read_text(encoding="utf-8")), payload):
+            print(f"WARNING: {w}. Check the retrain before publishing; the site's text quotes these numbers.")
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"-> {OUT}")
     print(json.dumps({k: payload[k] for k in ("funnel", "imputed", "makes", "siteAgreement", "coverage")}, ensure_ascii=False)[:1200])

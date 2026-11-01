@@ -98,27 +98,57 @@
    {
     "band": "Under 28 lakh",
     "constant": 0.7222,
-    "scaled": 0.7807
+    "quantile": 0.8356,
+    "scaled": 0.7807,
+    "width": {
+     "constant": 1.1487,
+     "quantile": 1.3116,
+     "scaled": 1.1438
+    }
    },
    {
     "band": "28 to 40",
     "constant": 0.7478,
-    "scaled": 0.7883
+    "quantile": 0.7795,
+    "scaled": 0.7883,
+    "width": {
+     "constant": 1.1487,
+     "quantile": 1.1865,
+     "scaled": 1.1407
+    }
    },
    {
     "band": "40 to 51",
     "constant": 0.8781,
-    "scaled": 0.7959
+    "quantile": 0.7876,
+    "scaled": 0.7959,
+    "width": {
+     "constant": 1.1487,
+     "quantile": 1.109,
+     "scaled": 1.1043
+    }
    },
    {
     "band": "51 to 75",
     "constant": 0.8776,
-    "scaled": 0.8249
+    "quantile": 0.7714,
+    "scaled": 0.8249,
+    "width": {
+     "constant": 1.1487,
+     "quantile": 1.1108,
+     "scaled": 1.1101
+    }
    },
    {
     "band": "75 lakh and up",
     "constant": 0.7777,
-    "scaled": 0.8156
+    "quantile": 0.8139,
+    "scaled": 0.8156,
+    "width": {
+     "constant": 1.1487,
+     "quantile": 1.2498,
+     "scaled": 1.1343
+    }
    }
   ]
  },

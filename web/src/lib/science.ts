@@ -15,7 +15,7 @@ export interface Science {
   coverage: {
     target: number;
     overall: Record<string, number>;
-    bands: { band: string; constant: number; scaled: number }[];
+    bands: { band: string; constant: number; quantile: number; scaled: number; width: Record<"constant" | "quantile" | "scaled", number> }[];
   };
   learning: Record<string, { n: number; miss: number }[]>;
   features: { name: string; swing: number }[];

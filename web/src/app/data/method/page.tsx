@@ -9,6 +9,8 @@ export const metadata: Metadata = {
 
 const pct = (n: number, d = 1) => `${(n * 100).toFixed(d)}%`;
 const n = (x: number) => x.toLocaleString("en-IN");
+/** A width ratio of 1.14 (prediction ÷ or × 1.14) reads as about ±14%. */
+const spread = (ratio: number) => `${Math.round((ratio - 1) * 100)}%`;
 const FEATURE: Record<string, string> = {
   model: "Which car model", age: "Age", engine_cc: "Engine size", brand: "Brand", log_km: "Mileage",
   fuel_hybrid: "Hybrid", condition: "Used or reconditioned", automatic: "Automatic", fuel_petrol: "Petrol", source: "Which site",
@@ -85,18 +87,23 @@ export default function Method() {
 
       <section className="section">
         <h2>6. Ranges you can trust</h2>
-        <p className="lede">A price comes with an 80% range, which should hold for 80% of cars. A fixed-width range doesn’t: it is too narrow for cheap cars and too wide for mid-priced ones. Ours widens with how hard the car is to price.</p>
+        <p className="lede">A price comes with an 80% range, which should hold for 80% of cars. A fixed-width range doesn’t: it is too narrow for cheap cars and too wide for mid-priced ones. Two fixes were tried: two extra models that predict the low and high ends directly (quantile regression), and a second model that predicts how hard each car is to price and widens the range to match.</p>
         <div className="table-scroll">
           <table className="plain">
-            <thead><tr><th>Asking price</th><th>Fixed width</th><th>Scaled by difficulty</th></tr></thead>
+            <thead><tr><th>Asking price</th><th>Fixed width</th><th>Low and high models</th><th>Scaled by difficulty</th></tr></thead>
             <tbody>
               {S.coverage.bands.map((b) => (
-                <tr key={b.band}><td>{b.band}</td><td className="num">{pct(b.constant, 0)}</td><td className="num best-cell">{pct(b.scaled, 0)}</td></tr>
+                <tr key={b.band}>
+                  <td>{b.band}</td>
+                  <td className="num">{pct(b.constant, 0)} <span className="meta">±{spread(b.width.constant)}</span></td>
+                  <td className="num">{pct(b.quantile, 0)} <span className="meta">±{spread(b.width.quantile)}</span></td>
+                  <td className="num best-cell">{pct(b.scaled, 0)} <span className="meta">±{spread(b.width.scaled)}</span></td>
+                </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <p className="muted">Share of cars that really fell inside the range, tested on cars the model had not trained on. Target: {pct(S.coverage.target, 0)}.</p>
+        <p className="muted">Share of cars that really fell inside the range, then the range’s typical half-width, tested on cars the model had not trained on. Target: {pct(S.coverage.target, 0)}. Both fixes come close to the target, but the low and high models need ranges about twice as wide for cheap cars. Scaling by difficulty is on target and the narrowest everywhere, so the site uses it.</p>
       </section>
 
       <section className="section">
