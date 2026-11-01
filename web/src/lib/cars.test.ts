@@ -1,8 +1,12 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { estimateFor } from "./estimate";
 import { CARS, FX, POPULAR, carKey, carName, carSlug, originCaution } from "./market";
-import { PHOTOS } from "./photos";
+import { PHOTOS, PHOTO_WIDTHS, photoId } from "./photos";
 import { TABLE, exactAgeYears } from "./tax";
+
+const CARS_DIR = join(__dirname, "..", "..", "public", "cars");
 
 describe("car catalogue", () => {
   it("has unique page slugs", () => {
@@ -47,10 +51,9 @@ describe("car catalogue", () => {
     expect(estimateFor(taycan).slab.id).toBe("ev-100k");
   });
 
-  // Fails each January for the oldest example years; roll them forward when it does.
+  // Fixed to the date the rates were set, so the build doesn't break when a model year ages out.
+  // freshness.test.ts runs the same check against today's date each month.
   it("only lists cars young enough to import as recon, as of the rates date", () => {
-    // Fixed to the date the rates were set, so the build doesn't break when a model year ages out.
-    // Roll the catalogue's years forward each January; car pages warn about any car past the limit.
     const tooOld = CARS.filter((c) => exactAgeYears(c.year, new Date(FX.asOf)) > TABLE.reconAgeLimitYears);
     expect(tooOld.map(carName)).toEqual([]);
   });
@@ -59,5 +62,18 @@ describe("car catalogue", () => {
     const keys = new Set(CARS.map(carKey));
     expect(Object.keys(PHOTOS).filter((k) => !keys.has(k))).toEqual([]);
     expect(Object.values(PHOTOS).every((p) => p.author && p.license && p.src.startsWith("https://"))).toBe(true);
+  });
+
+  // Commons also hosts non-commercial and no-derivatives files; the site resizes photos, so neither is allowed.
+  it("only uses photos free for any use, with credit", () => {
+    const free = /^(CC BY(-SA)? \d\.\d( [a-z]{2})?|CC0|Public domain)$/;
+    expect(Object.entries(PHOTOS).filter(([, p]) => !free.test(p.license)).map(([k, p]) => `${k}: ${p.license}`)).toEqual([]);
+  });
+
+  it("has every photo on disk in every width", () => {
+    const missing = Object.values(PHOTOS).flatMap((p) =>
+      PHOTO_WIDTHS.map((w) => `${photoId(p)}-${w}.jpg`).filter((f) => !existsSync(join(CARS_DIR, f))),
+    );
+    expect(missing).toEqual([]);
   });
 });

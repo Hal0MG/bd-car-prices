@@ -4,6 +4,8 @@ A transparent car price site for Bangladesh: what a car actually costs to import
 
 **Live:** https://hal0mg.github.io/bd-car-prices/
 
+**Write-up:** [how it works and what the model found](docs/WRITEUP.md)
+
 ![The intro: the same Prado, two plates, ৳99.43 lakh apart](docs/screens/intro.png)
 
 ## What it does
@@ -11,6 +13,10 @@ A transparent car price site for Bangladesh: what a car actually costs to import
 **Calculator.** Pick a car, enter the price abroad, and see every customs duty, fee and tax line by line, with how much of the total is tax. Where the local market has enough ads, it also shows what the same car typically asks in Bangladesh.
 
 ![The calculator on the 2022 Land Cruiser Prado](docs/screens/calculator.png)
+
+**Tax rates.** Every duty slab with its HS code, and a chart of what engine size and fuel do to the on-road price. Every term on the calculator's breakdown has a plain-English note on hover or tap.
+
+![What engine size does: on-road cost by engine size, one step per tax slab](docs/screens/rates-engine.png)
 
 **Cars.** 226 cars bought from Japan or the UK, with the import cost of each.
 

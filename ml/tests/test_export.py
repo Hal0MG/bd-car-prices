@@ -22,4 +22,4 @@ def test_aliases_need_the_local_model_to_exist():
 def test_catalogue_is_read_from_the_web_source():
     rows = catalogue()
     assert len(rows) > 100
-    assert ("Toyota", "Axio", 2021, 1496, "petrol") in rows
+    assert ("Toyota", "Axio", 2022, 1496, "petrol") in rows
