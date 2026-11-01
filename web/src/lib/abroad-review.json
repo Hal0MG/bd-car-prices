@@ -271,15 +271,6 @@
  },
  {
   "make": "Nissan",
-  "model": "Fairlady Z",
-  "source": "sbt",
-  "fuel": "petrol",
-  "n": 26,
-  "example": 6000000,
-  "real": 5290000
- },
- {
-  "make": "Nissan",
   "model": "Leaf",
   "source": "sbt",
   "fuel": "ev",
@@ -982,15 +973,6 @@
  },
  {
   "make": "Alfa Romeo",
-  "model": "Giulia",
-  "source": "cargurus",
-  "fuel": "petrol",
-  "n": 6,
-  "example": 20000,
-  "real": 25100
- },
- {
-  "make": "Alfa Romeo",
   "model": "Stelvio",
   "source": "cargurus",
   "fuel": "petrol",
@@ -1026,15 +1008,6 @@
   "real": 15000
  },
  {
-  "make": "Hyundai",
-  "model": "Ioniq 5",
-  "source": "cargurus",
-  "fuel": "ev",
-  "n": 91,
-  "example": 24500,
-  "real": 19000
- },
- {
   "make": "Kia",
   "model": "EV6",
   "source": "cargurus",
@@ -1051,5 +1024,32 @@
   "n": 92,
   "example": 27500,
   "real": 22500
+ },
+ {
+  "make": "Nissan",
+  "model": "Fairlady Z",
+  "source": "sbt",
+  "fuel": "petrol",
+  "n": 26,
+  "example": 6000000,
+  "real": 5290000
+ },
+ {
+  "make": "Alfa Romeo",
+  "model": "Giulia",
+  "source": "cargurus",
+  "fuel": "petrol",
+  "n": 7,
+  "example": 20000,
+  "real": 25900
+ },
+ {
+  "make": "Hyundai",
+  "model": "Ioniq 5",
+  "source": "cargurus",
+  "fuel": "ev",
+  "n": 91,
+  "example": 24500,
+  "real": 19000
  }
 ]

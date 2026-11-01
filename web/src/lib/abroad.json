@@ -445,17 +445,6 @@
    "source": "sbt",
    "currency": "USD",
    "make": "Nissan",
-   "model": "Fairlady Z",
-   "year": 2023,
-   "n": 26,
-   "median": 35100,
-   "p10": 29950,
-   "p90": 47880
-  },
-  {
-   "source": "sbt",
-   "currency": "USD",
-   "make": "Nissan",
    "model": "Skyline 400R",
    "year": 2022,
    "n": 3,
@@ -1655,17 +1644,6 @@
    "source": "cargurus",
    "currency": "GBP",
    "make": "Alfa Romeo",
-   "model": "Giulia",
-   "year": 2022,
-   "n": 6,
-   "median": 25140,
-   "p10": 21500,
-   "p90": 28000
-  },
-  {
-   "source": "cargurus",
-   "currency": "GBP",
-   "make": "Alfa Romeo",
    "model": "Stelvio",
    "year": 2022,
    "n": 11,
@@ -1709,17 +1687,6 @@
   {
    "source": "cargurus",
    "currency": "GBP",
-   "make": "Hyundai",
-   "model": "Ioniq 5",
-   "year": 2022,
-   "n": 91,
-   "median": 19000,
-   "p10": 16210,
-   "p90": 21200
-  },
-  {
-   "source": "cargurus",
-   "currency": "GBP",
    "make": "Kia",
    "model": "EV6",
    "year": 2022,
@@ -1749,6 +1716,193 @@
    "median": 22480,
    "p10": 19950,
    "p90": 25300
+  },
+  {
+   "source": "sbt",
+   "currency": "USD",
+   "make": "Nissan",
+   "model": "Fairlady Z",
+   "year": 2023,
+   "n": 26,
+   "median": 35100,
+   "p10": 29950,
+   "p90": 47880
+  },
+  {
+   "source": "sbt",
+   "currency": "USD",
+   "make": "Honda",
+   "model": "Civic e:HEV",
+   "year": 2022,
+   "n": 6,
+   "median": 17580,
+   "p10": 15420,
+   "p90": 22540
+  },
+  {
+   "source": "sbt",
+   "currency": "USD",
+   "make": "Honda",
+   "model": "Prelude",
+   "year": 2025,
+   "n": 11,
+   "median": 36980,
+   "p10": 30040,
+   "p90": 41710
+  },
+  {
+   "source": "sbt",
+   "currency": "USD",
+   "make": "Subaru",
+   "model": "Crosstrek",
+   "year": 2023,
+   "n": 57,
+   "median": 17180,
+   "p10": 13680,
+   "p90": 19340
+  },
+  {
+   "source": "sbt",
+   "currency": "USD",
+   "make": "Lexus",
+   "model": "RZ 450e",
+   "year": 2023,
+   "n": 1,
+   "median": 33040,
+   "p10": 33040,
+   "p90": 33040
+  },
+  {
+   "source": "sbt",
+   "currency": "USD",
+   "make": "Nissan",
+   "model": "Sakura",
+   "year": 2022,
+   "n": 136,
+   "median": 8540,
+   "p10": 6900,
+   "p90": 11020
+  },
+  {
+   "source": "sbt",
+   "currency": "USD",
+   "make": "Mitsubishi",
+   "model": "Delica Mini",
+   "year": 2023,
+   "n": 35,
+   "median": 12530,
+   "p10": 11240,
+   "p90": 14120
+  },
+  {
+   "source": "sbt",
+   "currency": "USD",
+   "make": "Daihatsu",
+   "model": "Rocky Hybrid",
+   "year": 2024,
+   "n": 10,
+   "median": 15290,
+   "p10": 13620,
+   "p90": 16330
+  },
+  {
+   "source": "sbt",
+   "currency": "USD",
+   "make": "Lexus",
+   "model": "LBX",
+   "year": 2024,
+   "n": 11,
+   "median": 28350,
+   "p10": 25980,
+   "p90": 31490
+  },
+  {
+   "source": "sbt",
+   "currency": "USD",
+   "make": "Lexus",
+   "model": "LM 500h",
+   "year": 2024,
+   "n": 3,
+   "median": 92840,
+   "p10": 92290,
+   "p90": 95040
+  },
+  {
+   "source": "sbt",
+   "currency": "USD",
+   "make": "Lexus",
+   "model": "GX 550",
+   "year": 2025,
+   "n": 14,
+   "median": 75770,
+   "p10": 69000,
+   "p90": 86570
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Alfa Romeo",
+   "model": "Giulia",
+   "year": 2022,
+   "n": 7,
+   "median": 25940,
+   "p10": 21950,
+   "p90": 28190
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Hyundai",
+   "model": "Ioniq 5",
+   "year": 2022,
+   "n": 91,
+   "median": 19000,
+   "p10": 16210,
+   "p90": 21200
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Alfa Romeo",
+   "model": "Giulia Quadrifoglio",
+   "year": 2022,
+   "n": 8,
+   "median": 48730,
+   "p10": 45780,
+   "p90": 53510
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Maserati",
+   "model": "Grecale Trofeo",
+   "year": 2023,
+   "n": 6,
+   "median": 59920,
+   "p10": 49220,
+   "p90": 65940
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Aston Martin",
+   "model": "Vanquish",
+   "year": 2024,
+   "n": 2,
+   "median": 274940,
+   "p10": 270980,
+   "p90": 278890
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Ferrari",
+   "model": "12Cilindri",
+   "year": 2024,
+   "n": 1,
+   "median": 354830,
+   "p10": 354830,
+   "p90": 354830
   }
  ]
 }

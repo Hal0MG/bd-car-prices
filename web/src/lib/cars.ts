@@ -117,6 +117,20 @@ const JAPAN: Row[] = [
   ["Daihatsu", "Taft", 2022, 658, "petrol", "suv", 1_500_000],
   ["Suzuki", "Hustler", 2022, 658, "petrol", "hatchback", 1_300_000],
   ["Suzuki", "Spacia", 2022, 658, "petrol", "hatchback", 1_400_000],
+  // Niche and newer: sports cars, kei cars and Lexus, 2022 and later.
+  ["Nissan", "Fairlady Z NISMO", 2023, 2997, "petrol", "coupe", 7_000_000],
+  ["Daihatsu", "Rocky Hybrid", 2024, 1196, "hybrid", "suv", 2_300_000],
+  ["Honda", "ZR-V e:HEV", 2023, 1993, "hybrid", "suv", 3_400_000],
+  ["Honda", "Civic e:HEV", 2022, 1993, "hybrid", "hatchback", 2_650_000],
+  ["Honda", "Prelude", 2025, 1993, "hybrid", "coupe", 5_570_000],
+  ["Subaru", "Crosstrek", 2023, 1995, "hybrid", "suv", 2_590_000],
+  ["Lexus", "LBX", 2024, 1490, "hybrid", "suv", 4_270_000],
+  ["Lexus", "RZ 450e", 2023, 0, "ev", "suv", 6_500_000],
+  ["Lexus", "LM 500h", 2024, 2393, "hybrid", "minivan", 12_000_000],
+  ["Lexus", "GX 550", 2025, 3444, "petrol", "suv", 11_410_000],
+  ["Toyota", "Crown Sport", 2024, 2487, "hybrid", "suv", 5_800_000],
+  ["Nissan", "Sakura", 2022, 0, "ev", "hatchback", 1_290_000],
+  ["Mitsubishi", "Delica Mini", 2023, 659, "petrol", "hatchback", 1_890_000],
 ];
 
 // Built in the UK: Solihull, Halewood, Oxford, Sunderland, Burnaston, Crewe,
@@ -186,7 +200,7 @@ const UK: Row[] = [
   ["Lamborghini", "Urus SE", 2024, 3996, "phev", "suv", 220_000, "Italy"],
   ["Maserati", "Ghibli", 2022, 1995, "petrol", "sedan", 32_500, "Italy"],
   ["Maserati", "MC20", 2022, 3000, "petrol", "coupe", 124_000, "Italy"],
-  ["Alfa Romeo", "Giulia", 2022, 1995, "petrol", "sedan", 25_100, "Italy"],
+  ["Alfa Romeo", "Giulia", 2022, 1995, "petrol", "sedan", 25_900, "Italy"],
   ["Alfa Romeo", "Stelvio", 2022, 1995, "petrol", "suv", 23_900, "Italy"],
   ["Aston Martin", "DB11", 2022, 3982, "petrol", "coupe", 89_000],
   ["McLaren", "720S", 2022, 3994, "petrol", "coupe", 149_000],
@@ -266,6 +280,22 @@ const UK: Row[] = [
   ["Volkswagen", "Polo", 2022, 999, "petrol", "hatchback", 13_800, "Spain"],
   ["Volkswagen", "T-Roc", 2022, 999, "petrol", "suv", 14_600, "Portugal"],
   ["Volkswagen", "Up", 2022, 999, "petrol", "hatchback", 6_000, "Slovakia"],
+  // Niche and newer: driver's cars and rare ones, 2022 and later.
+  ["Alpine", "A110 S", 2022, 1798, "petrol", "coupe", 52_000, "France"],
+  ["Ineos", "Grenadier", 2023, 2998, "petrol", "suv", 52_000, "France"],
+  ["Land Rover", "Defender Octa", 2024, 4395, "petrol", "suv", 150_000, "Slovakia"],
+  ["Hyundai", "Ioniq 5 N", 2024, 0, "ev", "suv", 40_000, "South Korea"],
+  ["Porsche", "718 Spyder RS", 2023, 3996, "petrol", "convertible", 150_000, "Germany"],
+  ["Alfa Romeo", "Giulia Quadrifoglio", 2022, 2891, "petrol", "sedan", 48_700, "Italy"],
+  ["Maserati", "Grecale Trofeo", 2023, 2992, "petrol", "suv", 59_900, "Italy"],
+  ["Maserati", "GranTurismo Trofeo", 2024, 2992, "petrol", "coupe", 140_000, "Italy"],
+  ["BMW", "M3 Touring", 2023, 2993, "petrol", "wagon", 80_000, "Germany"],
+  ["Jaguar", "F-Type R75", 2023, 4999, "petrol", "coupe", 80_000],
+  ["Aston Martin", "Vanquish", 2024, 5204, "petrol", "coupe", 330_000],
+  ["BAC", "Mono", 2022, 2261, "petrol", "convertible", 190_000],
+  ["Mercedes-Benz", "AMG One", 2022, 1599, "phev", "coupe", 3_000_000, "Germany"],
+  ["Ferrari", "Purosangue", 2023, 6496, "petrol", "suv", 350_000, "Italy"],
+  ["Ferrari", "12Cilindri", 2024, 6496, "petrol", "coupe", 400_000, "Italy"],
 ];
 
 const toModel = (origin: Origin, defaultBuiltIn: Country) =>

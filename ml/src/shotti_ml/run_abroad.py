@@ -100,7 +100,7 @@ TARGETS: dict[tuple[str, str], Target] = {
     ("Nissan", "Note e-Power"): T("nissan", "note", ("E13",)),
     ("Nissan", "Kicks e-Power"): T("nissan", "kicks", ("P15",)),
     ("Nissan", "Serena e-Power"): T("nissan", "serena"),
-    ("Nissan", "Fairlady Z"): T("nissan", "fairlady-z", ("RZ34",)),
+    ("Nissan", "Fairlady Z"): T("nissan", "fairlady-z", ("RZ34",), None, ("NISMO",)),
     ("Nissan", "GT-R"): T("nissan", "gt-r", ("R35",), without=("NISMO",)),
     ("Nissan", "GT-R NISMO"): T("nissan", "gt-r", ("R35",), has="NISMO"),
     ("Nissan", "Skyline 400R"): T("nissan", "skyline", ("RV37",), has="400R"),
@@ -135,6 +135,18 @@ TARGETS: dict[tuple[str, str], Target] = {
     ("Suzuki", "Spacia"): T("suzuki", "spacia", ("MK53S",)),
     ("Daihatsu", "Copen"): T("daihatsu", "copen", ("LA400K",)),
     ("Daihatsu", "Taft"): T("daihatsu", "taft", ("LA900S", "LA910S")),
+    ("Nissan", "Fairlady Z NISMO"): T("nissan", "fairlady-z", ("RZ34",), "NISMO"),
+    ("Daihatsu", "Rocky Hybrid"): T("daihatsu", "rocky", ("A202S",)),
+        ("Honda", "Civic e:HEV"): T("honda", "civic", ("FL4",)),
+    ("Honda", "Prelude"): T("honda", "prelude"),
+    ("Subaru", "Crosstrek"): T("subaru", "crosstrek"),
+    ("Lexus", "LBX"): T("lexus", "lbx", ("MAYH1",)),
+    ("Lexus", "RZ 450e"): T("lexus", "rz"),
+    ("Lexus", "LM 500h"): T("lexus", "lm", ("TAWH15",)),
+    ("Lexus", "GX 550"): T("lexus", "gx", ("VJA25",)),
+    ("Toyota", "Crown Sport"): T("toyota", "crown", ("AZSH36",)),
+    ("Nissan", "Sakura"): T("nissan", "sakura"),
+    ("Mitsubishi", "Delica Mini"): T("mitsubishi", "delica-mini"),
 }
 
 
