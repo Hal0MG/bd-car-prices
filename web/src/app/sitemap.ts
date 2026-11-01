@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
+import { DATA_PAGES } from "@/lib/data-pages";
 import { BASE, SITE_URL } from "@/lib/base";
 import { CARS, carSlug } from "@/lib/market";
 
 export const dynamic = "force-static";
 
-const PAGES = ["", "cars", "rates", "data", "data/market", "data/method", "data/check"];
+const PAGES = ["", "cars", "rates", "data", ...DATA_PAGES.map(([href]) => href.slice(1))];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const url = (path: string) => `${SITE_URL}${BASE}/${path}${path ? "/" : ""}`;
