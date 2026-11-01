@@ -540,15 +540,6 @@
   "real": 125400
  },
  {
-  "make": "Rolls-Royce",
-  "model": "Cullinan",
-  "source": "cargurus",
-  "fuel": "petrol",
-  "n": 5,
-  "example": 252000,
-  "real": 250000
- },
- {
   "make": "Aston Martin",
   "model": "Vantage",
   "source": "cargurus",
@@ -945,15 +936,6 @@
   "real": 52000
  },
  {
-  "make": "Porsche",
-  "model": "911 GT3",
-  "source": "cargurus",
-  "fuel": "petrol",
-  "n": 20,
-  "example": 200000,
-  "real": 160000
- },
- {
   "make": "Ferrari",
   "model": "Roma",
   "source": "cargurus",
@@ -1051,5 +1033,14 @@
   "n": 91,
   "example": 24500,
   "real": 19000
+ },
+ {
+  "make": "Porsche",
+  "model": "911 GT3",
+  "source": "cargurus",
+  "fuel": "petrol",
+  "n": 20,
+  "example": 200000,
+  "real": 160000
  }
 ]

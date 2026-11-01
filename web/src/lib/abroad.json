@@ -885,17 +885,6 @@
    "source": "cargurus",
    "currency": "GBP",
    "make": "Rolls-Royce",
-   "model": "Cullinan",
-   "year": 2022,
-   "n": 5,
-   "median": 250000,
-   "p10": 214580,
-   "p90": 257950
-  },
-  {
-   "source": "cargurus",
-   "currency": "GBP",
-   "make": "Rolls-Royce",
    "model": "Spectre",
    "year": 2024,
    "n": 4,
@@ -1012,17 +1001,6 @@
    "median": 48990,
    "p10": 44830,
    "p90": 59620
-  },
-  {
-   "source": "cargurus",
-   "currency": "GBP",
-   "make": "Mercedes-Benz",
-   "model": "AMG GT",
-   "year": 2022,
-   "n": 2,
-   "median": 260390,
-   "p10": 132710,
-   "p90": 388070
   },
   {
    "source": "cargurus",
@@ -1545,17 +1523,6 @@
    "source": "cargurus",
    "currency": "GBP",
    "make": "Porsche",
-   "model": "911 GT3",
-   "year": 2022,
-   "n": 20,
-   "median": 159990,
-   "p10": 155250,
-   "p90": 168300
-  },
-  {
-   "source": "cargurus",
-   "currency": "GBP",
-   "make": "Porsche",
    "model": "Cayenne Turbo GT",
    "year": 2022,
    "n": 3,
@@ -1903,6 +1870,72 @@
    "median": 354830,
    "p10": 354830,
    "p90": 354830
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Rolls-Royce",
+   "model": "Cullinan",
+   "year": 2022,
+   "n": 3,
+   "median": 222950,
+   "p10": 211790,
+   "p90": 244590
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Mercedes-Benz",
+   "model": "AMG GT",
+   "year": 2022,
+   "n": 2,
+   "median": 260390,
+   "p10": 132710,
+   "p90": 388070
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Porsche",
+   "model": "911 GT3",
+   "year": 2022,
+   "n": 20,
+   "median": 159990,
+   "p10": 155250,
+   "p90": 168300
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "BMW",
+   "model": "M3",
+   "year": 2022,
+   "n": 1,
+   "median": 47000,
+   "p10": 47000,
+   "p90": 47000
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Mercedes-Benz",
+   "model": "AMG GT Black Series",
+   "year": 2022,
+   "n": 1,
+   "median": 419990,
+   "p10": 419990,
+   "p90": 419990
+  },
+  {
+   "source": "cargurus",
+   "currency": "GBP",
+   "make": "Rolls-Royce",
+   "model": "Cullinan Black Badge",
+   "year": 2022,
+   "n": 2,
+   "median": 257450,
+   "p10": 255450,
+   "p90": 259450
   }
  ]
 }

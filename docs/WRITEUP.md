@@ -2,7 +2,7 @@
 
 A 2022 Land Cruiser Prado sells for about ৳36 lakh at a Japanese port. Registered and on the road in Dhaka, the same car costs about ৳1.63 crore. Roughly three quarters of that is tax.
 
-Most people in Bangladesh know cars are expensive. Few can say why, because the duties are stacked in a way that is hard to follow, and price talk mostly happens through dealers. Shotti Dam (সত্যি দাম, "true price") is a site that shows the whole calculation, line by line, for 253 cars. It also compares that import cost with what the same cars ask on the local market, using a price model trained on 15,400 ads.
+Most people in Bangladesh know cars are expensive. Few can say why, because the duties are stacked in a way that is hard to follow, and price talk mostly happens through dealers. Shotti Dam (সত্যি দাম, "true price") is a site that shows the whole calculation, line by line, for 275 cars. It also compares that import cost with what the same cars ask on the local market, using a price model trained on 15,400 ads.
 
 Live site: https://hal0mg.github.io/bd-car-prices/
 
@@ -16,7 +16,7 @@ The engine is a small TypeScript module:
 
 - Every rate comes from the NBR Customs Tariff 2026-27 (chapter 87, heading 8703), with the 8-digit HS code beside it so anyone can look it up.
 - Figures that are not in the tariff (used-car depreciation, the five-year age limit, BRTA registration costs) carry a label saying how sure the site is: *verified*, *derived*, *reported* (several sources agree) or *unverified*.
-- Tests check the cascade against the tariff's own printed totals and check that every one of the 253 catalogue cars lands in the right slab.
+- Tests check the cascade against the tariff's own printed totals and check that every one of the 275 catalogue cars lands in the right slab.
 
 The catalogue follows how people actually import. Japanese cars come from Japan. European cars come from the UK, because Bangladesh only admits right-hand-drive cars. Each car is listed with the engine an importer would choose, which is usually the lowest-tax one the source market sells. That is why the Mazda MX-5 is the 1.5 and the Supra is the 2.0.
 
@@ -46,11 +46,11 @@ The second half of the site asks: if you bought this car already in Bangladesh, 
 
 **Duplicate ads.** The same car can be listed on both sites or reposted. If one copy trains the model and its twin is in the test set, the error looks too good. 885 ads have a probable twin (same model, year and price, with mileage agreeing within 2% or the same location). The test was rerun with twins kept in the same fold, and again with twins dropped. The error moved by at most 0.2 points.
 
-**Cars nobody lists.** Most of the 253 catalogue cars have few or no ads. When whole car models are held out, the error rises to 27%. Dropping the model-name feature brings it down to 23% (paired over 40 folds, better in 72% of them). Borrowing price levels from the brand or from words in the model name did not help. Even at 23%, the model cannot tell a Honda Fit from a Vezel, so the site does not show a local price for cars without enough ads.
+**Cars nobody lists.** Most of the 275 catalogue cars have few or no ads. When whole car models are held out, the error rises to 27%. Dropping the model-name feature brings it down to 23% (paired over 40 folds, better in 72% of them). Borrowing price levels from the brand or from words in the model name did not help. Even at 23%, the model cannot tell a Honda Fit from a Vezel, so the site does not show a local price for cars without enough ads.
 
 ## Import or buy here?
 
-For the 34 cars with enough local ads, the site puts the typical local asking price beside the landed import cost. For 21 of them the price in Japan is real: the median FOB price of 1,380 matching cars in SBT Japan's export stock on 1 November 2026, matched on build year, model code and engine size, and read with the same polite rules as GarirBazar. (BE FORWARD was tried first, but its bot protection blocks scripted readers, so it was left alone.) The same approach covers the rest of the catalogue: 117 of the 253 cars now start from a real median price, Japanese cars from SBT and European cars from CarGurus UK (5,092 listings in all).
+For the 34 cars with enough local ads, the site puts the typical local asking price beside the landed import cost. For 21 of them the price in Japan is real: the median FOB price of 1,380 matching cars in SBT Japan's export stock on 1 November 2026, matched on build year, model code and engine size, and read with the same polite rules as GarirBazar. (BE FORWARD was tried first, but its bot protection blocks scripted readers, so it was left alone.) The same approach covers the rest of the catalogue: 117 of the 275 cars now start from a real median price, Japanese cars from SBT and European cars from CarGurus UK (5,092 listings in all).
 
 The real prices changed the answer. Importing is still cheaper for 27 of the 34, against 29 at the old example prices, but often by much less: the Prado's saving shrank from 25% to 3%, and the Noah and Voxy hybrids cost 29 to 38% more to import than to buy here. The check also caught catalogue mistakes. The Premio, Allion, Esquire and Prius Alpha stopped production in 2021, so no 2022 cars exist.
 
