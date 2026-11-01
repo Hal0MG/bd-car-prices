@@ -21,6 +21,7 @@ jobs:
     env:
       NEXT_PUBLIC_BASE_PATH: /bd-car-prices
       NEXT_PUBLIC_SITE_URL: https://hal0mg.github.io
+      NEXT_PUBLIC_GOATCOUNTER: halomg
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
