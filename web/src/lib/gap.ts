@@ -1,4 +1,5 @@
 import { CURRENCY, DEFAULT_CLEARING_BDT, FREIGHT, FX, CARS, carSlug, type CarModel } from "./market";
+import { abroadFor, type AbroadPrice } from "./abroad";
 import { localPriceFor } from "./local";
 import { estimateFor } from "./estimate";
 import { TABLE, calculate } from "./tax";
@@ -44,6 +45,8 @@ export interface Gap {
   /** import cost over the local price, at the example price abroad: +10 means importing is 10% dearer */
   premium: number;
   exampleAbroad: number;
+  /** real export prices for this car, when enough were found; the example price is then their median */
+  abroad?: AbroadPrice;
   /** most you can pay abroad and still beat the typical local price, and the same at the ends of the local range */
   breakEven: number;
   breakEvenLow: number;
@@ -67,6 +70,7 @@ export function gaps(): Gap[] {
       importOnRoad,
       premium: importOnRoad / local.expected - 1,
       exampleAbroad: car.exampleFob,
+      abroad: abroadFor(car),
       breakEven: breakEven(car, local.expected),
       breakEvenLow: breakEven(car, local.low),
       breakEvenHigh: breakEven(car, local.high),

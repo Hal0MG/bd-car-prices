@@ -34,7 +34,7 @@ The 80% ranges hold 78 to 82% in every price band, tested on cars the model had 
 - One collection date: nothing here tests how prices move over time.
 - The two sites may overlap beyond what the duplicate check can see.
 - Mileage and trim vary within a model; the range is for a typical car of that model and age.
-- Prices abroad in the catalogue are rounded examples. The Gap page's break-even column is the part that uses only local data and the tax rates.
+- Prices abroad are the median of SBT Japan's export stock (1 November 2026) for 21 of the 34 cars with a local price, and rounded examples elsewhere. The Gap page's break-even column is the part that uses only local data and the tax rates.
 - Not for valuing a particular car, setting a sale price or any financial decision. Customs duties come from a separate rules engine, whose rates are labelled by how well they are verified.
 
 ## Reproduce

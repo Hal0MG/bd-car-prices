@@ -8,10 +8,12 @@ type Row = [make: string, model: string, year: number, cc: number, fuel: CarMode
 // averages for 2022 cars (Evoque P300e, 330e, C 300 e, A3 e, Golf GTE, 911,
 // Ferrari Roma, Continental GT, Ghost, Huracan EVO, Macan, Mini Cooper): the
 // mainstream German and British ones had been listed about a third too high,
-// and the rest are scaled the same way by tier. Japan prices were checked
-// against Gazoo, Car Sensor and Goo-net listings for the Aqua, Harrier Hybrid,
-// Vezel, Alphard, Prado TX and Land Cruiser 300; export prices sit a little
-// below those retail figures.
+// and the rest are scaled the same way by tier. Japan prices for the cars with a
+// local price are the median FOB price of SBT Japan's export stock of that build
+// year and engine, collected on 1 November 2026 by ml/src/shotti_ml/run_abroad.py,
+// which rewrites them here (cars with fewer than five listings keep their example).
+// The other Japan prices were checked against Gazoo, Car Sensor and Goo-net
+// listings; export prices sit a little below those retail figures.
 //
 // Lists are grouped by where the car is bought. Bangladesh only admits
 // right-hand-drive cars, and Germany sells left-hand drive, so German brands
@@ -23,47 +25,49 @@ const JAPAN: Row[] = [
   ["Toyota", "Axio Hybrid", 2022, 1496, "hybrid", "sedan", 1_450_000],
   ["Toyota", "Fielder", 2022, 1496, "petrol", "wagon", 1_350_000],
   ["Toyota", "Fielder Hybrid", 2022, 1496, "hybrid", "wagon", 1_550_000],
-  ["Toyota", "Premio", 2022, 1496, "petrol", "sedan", 1_900_000],
-  ["Toyota", "Allion", 2022, 1496, "petrol", "sedan", 1_850_000],
-  ["Toyota", "Aqua", 2022, 1490, "hybrid", "hatchback", 1_550_000],
-  ["Toyota", "Yaris Hybrid", 2022, 1490, "hybrid", "hatchback", 1_600_000],
+  // Premio, Allion and Esquire went out of production in 2021, so 2021 is the newest build; past
+  // 1 January 2027 none can be imported as reconditioned.
+  ["Toyota", "Premio", 2021, 1496, "petrol", "sedan", 1_900_000],
+  ["Toyota", "Allion", 2021, 1496, "petrol", "sedan", 1_850_000],
+  ["Toyota", "Aqua", 2022, 1490, "hybrid", "hatchback", 1_640_000],
+  ["Toyota", "Yaris Hybrid", 2022, 1490, "hybrid", "hatchback", 1_500_000],
   ["Toyota", "GR Yaris", 2022, 1618, "petrol", "hatchback", 4_500_000],
   ["Toyota", "Prius", 2022, 1797, "hybrid", "hatchback", 2_100_000],
   ["Toyota", "Prius Alpha", 2022, 1797, "hybrid", "wagon", 1_700_000],
   ["Toyota", "Corolla Touring Hybrid", 2022, 1797, "hybrid", "wagon", 1_900_000],
-  ["Toyota", "Corolla Cross Hybrid", 2022, 1797, "hybrid", "suv", 2_500_000],
-  ["Toyota", "Yaris Cross Hybrid", 2022, 1490, "hybrid", "suv", 2_000_000],
+  ["Toyota", "Corolla Cross Hybrid", 2022, 1797, "hybrid", "suv", 3_080_000],
+  ["Toyota", "Yaris Cross Hybrid", 2022, 1490, "hybrid", "suv", 2_420_000],
   ["Toyota", "Raize", 2022, 996, "petrol", "suv", 1_600_000],
   ["Toyota", "C-HR", 2022, 1196, "petrol", "suv", 1_900_000],
   ["Toyota", "C-HR Hybrid", 2022, 1797, "hybrid", "suv", 2_150_000],
-  ["Toyota", "Harrier", 2022, 1986, "petrol", "suv", 3_000_000],
-  ["Toyota", "Harrier Hybrid", 2022, 2487, "hybrid", "suv", 3_800_000],
-  ["Toyota", "RAV4", 2022, 1986, "petrol", "suv", 2_700_000],
-  ["Toyota", "RAV4 Hybrid", 2022, 2487, "hybrid", "suv", 3_300_000],
+  ["Toyota", "Harrier", 2022, 1986, "petrol", "suv", 3_040_000],
+  ["Toyota", "Harrier Hybrid", 2022, 2487, "hybrid", "suv", 3_440_000],
+  ["Toyota", "RAV4", 2022, 1986, "petrol", "suv", 2_970_000],
+  ["Toyota", "RAV4 Hybrid", 2022, 2487, "hybrid", "suv", 3_420_000],
   ["Toyota", "Camry Hybrid", 2022, 2487, "hybrid", "sedan", 2_800_000],
   ["Toyota", "Crown Crossover", 2023, 2487, "hybrid", "sedan", 4_200_000],
-  ["Toyota", "Land Cruiser Prado TX", 2022, 2693, "petrol", "suv", 3_400_000],
+  ["Toyota", "Land Cruiser Prado TX", 2022, 2693, "petrol", "suv", 4_420_000],
   ["Toyota", "GR86", 2022, 2387, "petrol", "coupe", 3_000_000],
   // The 2.0-litre (SZ-R) is the Supra people bring in from Japan; it is built in Austria.
   ["Toyota", "GR Supra", 2022, 1998, "petrol", "coupe", 5_500_000, "Austria"],
-  ["Toyota", "Noah", 2022, 1986, "petrol", "minivan", 2_700_000],
-  ["Toyota", "Noah Hybrid", 2022, 1797, "hybrid", "minivan", 3_100_000],
-  ["Toyota", "Voxy Hybrid", 2022, 1797, "hybrid", "minivan", 3_200_000],
-  ["Toyota", "Esquire Hybrid", 2022, 1797, "hybrid", "minivan", 2_300_000],
-  ["Toyota", "HiAce", 2022, 2754, "diesel", "minivan", 3_500_000],
+  ["Toyota", "Noah", 2022, 1986, "petrol", "minivan", 3_030_000],
+  ["Toyota", "Noah Hybrid", 2022, 1797, "hybrid", "minivan", 3_520_000],
+  ["Toyota", "Voxy Hybrid", 2022, 1797, "hybrid", "minivan", 3_560_000],
+  ["Toyota", "Esquire Hybrid", 2021, 1797, "hybrid", "minivan", 2_300_000],
+  ["Toyota", "HiAce", 2022, 2754, "diesel", "minivan", 3_370_000],
   // Honda
   ["Honda", "Fit e:HEV", 2022, 1496, "hybrid", "hatchback", 1_600_000],
   ["Honda", "Grace Hybrid", 2022, 1496, "hybrid", "sedan", 1_300_000],
-  ["Honda", "Insight", 2022, 1496, "hybrid", "sedan", 1_900_000],
-  ["Honda", "Vezel e:HEV", 2022, 1496, "hybrid", "suv", 2_400_000],
-  ["Honda", "Civic", 2022, 1496, "petrol", "hatchback", 2_600_000],
+  ["Honda", "Insight", 2022, 1496, "hybrid", "sedan", 2_650_000],
+  ["Honda", "Vezel e:HEV", 2022, 1496, "hybrid", "suv", 2_500_000],
+  ["Honda", "Civic", 2022, 1496, "petrol", "hatchback", 2_930_000],
   ["Honda", "Civic Type R", 2023, 1995, "petrol", "hatchback", 6_000_000],
-  ["Honda", "CR-V", 2022, 1496, "petrol", "suv", 2_800_000],
+  ["Honda", "CR-V", 2022, 1496, "petrol", "suv", 3_140_000],
   ["Honda", "S660", 2022, 658, "petrol", "convertible", 2_300_000],
   // Nissan
   ["Nissan", "Note e-Power", 2022, 1198, "hybrid", "hatchback", 1_500_000],
   ["Nissan", "Kicks e-Power", 2022, 1198, "hybrid", "suv", 1_800_000],
-  ["Nissan", "X-Trail e-Power", 2023, 1497, "hybrid", "suv", 3_400_000],
+  ["Nissan", "X-Trail e-Power", 2023, 1497, "hybrid", "suv", 3_470_000],
   ["Nissan", "Serena e-Power", 2022, 1433, "hybrid", "minivan", 2_600_000],
   ["Nissan", "Fairlady Z", 2023, 2997, "petrol", "coupe", 6_000_000],
   ["Nissan", "GT-R", 2022, 3799, "petrol", "coupe", 14_000_000],
@@ -85,9 +89,9 @@ const JAPAN: Row[] = [
   ["Suzuki", "Swift", 2022, 1242, "petrol", "hatchback", 1_000_000],
   ["Daihatsu", "Copen", 2022, 658, "petrol", "convertible", 1_600_000],
   // More to look up: cars people ask about, with few or no local listings.
-  ["Toyota", "Alphard", 2022, 2493, "petrol", "minivan", 4_500_000],
+  ["Toyota", "Alphard", 2022, 2493, "petrol", "minivan", 4_200_000],
   ["Toyota", "Vellfire", 2022, 2493, "petrol", "minivan", 4_300_000],
-  ["Toyota", "Sienta Hybrid", 2022, 1490, "hybrid", "minivan", 2_300_000],
+  ["Toyota", "Sienta Hybrid", 2022, 1490, "hybrid", "minivan", 2_460_000],
   ["Toyota", "Land Cruiser 300", 2022, 3346, "diesel", "suv", 11_000_000],
   ["Toyota", "Century", 2022, 5000, "hybrid", "sedan", 22_000_000],
   ["Honda", "NSX", 2022, 3492, "hybrid", "coupe", 20_000_000],

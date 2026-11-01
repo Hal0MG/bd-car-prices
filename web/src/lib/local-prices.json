@@ -51,24 +51,24 @@
   {
    "make": "Toyota",
    "model": "Premio",
-   "year": 2022,
+   "year": 2021,
    "local_model": "Premio",
-   "listings_near": 176,
+   "listings_near": 319,
    "listings_model": 624,
-   "expected": 4943000.0,
-   "low": 4517000.0,
-   "high": 5410000.0
+   "expected": 4676000.0,
+   "low": 4278000.0,
+   "high": 5112000.0
   },
   {
    "make": "Toyota",
    "model": "Allion",
-   "year": 2022,
+   "year": 2021,
    "local_model": "Allion",
-   "listings_near": 14,
+   "listings_near": 76,
    "listings_model": 328,
-   "expected": 4694000.0,
-   "low": 4194000.0,
-   "high": 5253000.0
+   "expected": 4335000.0,
+   "low": 3903000.0,
+   "high": 4815000.0
   },
   {
    "make": "Toyota",
@@ -271,13 +271,13 @@
   {
    "make": "Toyota",
    "model": "Esquire Hybrid",
-   "year": 2022,
+   "year": 2021,
    "local_model": "Esquire",
-   "listings_near": 142,
+   "listings_near": 436,
    "listings_model": 529,
-   "expected": 4409000.0,
-   "low": 4023000.0,
-   "high": 4832000.0
+   "expected": 4141000.0,
+   "low": 3779000.0,
+   "high": 4538000.0
   },
   {
    "make": "Toyota",

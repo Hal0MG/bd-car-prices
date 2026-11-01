@@ -1,0 +1,249 @@
+{
+ "asOf": "2026-11-01",
+ "source": "SBT Japan stock, FOB prices",
+ "prices": [
+  {
+   "make": "Toyota",
+   "model": "Axio",
+   "year": 2022,
+   "n": 2,
+   "medianUsd": 10230,
+   "p10Usd": 9480,
+   "p90Usd": 10980
+  },
+  {
+   "make": "Toyota",
+   "model": "Fielder Hybrid",
+   "year": 2022,
+   "n": 4,
+   "medianUsd": 8400,
+   "p10Usd": 6700,
+   "p90Usd": 14950
+  },
+  {
+   "make": "Toyota",
+   "model": "Aqua",
+   "year": 2022,
+   "n": 142,
+   "medianUsd": 10880,
+   "p10Usd": 7730,
+   "p90Usd": 14220
+  },
+  {
+   "make": "Toyota",
+   "model": "Yaris Hybrid",
+   "year": 2022,
+   "n": 28,
+   "medianUsd": 9980,
+   "p10Usd": 5450,
+   "p90Usd": 12690
+  },
+  {
+   "make": "Toyota",
+   "model": "Prius",
+   "year": 2022,
+   "n": 25,
+   "medianUsd": 13910,
+   "p10Usd": 12440,
+   "p90Usd": 19080
+  },
+  {
+   "make": "Toyota",
+   "model": "Corolla Cross Hybrid",
+   "year": 2022,
+   "n": 56,
+   "medianUsd": 20460,
+   "p10Usd": 17480,
+   "p90Usd": 23500
+  },
+  {
+   "make": "Toyota",
+   "model": "Yaris Cross Hybrid",
+   "year": 2022,
+   "n": 100,
+   "medianUsd": 16060,
+   "p10Usd": 14100,
+   "p90Usd": 17630
+  },
+  {
+   "make": "Toyota",
+   "model": "Raize",
+   "year": 2022,
+   "n": 3,
+   "medianUsd": 15820,
+   "p10Usd": 15460,
+   "p90Usd": 16940
+  },
+  {
+   "make": "Toyota",
+   "model": "Harrier",
+   "year": 2022,
+   "n": 44,
+   "medianUsd": 20200,
+   "p10Usd": 16130,
+   "p90Usd": 25370
+  },
+  {
+   "make": "Toyota",
+   "model": "Harrier Hybrid",
+   "year": 2022,
+   "n": 34,
+   "medianUsd": 22820,
+   "p10Usd": 19080,
+   "p90Usd": 27260
+  },
+  {
+   "make": "Toyota",
+   "model": "RAV4",
+   "year": 2022,
+   "n": 95,
+   "medianUsd": 19740,
+   "p10Usd": 16820,
+   "p90Usd": 22450
+  },
+  {
+   "make": "Toyota",
+   "model": "RAV4 Hybrid",
+   "year": 2022,
+   "n": 39,
+   "medianUsd": 22720,
+   "p10Usd": 18970,
+   "p90Usd": 25680
+  },
+  {
+   "make": "Toyota",
+   "model": "Camry Hybrid",
+   "year": 2022,
+   "n": 4,
+   "medianUsd": 24280,
+   "p10Usd": 20260,
+   "p90Usd": 27600
+  },
+  {
+   "make": "Toyota",
+   "model": "Land Cruiser Prado TX",
+   "year": 2022,
+   "n": 106,
+   "medianUsd": 29320,
+   "p10Usd": 26300,
+   "p90Usd": 33700
+  },
+  {
+   "make": "Toyota",
+   "model": "Noah",
+   "year": 2022,
+   "n": 54,
+   "medianUsd": 20130,
+   "p10Usd": 14340,
+   "p90Usd": 23030
+  },
+  {
+   "make": "Toyota",
+   "model": "Noah Hybrid",
+   "year": 2022,
+   "n": 63,
+   "medianUsd": 23340,
+   "p10Usd": 20440,
+   "p90Usd": 26740
+  },
+  {
+   "make": "Toyota",
+   "model": "Voxy Hybrid",
+   "year": 2022,
+   "n": 83,
+   "medianUsd": 23630,
+   "p10Usd": 21150,
+   "p90Usd": 27320
+  },
+  {
+   "make": "Toyota",
+   "model": "Esquire Hybrid",
+   "year": 2021,
+   "n": 3,
+   "medianUsd": 22470,
+   "p10Usd": 21680,
+   "p90Usd": 23770
+  },
+  {
+   "make": "Toyota",
+   "model": "HiAce",
+   "year": 2022,
+   "n": 112,
+   "medianUsd": 22380,
+   "p10Usd": 16970,
+   "p90Usd": 28710
+  },
+  {
+   "make": "Toyota",
+   "model": "Alphard",
+   "year": 2022,
+   "n": 132,
+   "medianUsd": 27900,
+   "p10Usd": 23340,
+   "p90Usd": 31580
+  },
+  {
+   "make": "Toyota",
+   "model": "Sienta Hybrid",
+   "year": 2022,
+   "n": 39,
+   "medianUsd": 16350,
+   "p10Usd": 15000,
+   "p90Usd": 19090
+  },
+  {
+   "make": "Honda",
+   "model": "Insight",
+   "year": 2022,
+   "n": 6,
+   "medianUsd": 17620,
+   "p10Usd": 14800,
+   "p90Usd": 22970
+  },
+  {
+   "make": "Honda",
+   "model": "Vezel e:HEV",
+   "year": 2022,
+   "n": 135,
+   "medianUsd": 16590,
+   "p10Usd": 15150,
+   "p90Usd": 20080
+  },
+  {
+   "make": "Honda",
+   "model": "Civic",
+   "year": 2022,
+   "n": 8,
+   "medianUsd": 19460,
+   "p10Usd": 13660,
+   "p90Usd": 26580
+  },
+  {
+   "make": "Honda",
+   "model": "CR-V",
+   "year": 2022,
+   "n": 5,
+   "medianUsd": 20840,
+   "p10Usd": 16790,
+   "p90Usd": 21840
+  },
+  {
+   "make": "Nissan",
+   "model": "X-Trail e-Power",
+   "year": 2023,
+   "n": 76,
+   "medianUsd": 23020,
+   "p10Usd": 20240,
+   "p90Usd": 26080
+  },
+  {
+   "make": "Lexus",
+   "model": "RX 350h",
+   "year": 2023,
+   "n": 3,
+   "medianUsd": 37820,
+   "p10Usd": 33740,
+   "p90Usd": 42770
+  }
+ ]
+}

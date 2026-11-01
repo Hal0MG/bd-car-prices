@@ -6,7 +6,7 @@ A transparent car price site for Bangladesh: what a car actually costs to import
 
 **Write-up:** [how it works and what the model found](docs/WRITEUP.md)
 
-![The intro: the same Prado, two plates, ৳99.43 lakh apart](docs/screens/intro.png)
+![The intro: the same Prado, two plates, ৳1.27 crore apart](docs/screens/intro.png)
 
 ## What it does
 

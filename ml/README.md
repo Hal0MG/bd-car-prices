@@ -74,6 +74,12 @@ The collector (`src/shotti_ml/collect/`) is gentle by construction, not by promi
 
 **GarirBazar.** Four runs gathered 15,000 listings (1,640 of them repeat sightings of the same ad) in about 750 requests, with no failures. The first three were random samples of the site's pages. The fourth used the site's own search filter, price 50 lakh and up, to fill the expensive end that random pages barely reach: 5,991 listings of cars asking ৳50 lakh or more. Over-sampling dear cars makes the combined data unrepresentative of the whole market, so the accuracy figures above are for this mix, medians of the whole dataset aren't market medians, and the prices-since-2021 table below uses the random snapshots only. GarirBazar's terms grant "personal, non-commercial viewing" and don't mention automated access. `scripts/weekly_collect.ps1` takes a 100-page snapshot with a different page sample each week, meant to run from Windows Task Scheduler on Sundays; the draft request is kept in [docs/garirbazar-permission.md](docs/garirbazar-permission.md).
 
+**Prices in Japan.** `run_abroad.py` reads SBT Japan's public export stock pages (robots.txt allows them) with the same polite fetcher, for the 34 catalogue cars that have a local price. It keeps cars of the catalogue's build year whose model code and engine size match, using the Japanese registration year for partner stock that gives no build year, and writes `web/src/lib/abroad.json` plus the matched cars' attributes and prices to `data/raw/sbt/` (no stock ids). Cars with five or more matches get the median as their price in `web/src/lib/cars.ts`; 21 did on 1 November 2026, from 1,382 listings. These are dealers' asking FOB prices, so an importer buying at auction may pay less. BE FORWARD was tried first: its pages answer curl but its bot protection refuses scripted readers, so it was left alone.
+
+```bash
+.venv/Scripts/python.exe -I -m shotti_ml.run_abroad
+```
+
 ## On the site
 
 `export.py` fits LightGBM once, sets the width with the "scaled by difficulty" method, and writes an expected price and 80% range for each catalogue car to `web/src/lib/local-prices.json`. Car pages show it beside the import cost. The site runs no Python. Three scripts write the numbers it shows, all from the same cleaned listings and all aggregate-only (no single ad is exported):

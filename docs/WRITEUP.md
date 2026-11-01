@@ -1,6 +1,6 @@
 # Shotti Dam: where the money goes when you import a car to Bangladesh
 
-A 2022 Land Cruiser Prado costs about ৳27.5 lakh in Japan. Registered and on the road in Dhaka, the same car costs about ৳1.27 crore. Roughly three quarters of that is tax.
+A 2022 Land Cruiser Prado sells for about ৳36 lakh at a Japanese port. Registered and on the road in Dhaka, the same car costs about ৳1.63 crore. Roughly three quarters of that is tax.
 
 Most people in Bangladesh know cars are expensive. Few can say why, because the duties are stacked in a way that is hard to follow, and price talk mostly happens through dealers. Shotti Dam (সত্যি দাম, "true price") is a site that shows the whole calculation, line by line, for 226 cars. It also compares that import cost with what the same cars ask on the local market, using a price model trained on 15,400 ads.
 
@@ -50,14 +50,18 @@ The second half of the site asks: if you bought this car already in Bangladesh, 
 
 ## Import or buy here?
 
-For the 34 cars with enough local ads, the site puts the typical local asking price beside the landed import cost. At the example prices abroad, importing is cheaper for 29 of them. The Gap page also turns the tax engine around: it searches for the highest price you could pay abroad and still beat the local ask. That column uses only local data and the tax rates, so it does not depend on the example prices.
+For the 34 cars with enough local ads, the site puts the typical local asking price beside the landed import cost. For 21 of them the price in Japan is real: the median FOB price of 1,382 matching cars in SBT Japan's export stock on 1 November 2026, matched on build year, model code and engine size, and read with the same polite rules as GarirBazar. (BE FORWARD was tried first, but its bot protection blocks scripted readers, so it was left alone.)
+
+The real prices changed the answer. Importing is still cheaper for 27 of the 34, against 29 at the old example prices, but often by much less: the Prado's saving shrank from 25% to 3%, and the Noah and Voxy hybrids cost 29 to 38% more to import than to buy here. The check also caught three catalogue mistakes. The Premio, Allion and Esquire stopped production in 2021, so no 2022 cars exist.
+
+The Gap page also turns the tax engine around: it searches for the highest price you could pay abroad and still beat the local ask. That column uses only local data and the tax rates, so it does not depend on prices abroad at all.
 
 ## Limits
 
 - These are asking prices, not sale prices. Sellers usually accept less.
 - One collection day, so nothing here tests how prices change over time.
 - 83% of the ads are Toyotas. Only 115 of 314 car models have five or more ads.
-- Prices abroad are rounded examples, calibrated against 2026 listings on UK and Japanese sites. Your real quote will differ.
+- Real prices abroad are dealers' export asking prices on one day; an importer buying at auction may pay less. Cars with fewer than five listings, and all UK cars, still use rounded examples.
 - The site is for understanding the costs, not for valuing a particular car or making a financial decision.
 
 ## Stack
