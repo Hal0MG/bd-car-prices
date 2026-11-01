@@ -36,7 +36,8 @@ class Listing:
     title: str
     model_code: str
     fuel: str
-    cc: int
+    #: None when the page gives no engine size, as for electric cars
+    cc: int | None
     mileage_km: int
     #: None for partner stock, which doesn't say
     built: int | None
@@ -69,14 +70,14 @@ def parse_page(page: str) -> tuple[list[Listing], int | None]:
         block = text[m.start(): nxt.start() if nxt else len(text)]
         price = re.search(r"Vehicle Price ?\|USD\|([\d,]+)\|", block)
         cc, code, fuel = _before(block, "Engine"), _before(block, "Model Code"), _before(block, "Fuel Type")
-        if not price or not cc or not cc.endswith("cc") or not fuel:
+        if not price or not fuel:
             continue
         built = re.search(r"Manufacture:\|(\d{4})\|", block)
         cars.append(Listing(
             title=m["title"].strip(),
             model_code=code or "",
             fuel=fuel,
-            cc=_num(cc[:-2]),
+            cc=_num(cc[:-2]) if cc and re.fullmatch(r"[\d,]+cc", cc) else None,
             mileage_km=_num(m["km"]),
             built=int(built[1]) if built else None,
             registered=int(m["reg"]),
@@ -87,8 +88,13 @@ def parse_page(page: str) -> tuple[list[Listing], int | None]:
 
 
 def fuel_matches(listing_fuel: str, fuel: str) -> bool:
-    """SBT writes PETROL, DIESEL or HYBRID(PETROL); the catalogue writes petrol, diesel or hybrid."""
+    """SBT writes PETROL, DIESEL, HYBRID(PETROL), PLUG-IN HYBRID(PETROL) or ELECTRIC; the catalogue
+    writes petrol, diesel, hybrid, phev or ev."""
     f = listing_fuel.upper()
+    if fuel == "phev":
+        return "PLUG-IN" in f
     if fuel == "hybrid":
-        return "HYBRID" in f
+        return "HYBRID" in f and "PLUG-IN" not in f
+    if fuel == "ev":
+        return "ELECTRIC" in f
     return fuel.upper() in f and "HYBRID" not in f

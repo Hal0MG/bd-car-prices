@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CarPhoto } from "./CarPhoto";
+import { abroadFor } from "@/lib/abroad";
 import { Slip } from "./Slip";
 import { plain, takaShort } from "@/lib/format";
 import { t } from "@/lib/i18n/en";
@@ -95,6 +96,7 @@ export function Calculator({ initialCar = 0, exhibit = true }: { initialCar?: nu
   const isCustom = s.carIdx === CUSTOM;
   const car = isCustom ? undefined : CARS[Number(s.carIdx)];
   const photo = car && PHOTOS[carKey(car)];
+  const listed = car && abroadFor(car);
 
   const carsForOrigin = CARS.map((c, i) => [c, i] as const).filter(([c]) => c.origin === s.origin);
   const makes = byMake(carsForOrigin, ([c]) => c);
@@ -270,7 +272,9 @@ export function Calculator({ initialCar = 0, exhibit = true }: { initialCar?: nu
             <NumInput id="price" grouping="foreign" value={s.price} onChange={(n) => set("price", n)} />
           </div>
           {priceAlt.length > 0 && <p className="alt">≈ {priceAlt.join(" · ")}</p>}
-          <p className="hint">{car ? t.calc.examplePrice : t.calc.priceHint}</p>
+          <p className="hint">
+            {!car ? t.calc.priceHint : listed && s.price === car.exampleFob ? t.calc.listedPrice(listed.n, listed.source, listed.asOf) : t.calc.examplePrice}
+          </p>
         </label>
 
         <div className="rate-row">

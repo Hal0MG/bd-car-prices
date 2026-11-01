@@ -24,6 +24,7 @@ export const en = {
     priceIn: { japan: "Car price in Japan", uk: "Car price in the UK", other: "Car price" },
     priceHint: "What you pay the seller, before shipping. Customs calls this the FOB price.",
     examplePrice: "An example price. Replace it with your real quote.",
+    listedPrice: (n: number, source: string, asOf: string) => `The median of ${n} matching cars on ${source} (${asOf}). Replace it with your real quote.`,
     rateLabel: "Exchange rate",
     rateNote: "Check today's rate before relying on the total.",
     clearingHint: "Agent, port and bank charges",

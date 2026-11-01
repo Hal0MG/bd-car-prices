@@ -4,7 +4,7 @@ import { foreign } from "@/lib/money";
 import { takaShort } from "@/lib/format";
 import { gaps } from "@/lib/gap";
 import { CURRENCY } from "@/lib/market";
-import { ABROAD_META } from "@/lib/abroad";
+import { ABROAD_SOURCES } from "@/lib/abroad";
 import { LOCAL_META } from "@/lib/local";
 
 export const metadata: Metadata = {
@@ -64,7 +64,7 @@ export default function Gap() {
       </div>
 
       <p className="muted">
-        Local prices are asking prices from {LOCAL_META.asOf} for reconditioned cars of that model and age, not sale prices, and mileage and trim vary. “Listed” prices abroad are the median FOB price of SBT Japan’s export stock for that build year and engine on {ABROAD_META.asOf}: dealers’ asking prices, so an importer buying at auction may pay less. “Example” prices are rounded estimates. The break-even column needs neither: it uses only the local price and the tax rates. Green bars to the left mean importing costs less. The tax engine is run backwards to find each break-even price.
+        Local prices are asking prices from {LOCAL_META.asOf} for reconditioned cars of that model and age, not sale prices, and mileage and trim vary. “Listed” prices abroad are the median FOB price of SBT Japan’s export stock for that build year and engine on {ABROAD_SOURCES.sbt.asOf}: dealers’ asking prices, so an importer buying at auction may pay less. “Example” prices are rounded estimates. The break-even column needs neither: it uses only the local price and the tax rates. Green bars to the left mean importing costs less. The tax engine is run backwards to find each break-even price.
       </p>
     </>
   );

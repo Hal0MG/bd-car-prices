@@ -4,10 +4,10 @@ import { MIN_LISTINGS, abroadFor } from "./abroad";
 import { CARS, carName } from "./market";
 
 describe("abroad.json", () => {
-  it("keeps the catalogue's price at the median of the real listings, to the nearest ¥10,000", () => {
+  it("keeps the catalogue's price at the median of the real listings", () => {
     const off = CARS.flatMap((car) => {
       const a = abroadFor(car);
-      return a && Math.abs(car.exampleFob - a.median) > 5_000 ? [`${carName(car)}: ${car.exampleFob} vs ${Math.round(a.median)}`] : [];
+      return a && Math.abs(car.exampleFob - a.median) > (car.origin === "uk" ? 50 : 5_000) ? [`${carName(car)}: ${car.exampleFob} vs ${Math.round(a.median)}`] : [];
     });
     expect(off).toEqual([]);
   });
@@ -15,7 +15,7 @@ describe("abroad.json", () => {
   it("only prices cars in the catalogue, with ranges in order", () => {
     for (const p of data.prices) {
       expect(CARS.some((c) => c.make === p.make && c.model === p.model && c.year === p.year), `${p.make} ${p.model}`).toBe(true);
-      expect(p.p10Usd <= p.medianUsd && p.medianUsd <= p.p90Usd).toBe(true);
+      expect(p.p10 <= p.median && p.median <= p.p90).toBe(true);
     }
   });
 

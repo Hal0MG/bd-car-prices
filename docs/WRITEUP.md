@@ -50,9 +50,9 @@ The second half of the site asks: if you bought this car already in Bangladesh, 
 
 ## Import or buy here?
 
-For the 34 cars with enough local ads, the site puts the typical local asking price beside the landed import cost. For 21 of them the price in Japan is real: the median FOB price of 1,382 matching cars in SBT Japan's export stock on 1 November 2026, matched on build year, model code and engine size, and read with the same polite rules as GarirBazar. (BE FORWARD was tried first, but its bot protection blocks scripted readers, so it was left alone.)
+For the 34 cars with enough local ads, the site puts the typical local asking price beside the landed import cost. For 21 of them the price in Japan is real: the median FOB price of 1,380 matching cars in SBT Japan's export stock on 1 November 2026, matched on build year, model code and engine size, and read with the same polite rules as GarirBazar. (BE FORWARD was tried first, but its bot protection blocks scripted readers, so it was left alone.) The same approach covers the rest of the catalogue: 117 of the 226 cars now start from a real median price, Japanese cars from SBT and European cars from CarGurus UK (5,092 listings in all).
 
-The real prices changed the answer. Importing is still cheaper for 27 of the 34, against 29 at the old example prices, but often by much less: the Prado's saving shrank from 25% to 3%, and the Noah and Voxy hybrids cost 29 to 38% more to import than to buy here. The check also caught three catalogue mistakes. The Premio, Allion and Esquire stopped production in 2021, so no 2022 cars exist.
+The real prices changed the answer. Importing is still cheaper for 27 of the 34, against 29 at the old example prices, but often by much less: the Prado's saving shrank from 25% to 3%, and the Noah and Voxy hybrids cost 29 to 38% more to import than to buy here. The check also caught catalogue mistakes. The Premio, Allion, Esquire and Prius Alpha stopped production in 2021, so no 2022 cars exist.
 
 The Gap page also turns the tax engine around: it searches for the highest price you could pay abroad and still beat the local ask. That column uses only local data and the tax rates, so it does not depend on prices abroad at all.
 
@@ -61,7 +61,7 @@ The Gap page also turns the tax engine around: it searches for the highest price
 - These are asking prices, not sale prices. Sellers usually accept less.
 - One collection day, so nothing here tests how prices change over time.
 - 83% of the ads are Toyotas. Only 115 of 314 car models have five or more ads.
-- Real prices abroad are dealers' export asking prices on one day; an importer buying at auction may pay less. Cars with fewer than five listings, and all UK cars, still use rounded examples.
+- Real prices abroad are asking prices on one day: dealers' export prices in Japan, dealer and private prices in the UK. An importer buying at auction may pay less. Cars with fewer than five matching listings still use rounded examples.
 - The site is for understanding the costs, not for valuing a particular car or making a financial decision.
 
 ## Stack
