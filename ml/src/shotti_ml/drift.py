@@ -11,10 +11,13 @@ same way as training data, then compared with the artifact's training summary:
   training data's deciles;
 - categories (brand, model, fuel, gearbox, site, condition): PSI and the largest change in share;
 - missing engine sizes and mileages: the share the cleaning had to fill in;
-- if the batch has prices: the model's median absolute percentage error against its cross-validated
-  error, and how many prices fall inside the 80% range.
+- for the listings that have prices: the model's median absolute percentage error against its
+  cross-validated error, and how many prices fall inside the 80% range. Prices are optional: a batch
+  without them (or without a price_bdt column) still gets every other check.
 
-Writes a markdown and a JSON report and exits 1 if any check passes its alert threshold.
+Writes a markdown and a JSON report. Exit codes: 0 no alert, 1 drift (a check passed its alert
+threshold), 2 no usable listings after cleaning, 3 the check itself failed (a bad file or argument,
+a missing artifact). A crash never exits 1, so a scheduled job can't mistake it for drift.
 """
 
 from __future__ import annotations
@@ -22,6 +25,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import traceback
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -38,6 +42,8 @@ FUEL_ORDER = ["hybrid", "diesel", "cng", "lpg", "petrol"]  # a car flagged twice
 EPS = 1e-4
 UNSEEN = "(not in training)"
 REPORTS = settings.ML_ROOT / "reports" / "drift"
+
+EXIT_OK, EXIT_DRIFT, EXIT_EMPTY, EXIT_ERROR = 0, 1, 2, 3
 
 
 @dataclass
@@ -154,7 +160,7 @@ def compare_categorical(ref: dict[str, float], values: pd.Series, t: Thresholds)
 
 
 def performance(artifact, df: pd.DataFrame, reference_year: int, t: Thresholds) -> dict:
-    """Live error and interval coverage on a batch that has prices."""
+    """Live error and interval coverage on listings that all have prices."""
     iv = artifact.predict(df, reference_year)
     price = df["price"].to_numpy(dtype=float)
     ape = np.abs(np.exp(iv.pred) - price) / price
@@ -181,8 +187,8 @@ def check(artifact, df: pd.DataFrame, report: CurrentCleaningReport, reference_y
     """Every drift check for a cleaned batch. `ignore` names features to report but not alert on."""
     summary = artifact.summary
     X = artifact.features(df, reference_year)
-    has_price = "price" in df and df["price"].notna().all() and len(df) > 0
-    frame = drift_frame(X, np.log(df["price"].astype(float)) if has_price else None)
+    priced = df["price"].notna() if "price" in df else pd.Series(False, index=df.index)
+    frame = drift_frame(X, np.log(df["price"].astype(float)) if priced.any() else None)
 
     numeric = {col: compare_numeric(summary["numeric"][col], frame[col], t) for col in NUMERIC}
     categorical = {col: compare_categorical(summary["categorical"][col], frame[col], t) for col in CATEGORICAL}
@@ -195,7 +201,7 @@ def check(artifact, df: pd.DataFrame, report: CurrentCleaningReport, reference_y
         }
         for col in batch_missing
     }
-    perf = performance(artifact, df, reference_year, t) if has_price else None
+    perf = performance(artifact, df[priced].reset_index(drop=True), reference_year, t) if priced.any() else None
 
     alerts = [f"{col}: PSI {r['psi']:.2f}" for col, r in numeric.items() if r["status"] == "alert" and col not in ignore]
     alerts += [
@@ -212,6 +218,7 @@ def check(artifact, df: pd.DataFrame, report: CurrentCleaningReport, reference_y
         "model_version": artifact.version,
         "batch_rows_clean": report.rows_clean,
         "batch_rows_raw": report.rows_raw,
+        "batch_rows_priced": int(priced.sum()),
         "reference_year": reference_year,
         "thresholds": asdict(t),
         "ignored": list(ignore),
@@ -266,11 +273,15 @@ def markdown(result: dict, batch_name: str) -> str:
             "",
             "## Accuracy on this batch",
             "",
+            f"From the {perf['rows']:,} listings with a price.",
+            "",
             "| Check | Training | This batch | Status |",
             "|---|---|---|---|",
             f"| Median error | {perf['reference_median_ape']:.1%} ({perf['reference']}) | {perf['median_ape']:.1%} | {perf['mape_status']} |",
             f"| Inside the 80% range | {perf['target_coverage']:.0%} (target) | {perf['coverage']:.1%} | {perf['coverage_status']} |",
         ]
+    else:
+        lines += ["", "No listing in this batch has a price, so accuracy was not checked."]
     lines += ["", "## Numbers", "", "| Feature | PSI | Median in training | Median now | Status |", "|---|---|---|---|---|"]
     for col, r in result["numeric"].items():
         if r["psi"] is None:
@@ -305,15 +316,23 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--ignore", default="", help="comma-separated features to report but not alert on")
     for field, default in asdict(Thresholds()).items():
         p.add_argument("--" + field.replace("_", "-"), type=float, default=default)
-    args = p.parse_args(argv)
+    try:
+        return run(p.parse_args(argv))
+    except SystemExit as exc:  # argparse has printed why; keep its exit code apart from drift's
+        return EXIT_OK if exc.code in (0, None) else EXIT_ERROR
+    except Exception:
+        traceback.print_exc()
+        print("The drift check failed before it could finish (exit code 3, not drift).", file=sys.stderr)
+        return EXIT_ERROR
 
+
+def run(args: argparse.Namespace) -> int:
     artifact = load_artifact(settings.artifact_dir(args.artifact))
-    with settings.reproducible_pandas():
-        raw = load_batch(args.batch)
-        df, report, year = clean_current(raw, artifact.metadata["known_models"])
+    raw = load_batch(args.batch)
+    df, report, year = clean_current(raw, artifact.metadata["known_models"], require_price=False)
     if df.empty:
         print("No usable listings in the batch after cleaning.")
-        return 2
+        return EXIT_EMPTY
     t = Thresholds(**{f: getattr(args, f) for f in asdict(Thresholds())})
     ignore = tuple(s.strip() for s in args.ignore.split(",") if s.strip())
     result = check(artifact, df, report, year, t, ignore)
@@ -325,7 +344,7 @@ def main(argv: list[str] | None = None) -> int:
     write_json(args.out_dir / f"{name}.json", result)
     print(md)
     print(f"Wrote {args.out_dir / name}.md and .json")
-    return 1 if result["drift"] else 0
+    return EXIT_DRIFT if result["drift"] else EXIT_OK
 
 
 if __name__ == "__main__":

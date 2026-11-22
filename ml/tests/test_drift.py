@@ -89,3 +89,35 @@ def test_a_batch_without_prices_still_gets_the_feature_checks(trained):
     assert result["performance"] is None
     assert result["numeric"]["log_price"]["status"] == "skipped"
     assert result["numeric"]["age"]["psi"] is not None
+
+
+def test_a_batch_file_with_no_price_column_gets_the_feature_checks_from_the_command_line(trained, tmp_path):
+    code, result = run_check(trained, tmp_path, listings(600, seed=5, year_shift=6).drop(columns="price_bdt"))
+    assert code == 1  # the cars are six years older: drift, found without any prices
+    assert result["numeric"]["age"]["status"] == "alert"
+    assert result["performance"] is None and result["batch_rows_priced"] == 0
+    assert result["numeric"]["log_price"]["status"] == "skipped"
+    assert "accuracy was not checked" in (tmp_path / "batch.md").read_text(encoding="utf-8")
+
+
+def test_null_prices_are_kept_and_accuracy_uses_only_the_priced_listings(trained, tmp_path):
+    fresh = listings(600, seed=8)
+    fresh["price_bdt"] = fresh["price_bdt"].astype(object)
+    fresh.loc[fresh.index[:200], "price_bdt"] = None
+    code, result = run_check(trained, tmp_path, fresh, "--ignore", "source,condition")
+    assert result["batch_rows_clean"] > 500  # the 200 unpriced listings were not dropped
+    assert result["batch_rows_priced"] == result["performance"]["rows"] < result["batch_rows_clean"]
+
+    fresh["price_bdt"] = None
+    code, result = run_check(trained, tmp_path, fresh, "--ignore", "source,condition")
+    assert code == 0, result["alerts"]
+    assert result["performance"] is None and result["batch_rows_clean"] > 500
+
+
+def test_a_failed_check_exits_3_not_1(trained, tmp_path, capsys):
+    assert drift.main([str(tmp_path / "missing.jsonl"), "--artifact", str(trained[0]), "--out-dir", str(tmp_path)]) == drift.EXIT_ERROR
+    assert "not drift" in capsys.readouterr().err
+    bad = tmp_path / "bad.jsonl"
+    bad.write_text('{"make": "Toyota"}\n', encoding="utf-8")  # no observed_at
+    assert drift.main([str(bad), "--artifact", str(trained[0]), "--out-dir", str(tmp_path)]) == drift.EXIT_ERROR
+    assert drift.main(["--no-such-flag"]) == drift.EXIT_ERROR

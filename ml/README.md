@@ -139,7 +139,9 @@ The model the site uses can also be trained as a versioned artifact, served over
 
 `train.py` fits the same model as `export.py`: LightGBM with the same features, fitted on a seeded 75% of the cleaned listings, with the other 25% setting the width of the "scaled by difficulty" 80% range. It reads listings from `--data-dir`, else `$SHOTTI_DATA_DIR`, else `data/raw`, and copies none of them. It writes `artifacts/<version>/`, named by UTC time and a hash of the model inputs: the two LightGBM models as text files (not pickles), `metadata.json`, `metrics.json` and `training_summary.json` (binned shares for the drift check). Nothing in it is a single ad. [artifacts/README.md](artifacts/README.md) lists the files.
 
-The run is also logged to MLflow: parameters, metrics, the git commit, the data hash and the artifact folder. The store is a SQLite file and a folder under `mlruns/`, both ignored by git. MLflow 3.18 refuses the plain folder store unless told to, so SQLite it is. To browse runs: `.venv/Scripts/mlflow.exe ui --backend-store-uri sqlite:///mlruns/mlflow.db`.
+`metadata.json` records the git commit, whether `src/` or `pyproject.toml` had uncommitted changes (`git_dirty`, with the changed files), and the Python, pandas, numpy, scikit-learn, LightGBM and pyarrow versions. The command refuses to train from uncommitted code unless given `--allow-dirty`, so the commit an artifact names holds the code that made it.
+
+The run is also logged to MLflow: parameters, metrics, the git commit and dirty flag, the data hash and the artifact folder. The store is a SQLite file and a folder under `mlruns/`, both ignored by git. MLflow 3.18 refuses the plain folder store unless told to, so SQLite it is. To browse runs: `.venv/Scripts/mlflow.exe ui --backend-store-uri sqlite:///mlruns/mlflow.db`.
 
 The artifact trained on 22 November 2026 (`20261122-160412-906841`):
 
@@ -150,7 +152,7 @@ The artifact trained on 22 November 2026 (`20261122-160412-906841`):
 | Median error, 5-fold CV repeated 3 times | 6.5 ± 0.1% |
 | 80% range coverage, same CV | 80.1 ± 1.4%, median width × and ÷ 1.13 |
 
-The CV numbers match `run_current.py` to every digit, and the saved model reproduces all 34 prices in `web/src/lib/local-prices.json` exactly. One trap found on the way: cleaning sorts by `observed_at`, where many rows tie, and pandas breaks the ties differently when pyarrow is installed (MLflow installs it). That reordered the rows, changed the seeded split and moved the model. `train.py` keeps pandas on Python strings, which matches the project's own venv.
+The CV numbers match `run_current.py` to every digit, and the saved model reproduces all 34 prices in `web/src/lib/local-prices.json` exactly. One trap found on the way: cleaning sorts by `observed_at`, where many rows tie, and pandas broke the ties one way for Python-backed strings and another for pyarrow-backed ones, which pandas uses once pyarrow is installed (MLflow installs it). That reordered the rows, changed the seeded split and moved the model. `clean_current` now sorts on plain Python strings, so `train.py`, `export.py` and `run_current.py` fit the same model with or without pyarrow, and the published prices did not move. A test checks the order both ways.
 
 ### Serve
 
@@ -181,7 +183,7 @@ Only brand, model, build year and fuel are required. A missing engine size or mi
 .venv/Scripts/python.exe -I -m shotti_ml.drift new_listings.jsonl [--artifact artifacts/<version>] [--ignore source,condition]
 ```
 
-The batch is listings in the collector's format (JSONL or CSV, or a folder laid out like `data/raw`). It is cleaned like training data, then compared with the artifact's training summary: population stability index (PSI) over the training deciles for age, log mileage, engine size and log price; PSI and the largest share change for brand, model, fuel, gearbox, site and condition; how many engine sizes and mileages had to be filled in; and, when the batch has prices, the median error against the CV error and how many prices land inside the 80% range. It writes markdown and JSON to `reports/drift/` and exits 1 when a check passes its threshold (PSI 0.25, a share moving 10 points, the filled-in share moving 15 points, error 1.5 times training, coverage under 70%; each can be changed on the command line).
+The batch is listings in the collector's format (JSONL or CSV, or a folder laid out like `data/raw`). It is cleaned like training data, then compared with the artifact's training summary: population stability index (PSI) over the training deciles for age, log mileage, engine size and log price; PSI and the largest share change for brand, model, fuel, gearbox, site and condition; how many engine sizes and mileages had to be filled in; and, for the listings that have a price, the median error against the CV error and how many prices land inside the 80% range. Prices are optional: listings without one, or a batch with no `price_bdt` column, still get every other check. It writes markdown and JSON to `reports/drift/`. Exit codes: 0 no alert, 1 a check passed its threshold (PSI 0.25, a share moving 10 points, the filled-in share moving 15 points, error 1.5 times training, coverage under 70%; each can be changed on the command line), 2 nothing left after cleaning, 3 the check itself failed (a missing file or artifact, a bad argument). A crash never exits 1, so a scheduled job can't read it as drift.
 
 All the data comes from one day, so there is no later week to check yet. As a test, a model trained on GarirBazar alone (12,388 listings, CV error 6.4%) was checked against the 3,019 Bikroy listings it never saw ([report](reports/drift/bikroy-vs-garirbazar-model.md)):
 
@@ -226,7 +228,7 @@ Docker is not installed on the machine this was built on, so the image is built 
 ```bash
 cd ml
 py -m venv .venv
-.venv/Scripts/python.exe -m pip install -e ".[dev]"          # add ,api,mlops for serving and tracking
+.venv/Scripts/python.exe -m pip install -e ".[dev]"          # add ,api,mlops for serving and tracking (safe: results do not depend on it)
 .venv/Scripts/python.exe -m pytest
 
 # the 2021 file

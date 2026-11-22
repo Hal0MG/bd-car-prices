@@ -10,16 +10,22 @@ fitted on a seeded 75% of the cleaned listings, with the other 25% setting the w
 
 Writes artifacts/<version>/ (see artifact.py) and, unless --no-mlflow, logs the parameters,
 metrics and artifact folder to a local MLflow store in mlruns/.
+
+The metadata records the git commit, whether src/ or pyproject.toml had uncommitted changes, and the
+library versions, so an artifact can be traced to the code that made it. The command line refuses to
+train from uncommitted code unless given --allow-dirty.
 """
 
 from __future__ import annotations
 
 import argparse
 import hashlib
+import platform
 import subprocess
 import sys
 import time
 from datetime import datetime, timezone
+from importlib import metadata as importlib_metadata
 from pathlib import Path
 
 import numpy as np
@@ -35,6 +41,11 @@ from .features import build_features
 from .intervals import evaluate_intervals, fit_scaled_by_difficulty, scaled_by_difficulty, summarise_intervals
 from .models import LGBM_PARAMS, make_lgbm
 from .run_current import EXTRA
+
+#: The code whose changes would change the model; uncommitted edits here mark an artifact dirty.
+CODE_PATHS = ("src", "pyproject.toml")
+#: Libraries whose versions are recorded with each artifact.
+LIBRARIES = ("pandas", "numpy", "scikit-learn", "lightgbm", "pyarrow")
 
 #: The split export.py uses, so the artifact and the site's prices come from the same model.
 ALPHA = 0.2
@@ -68,12 +79,32 @@ def fingerprint(X: pd.DataFrame, y: pd.Series) -> str:
     return h.hexdigest()
 
 
-def git_commit() -> str | None:
+def _git(*args: str) -> str | None:
     try:
-        out = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=settings.ML_ROOT, capture_output=True, text=True, timeout=10)
-        return out.stdout.strip() or None
+        out = subprocess.run(["git", *args], cwd=settings.ML_ROOT, capture_output=True, text=True, timeout=10)
     except (OSError, subprocess.SubprocessError):
         return None
+    return out.stdout if out.returncode == 0 else None
+
+
+def git_state() -> dict:
+    """The commit, and the files under CODE_PATHS that differ from it. Commit and dirty are None outside a git checkout."""
+    commit = _git("rev-parse", "--short", "HEAD")
+    if not commit:
+        return {"commit": None, "dirty": None, "changed": []}
+    status = _git("status", "--porcelain", "--untracked-files=all", "--", *CODE_PATHS) or ""
+    changed = sorted(line[3:] for line in status.splitlines() if line.strip())
+    return {"commit": commit.strip(), "dirty": bool(changed), "changed": changed}
+
+
+def library_versions() -> dict[str, str | None]:
+    versions: dict[str, str | None] = {"python": platform.python_version()}
+    for name in LIBRARIES:
+        try:
+            versions[name] = importlib_metadata.version(name)
+        except importlib_metadata.PackageNotFoundError:
+            versions[name] = None
+    return versions
 
 
 def train(
@@ -83,13 +114,11 @@ def train(
     sources: tuple[str, ...] = SOURCES,
     cv_repeats: int = 3,
     version: str | None = None,
+    git: dict | None = None,
 ) -> tuple[Path, dict, dict]:
     """Fit, evaluate and save. Returns the artifact folder, its metrics and the parameters to log."""
-    with settings.reproducible_pandas():
-        return _train(Path(data_dir), Path(out_root), sources, cv_repeats, version)
-
-
-def _train(data_dir: Path, out_root: Path, sources: tuple[str, ...], cv_repeats: int, version: str | None) -> tuple[Path, dict, dict]:
+    data_dir, out_root = Path(data_dir), Path(out_root)
+    git = git_state() if git is None else git
     started = time.time()
     raw, known_models = load_training_data(data_dir, sources)
     df, report, year = clean_current(raw, known_models)
@@ -143,7 +172,10 @@ def _train(data_dir: Path, out_root: Path, sources: tuple[str, ...], cv_repeats:
     metadata = {
         "version": version,
         "created_at": created.isoformat(timespec="seconds"),
-        "git_commit": git_commit(),
+        "git_commit": git["commit"],
+        "git_dirty": git["dirty"],
+        "git_changed": git["changed"],
+        "libraries": library_versions(),
         "data_fingerprint": fp,
         "data": {
             "sources": list(sources),
@@ -203,7 +235,14 @@ def log_to_mlflow(directory: Path, metrics: dict, params: dict, mlruns: Path, ex
     flat_params.update({k: v for k, v in params.items() if k not in ("lgbm", "difficulty_model")})
     flat_params.update({"rows_clean": meta["data"]["rows_clean"], "rows_fit": meta["data"]["rows_fit"], "reference_year": meta["reference_year"]})
     with mlflow.start_run(run_name=meta["version"]) as run:
-        mlflow.set_tags({"version": meta["version"], "git_commit": meta["git_commit"] or "", "data_fingerprint": meta["data_fingerprint"]})
+        mlflow.set_tags(
+            {
+                "version": meta["version"],
+                "git_commit": meta["git_commit"] or "",
+                "git_dirty": str(meta.get("git_dirty")),
+                "data_fingerprint": meta["data_fingerprint"],
+            }
+        )
         mlflow.log_params(flat_params)
         mlflow.log_metrics(flat_metrics(metrics))
         mlflow.log_metric("conformal_q", meta["interval"]["q"])
@@ -221,10 +260,23 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--version", help="artifact name (default: UTC time and data fingerprint)")
     p.add_argument("--no-mlflow", action="store_true", help="skip MLflow logging")
     p.add_argument("--mlruns", type=Path, help=f"MLflow store folder (default: ${settings.MLRUNS_ENV} or ml/mlruns)")
+    p.add_argument("--allow-dirty", action="store_true", help="train even with uncommitted changes to src/ or pyproject.toml (recorded in metadata.json)")
     args = p.parse_args(argv)
 
+    git = git_state()
+    if git["dirty"]:
+        listed = ", ".join(git["changed"][:5]) + (" ..." if len(git["changed"]) > 5 else "")
+        if not args.allow_dirty:
+            print(f"Uncommitted changes in {listed}. Commit them so the artifact names the code that made it, or pass --allow-dirty.", file=sys.stderr)
+            return 2
+        print(f"Warning: training from uncommitted code ({listed}); metadata.json records git_dirty: true.", file=sys.stderr)
+    elif git["commit"] is None:
+        print("Warning: not in a git checkout, so the artifact records no commit.", file=sys.stderr)
+
     sources = tuple(s.strip() for s in args.sources.split(",") if s.strip())
-    directory, metrics, params = train(settings.data_dir(args.data_dir), args.out_dir, sources=sources, cv_repeats=args.cv_repeats, version=args.version)
+    directory, metrics, params = train(
+        settings.data_dir(args.data_dir), args.out_dir, sources=sources, cv_repeats=args.cv_repeats, version=args.version, git=git
+    )
     h = metrics["holdout"]
     print(f"Saved {directory}")
     print(f"Holdout ({h['rows']:,} cars): median error {h['median_ape']:.1%}, inside the 80% range {h['coverage']:.1%}, median range x/÷ {h['median_ratio']:.3f}")

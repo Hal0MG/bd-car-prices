@@ -8,10 +8,7 @@ from __future__ import annotations
 
 import json
 import os
-from contextlib import contextmanager
 from pathlib import Path
-
-import pandas as pd
 
 ML_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_DATA_DIR = ML_ROOT / "data" / "raw"
@@ -47,16 +44,3 @@ def artifact_dir(cli: str | Path | None = None) -> Path:
     """An artifact folder: the one given, else $SHOTTI_ARTIFACT, else the newest under ml/artifacts."""
     chosen = cli or os.environ.get(ARTIFACT_ENV)
     return Path(chosen) if chosen else latest_artifact()
-
-
-@contextmanager
-def reproducible_pandas():
-    """Keep pandas' strings in Python storage, even when pyarrow is installed (MLflow brings it).
-
-    Cleaning sorts listings by `observed_at`, where many rows tie. pandas sorts Python-backed strings
-    and pyarrow-backed strings with different tie-breaking, so the row order, and with it the seeded
-    75/25 split, would change with whether pyarrow happens to be installed. The project's own venv has
-    no pyarrow, so Python storage reproduces its results exactly.
-    """
-    with pd.option_context("mode.string_storage", "python"):
-        yield

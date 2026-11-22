@@ -121,9 +121,9 @@ def _impute(values: pd.Series, *groupings: pd.Series) -> pd.Series:
 
 
 def _price_outliers(df: pd.DataFrame) -> pd.Series:
-    """True for listings far from comparable cars: same model, build year within two."""
+    """True for listings far from comparable cars: same model, build year within two. Unpriced listings are never flagged."""
     flagged = pd.Series(False, index=df.index)
-    for _, group in df.groupby("car_model"):
+    for _, group in df[df["price"].notna()].groupby("car_model"):
         if len(group) < MIN_COMPARABLES + 1:
             continue
         for index, row in group.iterrows():
@@ -134,10 +134,26 @@ def _price_outliers(df: pd.DataFrame) -> pd.Series:
     return flagged
 
 
-def clean_current(raw: pd.DataFrame, known_models: list[str]) -> tuple[pd.DataFrame, CurrentCleaningReport, int]:
-    """Return the cleaned listings, a count of every change, and the year ages are measured to."""
+def clean_current(
+    raw: pd.DataFrame, known_models: list[str], *, require_price: bool = True
+) -> tuple[pd.DataFrame, CurrentCleaningReport, int]:
+    """Return the cleaned listings, a count of every change, and the year ages are measured to.
+
+    Training needs a price on every listing. The drift check passes `require_price=False`: then listings
+    without a price (or a batch with no `price_bdt` column at all) are kept with a missing `price`, and
+    the price checks apply only to the listings that have one.
+    """
     rows_raw = len(raw)
-    df = raw.sort_values("observed_at").copy()
+    if not require_price:
+        raw = raw.assign(price_bdt=pd.to_numeric(raw["price_bdt"], errors="coerce") if "price_bdt" in raw else np.nan)
+    elif "price_bdt" not in raw:
+        raise ValueError("every listing needs a price_bdt column to train on")
+    # Sort on plain Python strings. Many sightings share an `observed_at`, and pandas breaks those ties
+    # one way for Python-backed strings and another for pyarrow-backed ones (the default once pyarrow is
+    # installed, as MLflow does). The tie order decides which rows the seeded split puts where, so without
+    # this the model would change with whether pyarrow is installed. Python strings keep the order every
+    # published number was made with.
+    df = raw.sort_values("observed_at", key=lambda s: s.astype(object)).copy()
     reference_year = int(pd.to_datetime(df["observed_at"]).dt.year.max())
 
     if "source" not in df:
@@ -152,7 +168,8 @@ def clean_current(raw: pd.DataFrame, known_models: list[str]) -> tuple[pd.DataFr
     df = df.drop_duplicates(["source", "id"], keep="last")  # the latest sighting of each ad
 
     no_price = int(df["price_bdt"].isna().sum())
-    df = df[df["price_bdt"].notna()]
+    if require_price:
+        df = df[df["price_bdt"].notna()]
 
     electric = df["fuel"].fillna("").str.contains("electric", case=False)
     n_electric = int(electric.sum())
@@ -162,7 +179,7 @@ def clean_current(raw: pd.DataFrame, known_models: list[str]) -> tuple[pd.DataFr
     n_bad_year = int(bad_year.sum())
     df = df[~bad_year]
 
-    bad_price = ~df["price_bdt"].between(MIN_PRICE, MAX_PRICE)
+    bad_price = df["price_bdt"].notna() & ~df["price_bdt"].between(MIN_PRICE, MAX_PRICE)
     n_bad_price = int(bad_price.sum())
     df = df[~bad_price].reset_index(drop=True)
 

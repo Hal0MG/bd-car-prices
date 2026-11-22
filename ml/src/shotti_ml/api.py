@@ -116,6 +116,8 @@ def create_app(artifact: str | Path | None = None) -> FastAPI:
             "version": a.version,
             "created_at": m["created_at"],
             "git_commit": m["git_commit"],
+            "git_dirty": m.get("git_dirty"),
+            "libraries": m.get("libraries"),
             "data_fingerprint": m["data_fingerprint"],
             "reference_year": m["reference_year"],
             "data": m["data"],
