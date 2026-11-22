@@ -1,0 +1,211 @@
+{
+ "model_version": "garirbazar-only",
+ "batch_rows_clean": 3019,
+ "batch_rows_raw": 3130,
+ "reference_year": 2026,
+ "thresholds": {
+  "psi_warn": 0.1,
+  "psi_alert": 0.25,
+  "share_shift_alert": 0.1,
+  "missing_shift_alert": 0.15,
+  "mape_ratio_alert": 1.5,
+  "coverage_min": 0.7
+ },
+ "ignored": [],
+ "numeric": {
+  "age": {
+   "psi": 0.5502926722170047,
+   "status": "alert",
+   "train_median": 6.0,
+   "batch_median": 5.0
+  },
+  "log_km": {
+   "psi": 2.5091222277795824,
+   "status": "alert",
+   "train_median": 10.985309671896763,
+   "batch_median": 10.633472802314019
+  },
+  "engine_cc": {
+   "psi": 5.484580868016541,
+   "status": "alert",
+   "train_median": 1000.0,
+   "batch_median": 1800.0
+  },
+  "log_price": {
+   "psi": 0.5191322755082685,
+   "status": "alert",
+   "train_median": 15.319587843629424,
+   "batch_median": 15.38099658286919
+  }
+ },
+ "categorical": {
+  "brand": {
+   "psi": 0.07409318901863829,
+   "max_share_shift": 0.023855345027008812,
+   "status": "ok",
+   "top_shifts": [
+    {
+     "value": "Toyota",
+     "train": 0.8383634602969657,
+     "batch": 0.8145081152699569,
+     "shift": -0.023855345027008812
+    },
+    {
+     "value": "Other brand",
+     "train": 0.003873466752743706,
+     "batch": 0.020867837032129844,
+     "shift": 0.016994370279386137
+    },
+    {
+     "value": "Mercedes-Benz",
+     "train": 0.006939961265332473,
+     "batch": 0.020205366015236835,
+     "shift": 0.013265404749904362
+    }
+   ]
+  },
+  "model": {
+   "psi": 0.44701661382032876,
+   "max_share_shift": 0.10268535983958707,
+   "status": "alert",
+   "top_shifts": [
+    {
+     "value": "Corolla Cross",
+     "train": 0.1013557133634603,
+     "batch": 0.20404107320304737,
+     "shift": 0.10268535983958707
+    },
+    {
+     "value": "Axio",
+     "train": 0.06536475145255004,
+     "batch": 0.020867837032129844,
+     "shift": -0.0444969144204202
+    },
+    {
+     "value": "Other model",
+     "train": 0.020255003227888962,
+     "batch": 0.054985094402119905,
+     "shift": 0.03473009117423094
+    }
+   ]
+  },
+  "fuel": {
+   "psi": 2.8785724419143586,
+   "max_share_shift": 0.6495027137147966,
+   "status": "alert",
+   "top_shifts": [
+    {
+     "value": "petrol",
+     "train": 0.6822950290510007,
+     "batch": 0.03279231533620404,
+     "shift": -0.6495027137147966
+    },
+    {
+     "value": "other",
+     "train": 0.14686894770819883,
+     "batch": 0.696588274263001,
+     "shift": 0.5497193265548022
+    },
+    {
+     "value": "hybrid",
+     "train": 0.15566494512588766,
+     "batch": 0.2543888704869162,
+     "shift": 0.09872392536102856
+    }
+   ]
+  },
+  "gearbox": {
+   "psi": 0.03568653817070577,
+   "max_share_shift": 0.03043338498953585,
+   "status": "ok",
+   "top_shifts": [
+    {
+     "value": "automatic",
+     "train": 0.9857165913492576,
+     "batch": 0.9552832063597217,
+     "shift": -0.03043338498953585
+    },
+    {
+     "value": "manual",
+     "train": 0.014283408650742414,
+     "batch": 0.04471679364027824,
+     "shift": 0.030433384989535822
+    }
+   ]
+  },
+  "source": {
+   "psi": 18.41883867587797,
+   "max_share_shift": 1.0,
+   "status": "alert",
+   "top_shifts": [
+    {
+     "value": "garirbazar",
+     "train": 1.0,
+     "batch": 0.0,
+     "shift": -1.0
+    },
+    {
+     "value": "(not in training)",
+     "train": 0.0,
+     "batch": 1.0,
+     "shift": 1.0
+    }
+   ]
+  },
+  "condition": {
+   "psi": 15.585148849481275,
+   "max_share_shift": 0.9983438224577674,
+   "status": "alert",
+   "top_shifts": [
+    {
+     "value": "Unknown",
+     "train": 1.0,
+     "batch": 0.0016561775422325273,
+     "shift": -0.9983438224577674
+    },
+    {
+     "value": "(not in training)",
+     "train": 0.0,
+     "batch": 0.9983438224577674,
+     "shift": 0.9983438224577674
+    }
+   ]
+  }
+ },
+ "missing": {
+  "engine_cc": {
+   "train": 0.17672692059393158,
+   "batch": 0.8665120900960583,
+   "status": "alert"
+  },
+  "mileage_km": {
+   "train": 0.6633311814073596,
+   "batch": 0.7528983106989069,
+   "status": "ok"
+  }
+ },
+ "performance": {
+  "rows": 3019,
+  "median_ape": 0.09368547713141688,
+  "reference_median_ape": 0.06355661199373824,
+  "reference": "5-fold CV",
+  "ratio": 1.4740476905950715,
+  "mape_status": "ok",
+  "coverage": 0.6303411725736999,
+  "target_coverage": 0.8,
+  "coverage_status": "alert"
+ },
+ "alerts": [
+  "age: PSI 0.55",
+  "log_km: PSI 2.51",
+  "engine_cc: PSI 5.48",
+  "log_price: PSI 0.52",
+  "model: PSI 0.45, largest share change 10%",
+  "fuel: PSI 2.88, largest share change 65%",
+  "source: PSI 18.42, largest share change 100%",
+  "condition: PSI 15.59, largest share change 100%",
+  "engine_cc missing: 18% in training, 87% now",
+  "80% range holds 63% of prices"
+ ],
+ "drift": true
+}

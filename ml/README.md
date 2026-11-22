@@ -122,6 +122,90 @@ Most catalogue cars have no ads, and on car models held out of training LightGBM
 
 The model that never sees a name still cannot tell a Honda Fit from a Vezel (both 1.5-litre hybrids). Trying it on catalogue cars with no ads priced a Fit hybrid near ৳51 lakh, far too high, so no rough price is published for those cars.
 
+## Serving and monitoring
+
+The model the site uses can also be trained as a versioned artifact, served over HTTP, and checked against new listings. This needs the extra packages:
+
+```bash
+.venv/Scripts/python.exe -m pip install -e ".[dev,api,mlops]"
+```
+
+### Train
+
+```bash
+.venv/Scripts/python.exe -I -m shotti_ml.train                      # about 30 seconds
+.venv/Scripts/python.exe -I -m shotti_ml.train --data-dir D:/listings --sources garirbazar --cv-repeats 0 --no-mlflow
+```
+
+`train.py` fits the same model as `export.py`: LightGBM with the same features, fitted on a seeded 75% of the cleaned listings, with the other 25% setting the width of the "scaled by difficulty" 80% range. It reads listings from `--data-dir`, else `$SHOTTI_DATA_DIR`, else `data/raw`, and copies none of them. It writes `artifacts/<version>/`, named by UTC time and a hash of the model inputs: the two LightGBM models as text files (not pickles), `metadata.json`, `metrics.json` and `training_summary.json` (binned shares for the drift check). Nothing in it is a single ad. [artifacts/README.md](artifacts/README.md) lists the files.
+
+The run is also logged to MLflow: parameters, metrics, the git commit, the data hash and the artifact folder. The store is a SQLite file and a folder under `mlruns/`, both ignored by git. MLflow 3.18 refuses the plain folder store unless told to, so SQLite it is. To browse runs: `.venv/Scripts/mlflow.exe ui --backend-store-uri sqlite:///mlruns/mlflow.db`.
+
+The artifact trained on 22 November 2026 (`20261122-160412-906841`):
+
+| | Value |
+|---|---|
+| Listings | 15,400 after cleaning (18,121 read); 11,550 fit the trees, 3,850 set the range |
+| Median error, the 3,850 held-back cars | 6.5% |
+| Median error, 5-fold CV repeated 3 times | 6.5 ± 0.1% |
+| 80% range coverage, same CV | 80.1 ± 1.4%, median width × and ÷ 1.13 |
+
+The CV numbers match `run_current.py` to every digit, and the saved model reproduces all 34 prices in `web/src/lib/local-prices.json` exactly. One trap found on the way: cleaning sorts by `observed_at`, where many rows tie, and pandas breaks the ties differently when pyarrow is installed (MLflow installs it). That reordered the rows, changed the seeded split and moved the model. `train.py` keeps pandas on Python strings, which matches the project's own venv.
+
+### Serve
+
+```bash
+.venv/Scripts/python.exe -m uvicorn shotti_ml.api:app --port 8000
+```
+
+The service loads one artifact at startup: `$SHOTTI_ARTIFACT` if set, else the newest under `artifacts/`. `GET /health` names the model, `GET /model` returns its version, training data and metrics, and `POST /predict` prices one car:
+
+```bash
+curl -X POST localhost:8000/predict -H "content-type: application/json" \
+  -d '{"brand": "Toyota", "model": "Axio", "build_year": 2018, "mileage_km": 60000, "engine_cc": 1500, "fuel": "petrol"}'
+```
+
+```json
+{"price_bdt": 2252000, "low_bdt": 1969000, "high_bdt": 2575000, "coverage": 0.8,
+ "model_version": "20261122-160412-906841", "matched_brand": "Toyota", "matched_model": "Axio",
+ "model_seen_in_training": true, "imputed": []}
+```
+
+That is ৳22.5 lakh, with an 80% range of ৳19.7 to 25.8 lakh. The ten petrol 2018 Axios in the data have a median of ৳21.8 lakh (middle half ৳20.1 to 23.3 lakh), and 8 of the 10 sit inside the range. Fifty requests in a row took 2.2 seconds with curl on this laptop.
+
+Only brand, model, build year and fuel are required. A missing engine size or mileage is filled in the way cleaning fills it (the model's median engine, the median mileage for the build year) and named in `imputed`. A model with fewer than five listings is priced as "Other model" and flagged with `model_seen_in_training: false`. Bad input gets a 422 naming the field: a build year before 1985, negative mileage, an engine under 600cc, a registration year before the build year, a field the API doesn't know, or an electric car (training drops them).
+
+### Check for drift
+
+```bash
+.venv/Scripts/python.exe -I -m shotti_ml.drift new_listings.jsonl [--artifact artifacts/<version>] [--ignore source,condition]
+```
+
+The batch is listings in the collector's format (JSONL or CSV, or a folder laid out like `data/raw`). It is cleaned like training data, then compared with the artifact's training summary: population stability index (PSI) over the training deciles for age, log mileage, engine size and log price; PSI and the largest share change for brand, model, fuel, gearbox, site and condition; how many engine sizes and mileages had to be filled in; and, when the batch has prices, the median error against the CV error and how many prices land inside the 80% range. It writes markdown and JSON to `reports/drift/` and exits 1 when a check passes its threshold (PSI 0.25, a share moving 10 points, the filled-in share moving 15 points, error 1.5 times training, coverage under 70%; each can be changed on the command line).
+
+All the data comes from one day, so there is no later week to check yet. As a test, a model trained on GarirBazar alone (12,388 listings, CV error 6.4%) was checked against the 3,019 Bikroy listings it never saw ([report](reports/drift/bikroy-vs-garirbazar-model.md)):
+
+| Check | GarirBazar (training) | Bikroy (new batch) |
+|---|---|---|
+| Median error | 6.4% (CV) | 9.4% |
+| Inside the 80% range | 80% | 63% |
+| Engine size filled in | 18% | 87% |
+| Fuel given as petrol | 68% | 3% (70% not stated) |
+| Corolla Cross share | 10% | 20% |
+
+The check fails with 10 alerts, and they are real differences, not noise. Bikroy cards rarely state fuel or engine size, so most of those values are filled in. Its cars are a year newer at the median, and twice as often a Corolla Cross. Site and used-or-reconditioned flip completely by construction; `--ignore source,condition` leaves them out of the verdict. The error rises by half, just under the alert line, but the range holds only 63% of Bikroy prices against its 80% target: a range calibrated on one site is too narrow for another. That is why the production model trains on both.
+
+### Container and CI
+
+`Dockerfile` builds a slim Python image with the API packages and one artifact, running uvicorn as a non-root user:
+
+```bash
+docker build --build-arg ARTIFACT=artifacts/<version> -t shotti-price .
+docker run --rm -p 8000:8000 shotti-price
+```
+
+Docker is not installed on the machine this was built on, so the image is built in CI. `.github/workflows/ml.yml` runs on any push or pull request that touches `ml/`: it runs the tests, trains a small model on made-up listings (`python -m shotti_ml.synthetic`), builds the image, starts it, and checks `/health`, one prediction and one 422. Nothing is pushed to a registry. The tests never read `data/raw`, which CI doesn't have; the API, artifact, drift and training tests use the same made-up listings.
+
 ## Limits
 
 - **One day of data.** All the snapshots and Bikroy pages were taken on 28 October 2026. Prices drift, so weekly snapshots are needed to see that, and to tell a slow-selling overpriced car from a fair one.
@@ -142,7 +226,7 @@ The model that never sees a name still cannot tell a Honda Fit from a Vezel (bot
 ```bash
 cd ml
 py -m venv .venv
-.venv/Scripts/python.exe -m pip install -e ".[dev]"
+.venv/Scripts/python.exe -m pip install -e ".[dev]"          # add ,api,mlops for serving and tracking
 .venv/Scripts/python.exe -m pytest
 
 # the 2021 file
