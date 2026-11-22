@@ -94,9 +94,16 @@ def load_bikroy(path: Path = BIKROY_FILE) -> pd.DataFrame:
     return df
 
 
-def load_all() -> pd.DataFrame:
-    """GarirBazar snapshots and the Bikroy file, one row per sighting, with a `source` column."""
-    parts = [load_snapshots(), load_bikroy()]
+def load_all(data_dir: Path | str | None = None) -> pd.DataFrame:
+    """GarirBazar snapshots and the Bikroy file, one row per sighting, with a `source` column.
+
+    `data_dir` is a folder laid out like data/raw (garirbazar/snapshots/, bikroy/bikroy_clean.jsonl); the default is data/raw.
+    """
+    if data_dir is None:
+        parts = [load_snapshots(), load_bikroy()]
+    else:
+        data_dir = Path(data_dir)
+        parts = [load_snapshots(data_dir / "garirbazar" / "snapshots"), load_bikroy(data_dir / "bikroy" / "bikroy_clean.jsonl")]
     return pd.concat([p for p in parts if not p.empty], ignore_index=True)
 
 
