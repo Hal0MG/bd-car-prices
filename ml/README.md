@@ -143,7 +143,7 @@ The model the site uses can also be trained as a versioned artifact, served over
 
 The run is also logged to MLflow: parameters, metrics, the git commit and dirty flag, the data hash and the artifact folder. The store is a SQLite file and a folder under `mlruns/`, both ignored by git. MLflow 3.18 refuses the plain folder store unless told to, so SQLite it is. To browse runs: `.venv/Scripts/mlflow.exe ui --backend-store-uri sqlite:///mlruns/mlflow.db`.
 
-The artifact trained on 22 November 2026 (`20261122-160412-906841`):
+The artifact trained on 22 November 2026 (`20261122-204832-906841`, from commit `53fc3f7` with a clean tree):
 
 | | Value |
 |---|---|
@@ -169,7 +169,7 @@ curl -X POST localhost:8000/predict -H "content-type: application/json" \
 
 ```json
 {"price_bdt": 2252000, "low_bdt": 1969000, "high_bdt": 2575000, "coverage": 0.8,
- "model_version": "20261122-160412-906841", "matched_brand": "Toyota", "matched_model": "Axio",
+ "model_version": "20261122-204832-906841", "matched_brand": "Toyota", "matched_model": "Axio",
  "model_seen_in_training": true, "imputed": []}
 ```
 

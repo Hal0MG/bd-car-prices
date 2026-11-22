@@ -1,6 +1,6 @@
 # Drift check: bikroy-vs-garirbazar-model
 
-Model garirbazar-only. Batch: 3,019 listings after cleaning (3,130 read), ages measured to 2026.
+Model 20261122-204923-76da4b. Batch: 3,019 listings after cleaning (3,130 read), ages measured to 2026.
 
 **Result: drift, 10 alert(s).**
 
@@ -16,6 +16,8 @@ Model garirbazar-only. Batch: 3,019 listings after cleaning (3,130 read), ages m
 - 80% range holds 63% of prices
 
 ## Accuracy on this batch
+
+From the 3,019 listings with a price.
 
 | Check | Training | This batch | Status |
 |---|---|---|---|

@@ -1,7 +1,8 @@
 {
- "model_version": "garirbazar-only",
+ "model_version": "20261122-204923-76da4b",
  "batch_rows_clean": 3019,
  "batch_rows_raw": 3130,
+ "batch_rows_priced": 3019,
  "reference_year": 2026,
  "thresholds": {
   "psi_warn": 0.1,
