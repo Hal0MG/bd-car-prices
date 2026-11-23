@@ -30,7 +30,10 @@ jobs:
           cache-dependency-path: ml/pyproject.toml
       - run: pip install -e ".[dev,api,mlops]"
       # The tests train on made-up listings (shotti_ml.synthetic); CI never sees data/raw.
+      # Bikroy PDF print times are local wall-clock times, read in the zone the PDFs were saved in.
       - run: python -m pytest -q
+        env:
+          TZ: America/Chicago
 
   image:
     needs: test
