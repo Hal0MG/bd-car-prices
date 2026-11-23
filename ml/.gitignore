@@ -5,3 +5,8 @@ __pycache__/
 
 # Raw data is downloaded by scripts/download_data.py, not committed
 /data/raw/
+
+# Trained models and MLflow runs are rebuilt by python -m shotti_ml.train, not committed
+/artifacts/*
+!/artifacts/README.md
+/mlruns/

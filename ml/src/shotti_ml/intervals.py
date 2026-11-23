@@ -47,7 +47,28 @@ def constant_width(make_model, X_fit, y_fit, X_cal, y_cal, X_test, alpha) -> Int
     return Interval(pred, pred - q, pred + q)
 
 
-def scaled_by_difficulty(make_model, X_fit, y_fit, X_cal, y_cal, X_test, alpha, *, folds: int = 5, seed: int = 0) -> Interval:
+@dataclass
+class ScaledConformal:
+    """A fitted "scaled by difficulty" interval: the price model, the difficulty model and the conformal factor.
+
+    `model` and `difficulty` only need a `predict` method, so a LightGBM Booster loaded from disk works too.
+    """
+
+    model: object
+    difficulty: object
+    q: float
+    alpha: float
+
+    def sigma(self, X) -> np.ndarray:
+        return np.exp(self.difficulty.predict(X))
+
+    def predict(self, X) -> Interval:
+        pred = np.asarray(self.model.predict(X))
+        half = self.q * self.sigma(X)
+        return Interval(pred, pred - half, pred + half)
+
+
+def fit_scaled_by_difficulty(make_model, X_fit, y_fit, X_cal, y_cal, alpha, *, folds: int = 5, seed: int = 0) -> ScaledConformal:
     model = make_model().fit(X_fit, y_fit)
 
     # A boosted model's errors on its own training rows are far too small to learn from,
@@ -59,13 +80,13 @@ def scaled_by_difficulty(make_model, X_fit, y_fit, X_cal, y_cal, X_test, alpha, 
     difficulty = make_lgbm(n_estimators=150, learning_rate=0.05, num_leaves=7, min_child_samples=20)
     difficulty.fit(X_fit, np.log(abs_error + 1e-3))
 
-    def sigma(X):
-        return np.exp(difficulty.predict(X))
+    fitted = ScaledConformal(model, difficulty, 0.0, alpha)
+    fitted.q = conformal_quantile(np.abs(y_cal.to_numpy() - model.predict(X_cal)) / fitted.sigma(X_cal), alpha)
+    return fitted
 
-    q = conformal_quantile(np.abs(y_cal.to_numpy() - model.predict(X_cal)) / sigma(X_cal), alpha)
-    pred = np.asarray(model.predict(X_test))
-    half = q * sigma(X_test)
-    return Interval(pred, pred - half, pred + half)
+
+def scaled_by_difficulty(make_model, X_fit, y_fit, X_cal, y_cal, X_test, alpha, *, folds: int = 5, seed: int = 0) -> Interval:
+    return fit_scaled_by_difficulty(make_model, X_fit, y_fit, X_cal, y_cal, alpha, folds=folds, seed=seed).predict(X_test)
 
 
 def quantile_cqr(make_model, X_fit, y_fit, X_cal, y_cal, X_test, alpha) -> Interval:

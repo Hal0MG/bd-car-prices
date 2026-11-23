@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import pytest
 
 from shotti_ml.current import clean_current
 from shotti_ml.features import build_features
@@ -80,3 +81,32 @@ def test_cross_models_are_not_folded_into_their_base_model():
     assert canonical_current("corolla axio x", known) == "Axio"
     assert canonical_current("land cruiser vx-v8", known) == "Land Cruiser"
     assert canonical_current("corolla x", known) == "Corolla"
+
+
+def test_row_order_does_not_depend_on_how_pandas_stores_strings():
+    # Many sightings share an observed_at. pandas breaks those ties one way for Python-backed strings
+    # and another for pyarrow-backed ones, which used to move the seeded split, and so the model.
+    pytest.importorskip("pyarrow")
+    from shotti_ml.synthetic import listings
+
+    raw = pd.concat([listings(400, seed=0), listings(400, seed=1, day="2026-10-27")], ignore_index=True)
+    known = sorted(raw["model"].unique())
+    orders = []
+    for storage in ("python", "pyarrow"):
+        typed = raw.astype({c: pd.StringDtype(storage) for c in ("observed_at", "make", "model", "fuel", "transmission")})
+        orders.append(clean_current(typed, known)[0]["id"].tolist())
+    assert orders[0] == orders[1]
+
+
+def test_a_batch_without_prices_can_be_cleaned_for_the_drift_check():
+    rows = [row(id=1, price_bdt=None), row(id=2), row(id=3, price_bdt=50_000)]
+    df, report, _ = clean_current(pd.DataFrame(rows), KNOWN, require_price=False)
+    assert df["id"].tolist() == [1, 2]
+    assert df["price"].isna().tolist() == [True, False]
+    assert (report.no_price, report.implausible_price) == (1, 1)
+
+    no_column = pd.DataFrame(rows).drop(columns="price_bdt")
+    df, report, _ = clean_current(no_column, KNOWN, require_price=False)
+    assert len(df) == 3 and df["price"].isna().all() and report.no_price == 3
+    with pytest.raises(ValueError, match="price_bdt"):
+        clean_current(no_column, KNOWN)
